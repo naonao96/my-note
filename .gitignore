@@ -2,3 +2,5 @@
 __pycache__
 # .vscodeファイル
 .vscode
+# .envファイル
+.env
