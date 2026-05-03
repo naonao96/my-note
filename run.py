@@ -1,8 +1,10 @@
 from app import create_app, db
-from routes import register_routes
+from app.routes.note_list_routes import note_bp
+from app.main_routes import main_bp
 
 app = create_app()
-register_routes(app)
+app.register_blueprint(note_bp)
+app.register_blueprint(main_bp)
 
 if __name__ == '__main__':
     with app.app_context():
