@@ -1,0 +1,54 @@
+    @font-face {
+        font-family:shirokuma;
+        src:url("../fonts/001Shirokuma-Regular.otf") format("opentype") 
+    }
+    
+    body{
+        font-family:shirokuma;
+    }
+
+    h1 {
+        font-size: 50px;
+        margin-bottom: 24px;
+    }
+
+    /*付箋デザイン*/
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px;
+    }
+    .fusen-3 {
+        display: flex;
+        align-items: center;
+        position: relative;
+        width: 160px;
+        height: 160px;
+        padding: 2em 2.2em;
+        color: #333333;
+        background: linear-gradient(135deg, #a8c0ff, #3f87a6);
+    }
+
+    .fusen-3::before {
+        position: absolute;
+        bottom: -5px;
+        right: 7px;
+        z-index: -1;
+        transform: rotate(5deg);
+        width: 70%;
+        height: 50%;
+        background-color: #d0d0d0;
+        content: "";
+        filter: blur(4px);
+    }
+
+    /*ボタンデザイン*/
+    .note-add-button {
+        font-family: shirokuma;
+        background: #3f87a6;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: none;
+    }

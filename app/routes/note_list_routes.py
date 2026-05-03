@@ -1,5 +1,5 @@
 from flask import request, jsonify, render_template, Blueprint
-from app.models.models import Note
+from app.models.models import Notes
 import app.repositories.note_repository as note_repo
 
 '''
@@ -19,8 +19,7 @@ def index():
 def create_note():
     data = request.get_json()
     
-    note = Note(
-        title = data.get("title"),
+    note = Notes(
         context = data.get("context")
     )
     note_repo.create(note)
@@ -32,8 +31,9 @@ def get_notes():
 
     return jsonify([{
         "id": note.id,
-        "title": note.title,
-        "context": note.context
+        "context": note.context,
+        "created_at": note.created_at.isoformat(),  
+        "updated_at": note.updated_at.isoformat()
     }
         for note in notes
     ])
