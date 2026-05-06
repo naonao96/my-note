@@ -2,37 +2,49 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
-        <title>チョロっとメモ</title>
+        <title>ちょこっとメモ</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     </head>
     <body>
         <header>
-            <h1>チョロっとメモ</h1>
+            <h1>
+                <span class="title-large">ちょこ</span>
+                <span class="title-small">っと</span>
+                <span class="title-large">メモ</span>
+            </h1>
         </header>
-        <main class="container">
-            <div class="fusen-3">
-                <div>
-                    <h3>タイトル：</h3>
-                    <p>内容：</p>
+        <main>
+            <!-- TODO: 現在は静的に配置しているが今後動的に追加可能に修正 -->
+            <div class="fusen-container">
+                <div class="fusen">
+                    <div>
+                        <span class="fusen-content">やりたいこと</span>
+                    </div>
+                </div>
+                <span style="margin-left: 95px"></span>
+                <div class="fusen">
+                    <div>
+                        <span class="fusen-content">買いたいもの</span>
+                    </div>
+                </div>
+                <span style="margin-left: 95px"></span>
+                <div class="fusen">
+                    <div>
+                        <span class="fusen-content">ほしいもの</span>
+                    </div>
+                </div>
+                <span style="margin-left: 95px"></span>
+                <div class="fusen">
+                    <div>
+                        <span class="fusen-content">今日やること</span>
+                    </div>
                 </div>
             </div>
-            <span style="display:inline-block; width: 20px;"></span>
-            <div class="fusen-3">
-                <div>
-                    <h3>タイトル：</h3>
-                    <p>内容：</p>
-                </div>
-            </div>
-            <span style="display:inline-block; width: 20px;"></span>
-            <div class="fusen-3">
-                <div>
-                    <h3>タイトル：</h3>
-                    <p>内容：</p>
-                </div>
-            </div>
-                <button class="note-add-button" type="button" onclick="location.href='{{url_for("notes.new_note")}}'">
-                    ＋メモの追加
-                </button>
+            <button class="create-button" type="button" onclick="location.href='{{url_for("notes.new_note")}}'">
+                <span class="create-button-text">ちょこメモを<br>
+                作成する</span>
+                <img class="create-button-icon" src="{{ url_for('static', filename='images/create-button.svg') }}" alt="作成する">
+            </button>
         </main>
     </body>
 </html>

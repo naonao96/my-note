@@ -2,35 +2,63 @@
         font-family:shirokuma;
         src:url("../fonts/001Shirokuma-Regular.otf") format("opentype") 
     }
+    @font-face {
+        font-family:charifont;
+        src:url("../fonts/Charifont.otf") format("opentype") 
+    }
+    @font-face {
+        font-family:tsumugi;
+        src:url("../fonts/tsumugi.otf") format("opentype") 
+    }
     
     body{
-        font-family:shirokuma;
+        font-family:charifont;
+        background: #fffaf0;
     }
 
-    h1 {
+    /** タイトルデザイン */
+    .title-large {
         font-size: 50px;
         margin-bottom: 24px;
+        -webkit-text-stroke: 1.2px #000000;
+    }
+
+    .title-small {
+        font-size: 35px;
+        margin-bottom: 24px;
+        -webkit-text-stroke: 1.2px #000000;
     }
 
     /*付箋デザイン*/
-    .container {
+    .fusen-container {
         display: flex;
+        justify-content: center;
         flex-wrap: wrap;
         gap: 20px;
         padding: 20px;
+        
     }
-    .fusen-3 {
+    .fusen {
         display: flex;
         align-items: center;
         position: relative;
-        width: 160px;
-        height: 160px;
+        width: 240px;
+        height: 240px;
         padding: 2em 2.2em;
-        color: #333333;
-        background: linear-gradient(135deg, #a8c0ff, #3f87a6);
+        border-radius: 30px;
+        background-color: #A9CEEC;
+        box-shadow: 6px 6px 2px rgba(0, 0, 0, 0.25);
+    }
+    
+    .fusen-content {
+        font-family: tsumugi;
+        font-size: 20px;
+        color: #000000;
     }
 
-    .fusen-3::before {
+    /* memo: 影のデザインを変更するため、before疑似要素を削除してbox-shadowに変更（再変更可能にするため念のため残します） */
+    /*
+    .fusen ::before {
         position: absolute;
         bottom: -5px;
         right: 7px;
@@ -42,13 +70,38 @@
         content: "";
         filter: blur(4px);
     }
+    */
 
     /*ボタンデザイン*/
-    .note-add-button {
-        font-family: shirokuma;
-        background: #3f87a6;
-        color: white;
-        padding: 10px 16px;
-        border-radius: 8px;
+    .create-button {
+        display: flex;
+        font-family: charifont;
+        align-items: center;
+        width: 220px;
+        height: 80px;
+        border-radius: 10px;
+        background-color: #A9CEEC;
+        box-shadow: 6px 6px 2px rgba(0, 0, 0, 0.25);
         border: none;
+        cursor: pointer;
+        right: 32px;
+        bottom: 32px;
+        position:fixed;
+    }
+    .create-button-text {
+        display: block;
+        color: #000000;
+        font-size: 20px;
+        -webkit-text-stroke: 1.2px #000000;
+    }
+    .create-button-icon {
+        width: 48px;
+        height: 46px;
+        margin-left: 20px;
+    }
+
+    .flatpickr-calendar {
+        border-radius: 20px;
+        background: #fffaf0;
+        margin-top: 16px;
     }
