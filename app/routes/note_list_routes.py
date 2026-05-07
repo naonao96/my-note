@@ -1,6 +1,6 @@
 from flask import request, jsonify, render_template, Blueprint
-from app.models.models import Notes
-import app.repositories.note_repository as note_repo
+from app.dto.notes import Notes
+from app.services.notes_service import NoteService as note_ctl
 
 '''
 Memo:notesは名前空間のようなもの
@@ -20,10 +20,11 @@ def create_note():
     data = request.get_json()
     
     note = Notes(
-        context = data.get("context")
+        content = data.get("content"),
+        expires_at= data.get("expires_at"),
+        color= data.get("color")
     )
-    note_repo.create(note)
-    return jsonify({"message": "Note created successfully", "note_id": note.id}), 201
+    note_ctl.create_note(note)
 
 @note_bp.route("/notes", methods=["GET"])
 def get_notes():

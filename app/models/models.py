@@ -1,7 +1,11 @@
 from app import db
 
-class Notes(db.Model):
+class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    context = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+    expires_at = db.Column(db.Date, default=None)
+    color = db.Column(db.String(20), default = "#A9CEEC")
+    status = db.Column(db.String(40), default = "active")
