@@ -4,13 +4,13 @@
 コントローラーは、RoutesとRepositoryの間の橋渡し役を果たし、アプリケーションのロジックを整理するのに役立ちます。'''
 
 import app.repositories.note_repository  as note_repository
-from app.dto.notes import Notes
+from app.dto.fusen_data import FusenData
 
 class NoteService:
     def __init__(self):
         self.note_repo = note_repository.NoteRepository()
 
-    def create_note(self, note_data : Notes):
+    def create_note(self, note_data : FusenData):
         if len(note_data.content) > 100:
             error_message = "100文字を超える内容を入力しています。"
             return {

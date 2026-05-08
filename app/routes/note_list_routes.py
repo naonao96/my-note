@@ -1,5 +1,5 @@
 from flask import request, jsonify, render_template, Blueprint
-from app.dto.notes import Notes
+from app.dto.fusen_data import FusenData
 from app.services.notes_service import NoteService as note_ctl
 
 '''
@@ -19,7 +19,7 @@ def index():
 def create_note():
     data = request.get_json()
     
-    note = Notes(
+    note = FusenData(
         content = data.get("content"),
         expires_at= data.get("expires_at"),
         color= data.get("color")

@@ -1,5 +1,5 @@
 from app import db
-from app.models.models import Notes
+from app.dto.fusen_data import FusenData
 
 class NoteRepository:
 
@@ -13,14 +13,14 @@ class NoteRepository:
 
     '''read note data'''
     def read_all_notes(self):
-        return Notes.query.all()
+        return FusenData.query.all()
 
     def read_note(self, note_id):
-        return Notes.query.get(note_id)
+        return FusenData.query.get(note_id)
 
     '''update note data'''
     def update(self, note_data):
-        existing_note = Notes.query.get(note_data.id)
+        existing_note = FusenData.query.get(note_data.id)
         if existing_note:
             existing_note.title = note_data.title
             existing_note.context = note_data.context
@@ -30,7 +30,7 @@ class NoteRepository:
 
     '''delete note data'''
     def delete(self, note_id):
-        note = Notes.query.get(note_id)
+        note = FusenData.query.get(note_id)
         if note:
             self.db.session.delete(note)
             self.db.session.commit()

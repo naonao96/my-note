@@ -5,18 +5,10 @@
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
             <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
             <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-            <link rel="script" href="{{ url_for('static', filename='js/notes.js') }}">
-             <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    flatpickr("#datepicker", {
-                        enableTime: true,
-                        dateFormat: "Y-m-d H:i",
-                    });
-                });
-            </script>
     </head>
+    <script src="{{ url_for('static', filename='js/fusen_edit.js') }}"></script>
     <body>
-        <header>
+        <header onclick="location.href='{{ url_for("notes.index")}}'">
             <h1>
                 <span class="title-large">ちょこ</span>
                 <span class="title-small">っと</span>

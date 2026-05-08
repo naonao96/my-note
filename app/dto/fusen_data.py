@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime, date
 
 @dataclass
-class Notes:
+class FusenData:
     id : int
     user_id : int
     content : str
