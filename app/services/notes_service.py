@@ -23,3 +23,6 @@ class NoteService:
         return {
             "success" : True,
             } 
+    
+    def all_read_fusen(self):
+        self.note_repo.read_all_notes()

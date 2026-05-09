@@ -15,8 +15,14 @@
         font-family:charifont;
         background: #fffaf0;
     }
+    /*ヘッダー共通デザイン*/
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-    /** タイトルデザイン */
+    /* タイトルデザイン */
     .title-large {
         font-size: 50px;
         margin-bottom: 24px;
@@ -27,6 +33,15 @@
         font-size: 35px;
         margin-bottom: 24px;
         -webkit-text-stroke: 1.2px #000000;
+    }
+
+    /*今日の日付デザイン*/
+    .todays-text{
+        font-size: 35px;
+        color: #0B0B5D;
+        padding: 30px;
+        letter-spacing: -0.05em;
+        -webkit-text-stroke: 2px rgba(0, 0, 0, 0.3);
     }
 
     /*付箋デザイン*/
@@ -55,18 +70,19 @@
     .fusen-front,
     .fusen-back {
         position: absolute;
+        inset: 0;
         width: 100%;
         height: 100%;
         backface-visibility: hidden;
+        box-sizing: border-box;
         display: flex;
         padding: 14px;
-        font-family: tsumugi;
-        font-size: 20px;
+        font-size: 25px;
         text-align: left;
         color: #000000;
         border-radius: 30px;
         background-color: #A9CEEC;
-        box-shadow: 6px 6px 2px rgba(0, 0, 0, 0.25);
+        box-shadow: 6px 6px 2px rgba(0, 0, 0, 0.5);
     }
 
     .fusen-back {
@@ -99,7 +115,7 @@
         font-family: charifont;
         align-items: center;
         text-align: left;
-        width: 200px;
+        width: 240px;
         height: 80px;
         border-radius: 10px;
         background-color: #A9CEEC;
@@ -113,12 +129,12 @@
     .create-button-text {
         display: block;
         color: #000000;
-        font-size: 20px;
+        font-size: 25px;
         -webkit-text-stroke: 1.2px #000000;
     }
     .create-button-icon {
-        width: 48px;
-        height: 46px;
+        width: 52px;
+        height: 50px;
         margin-left: 20px;
     }
 
@@ -127,3 +143,75 @@
         background: #fffaf0;
         margin-top: 16px;
     }
+
+    /*編集ページ専用デザイン*/
+    .edit-page-container {
+        display: grid;
+        justify-content: center;
+        align-items: start;
+        grid-template-columns: 390px 1fr;
+        gap: 40px;
+    }
+
+    .headline-text{
+        font-size: 20px;
+        -webkit-text-stroke: 0.5px #000000;
+    }
+
+    .fusen-edit {
+        width: 350px;
+        height: 350px;
+        perspective: 1000px;
+    }
+
+    .color-pallet-background {
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        justify-content: center;
+        align-content: center;
+        justify-items: center;
+        align-items: center;
+        width: 100%;
+        height: 250px;
+        background-color: #FFFFFF;
+        border-radius: 20px;
+        border: 2px solid #000000;
+        gap: 30px;
+    }
+     .color-option{
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+        cursor: pointer;
+        padding: 0;
+        box-shadow: 6px 6px 2px rgba(0, 0, 0, 0.25);
+     }
+
+     textarea{
+        width: 100%;
+        height: 250px;
+        border-radius: 10px;
+        resize: none;
+        border: 2px solid #000000;
+        font-family: charifont;
+        font-size: 20px;
+        -webkit-text-stroke: 1px rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        box-sizing: border-box;
+     }
+
+     input{
+        height: 30px;
+        border-radius: 10px;
+        resize: none;
+        border: 2px solid #000000;
+        font-family: charifont;
+        font-size: 20px;
+        -webkit-text-stroke: 1px rgba(0, 0, 0, 0.5);
+        text-align: left;
+        padding: 10px;
+        box-sizing: border-box;
+     }
+
+
+

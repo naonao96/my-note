@@ -28,7 +28,7 @@ def create_note():
 
 @note_bp.route("/notes", methods=["GET"])
 def get_notes():
-    notes = note_repo.read_all_notes()
+    notes = note_ctl.read_all_notes()
 
     return jsonify([{
         "id": note.id,

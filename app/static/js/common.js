@@ -1,2 +1,0 @@
-/*common process of header*/
-

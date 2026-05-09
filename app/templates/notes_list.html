@@ -5,10 +5,13 @@
         <title>ちょこっとメモ</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     </head>
-    <script src="{{ url_for('static', filename='js/fusen_list.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/fusen_common.js')}}"></script>
     <body>
         <header>
-            <img src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}">
+            <div class="header-container">
+                <img src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}">
+                <div class="todays-text">今日の日付<br>２０２６年５月６日</div>
+            </div>
         </header>
         <main>
             <!-- TODO: 現在は静的に配置しているが今後動的に追加可能に修正 -->
