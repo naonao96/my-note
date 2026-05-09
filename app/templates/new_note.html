@@ -9,11 +9,7 @@
     <script src="{{ url_for('static', filename='js/fusen_edit.js') }}"></script>
     <body>
         <header onclick="location.href='{{ url_for("notes.index")}}'">
-            <h1>
-                <span class="title-large">ちょこ</span>
-                <span class="title-small">っと</span>
-                <span class="title-large">メモ</span>
-            </h1>
+            <img src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}">
         </header>
         <form action="{{ url_for('notes.create_note') }}" method="post">
             <label for="title">タイトル:</label><br>

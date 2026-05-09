@@ -34,13 +34,13 @@
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
-        gap: 95px;
+        gap: 150px;
         padding: 20px;
     }
 
     .fusen {
-        width: 240px;
-        height: 240px;
+        width: 300px;
+        height: 300px;
         perspective: 1000px;
     }
 
@@ -59,10 +59,10 @@
         height: 100%;
         backface-visibility: hidden;
         display: flex;
-        align-items: center;
-        justify-content: center;
+        padding: 14px;
         font-family: tsumugi;
         font-size: 20px;
+        text-align: left;
         color: #000000;
         border-radius: 30px;
         background-color: #A9CEEC;
@@ -98,7 +98,8 @@
         display: flex;
         font-family: charifont;
         align-items: center;
-        width: 220px;
+        text-align: left;
+        width: 200px;
         height: 80px;
         border-radius: 10px;
         background-color: #A9CEEC;
