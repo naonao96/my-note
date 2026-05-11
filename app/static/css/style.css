@@ -158,36 +158,7 @@
         -webkit-text-stroke: 0.5px #000000;
     }
 
-    .fusen-edit {
-        width: 350px;
-        height: 350px;
-        perspective: 1000px;
-    }
-
-    .color-pallet-background {
-        display: grid;
-        grid-template-columns: repeat(3, 100px);
-        justify-content: center;
-        align-content: center;
-        justify-items: center;
-        align-items: center;
-        width: 100%;
-        height: 250px;
-        background-color: #FFFFFF;
-        border-radius: 20px;
-        border: 2px solid #000000;
-        gap: 30px;
-    }
-     .color-option{
-        width: 80px;
-        height: 80px;
-        border-radius: 20px;
-        cursor: pointer;
-        padding: 0;
-        box-shadow: 6px 6px 2px rgba(0, 0, 0, 0.25);
-     }
-
-     textarea{
+    textarea{
         width: 100%;
         height: 250px;
         border-radius: 10px;
@@ -212,6 +183,49 @@
         padding: 10px;
         box-sizing: border-box;
      }
+
+    /*編集画面用付箋デザイン*/
+    .fusen-edit {
+        width: 350px;
+        height: 350px;
+        perspective: 1000px;
+    }
+
+    /*付箋カラーの選択パレット*/
+    .color-pallet-background {
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        justify-content: center;
+        align-content: center;
+        justify-items: center;
+        align-items: center;
+        width: 100%;
+        height: 250px;
+        background-color: #FFFFFF;
+        border-radius: 20px;
+        border: 2px solid #000000;
+        gap: 30px;
+    }
+     .color-option{
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+        cursor: pointer;
+        padding: 0;
+     }
+
+     .color-option.selected {
+        border: 4px solid #000000;
+        transform: scale(1.05);
+     }
+
+    .color-option:hover {
+        transform: translateY(-3px);
+        transition: all 0.4s ease;
+        box-shadow: 6px 6px 2px rgba(0, 0, 0, 0.5);
+    }
+
+
 
 
 

@@ -1,4 +1,4 @@
-from flask import request, jsonify, render_template, Blueprint
+from flask import request, jsonify, render_template, Blueprint, redirect, url_for
 from app.dto.fusen_data import FusenData
 from app.services.notes_service import NoteService as note_ctl
 
@@ -25,6 +25,7 @@ def create_note():
         color= data.get("color")
     )
     note_ctl.create_note(note)
+    return redirect(url_for("notes.index"))
 
 @note_bp.route("/notes", methods=["GET"])
 def get_notes():

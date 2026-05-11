@@ -17,13 +17,18 @@
         </header>
         <div class="edit-page-container">
             <form action="{{ url_for('notes.create_note') }}" method="post">
-                <label class="headline-text" for="content">付箋に書きたいことは何かな？<br>（１００文字まで）:</label><br>
-                <textarea class="content-box" id="content" name="content" rows="20" cols="50"></textarea><br><br>
-                <label class="headline-text" for="expires_at">いつまで貼り付ける？:</label><br>
-                <input class="expires-date-box" type="text" id="datepicker" name=""expires_at""><br><br>
-                <label class="headline-text" for="color">付箋の色を決めてね:</label><br>
+                <label class="headline-text" for="content">付箋に書きたいことは何かな？<br>（１００文字まで）:</label>
+                <br>
+                <textarea class="content-box" id="content" name="content" rows="20" cols="50"></textarea>
+                <br><br>
+                <label class="headline-text" for="expires_at">いつまで貼り付ける？:</label>
+                <br>
+                <input class="expires-date-box" type="text" id="datepicker" name="expires_at">
+                <br><br>
+                <label class="headline-text" for="color">付箋の色を決めてね:</label>
+                <br>
                 <div class="color-pallet-background">
-                    <button type="button" class="color-option" data-color="#A9CEEC" style="background: #A9CEEC;"></button>
+                    <button type="button" class="color-option selected" data-color="#A9CEEC" style="background: #A9CEEC;"></button>
                     <button type="button" class="color-option" data-color="#F8C394" style="background: #F8C394;"></button>
                     <button type="button" class="color-option" data-color="#FF9699" style="background: #FF9699;"></button>
                     <button type="button" class="color-option" data-color="#96F8AF" style="background: #96F8AF;"></button>
@@ -31,7 +36,7 @@
                     <button type="button" class="color-option" data-color="#B3ADFF" style="background: #B3ADFF;"></button>
                 </div><br>
                 <input type="hidden" name="color" id="selected-color" value="#A9CEEC">
-                <input type="submit" value="保存">
+                <input type="submit" value="保存" name="create-data">
             </form>
             <div class="fusen-edit" onclick="fusenClick(this)">
                 <div class="fusen-inner">

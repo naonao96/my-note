@@ -64,3 +64,7 @@ not heavy task management systems.
 
 It is designed to feel simple, lightweight, and casual —  
 just like placing a sticky note on your refrigerator.
+
+## Demo
+
+[Chokotto Memo Demo](https://my-note-wst1.onrender.com?utm_source=chatgpt.com)
