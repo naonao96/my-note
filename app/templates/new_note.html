@@ -16,12 +16,18 @@
             </div>
         </header>
         <div class="edit-page-container">
+            <div class="fusen-edit" onclick="fusenClick(this)">
+                <div class="fusen-inner">
+                    <div class="fusen-front">来週やること</div>
+                    <div class="fusen-back">期限日：2026 / 4 / 5</div>
+                </div>
+            </div>
             <form action="{{ url_for('notes.create_note') }}" method="post">
-                <label class="headline-text" for="content">付箋に書きたいことは何かな？<br>（１００文字まで）:</label>
+                <label class="headline-text" for="content">付箋に書きたいことは何かな<br>（１００文字まで）:</label>
                 <br>
                 <textarea class="content-box" id="content" name="content" rows="20" cols="50"></textarea>
                 <br><br>
-                <label class="headline-text" for="expires_at">いつまで貼り付ける？:</label>
+                <label class="headline-text" for="expires_at">付箋を貼り続ける期間を選択してね:</label>
                 <br>
                 <input class="expires-date-box" type="text" id="datepicker" name="expires_at">
                 <br><br>
@@ -35,14 +41,11 @@
                     <button type="button" class="color-option" data-color="#FFE57B" style="background: #FFE57B;"></button>
                     <button type="button" class="color-option" data-color="#B3ADFF" style="background: #B3ADFF;"></button>
                 </div><br>
-                <input type="hidden" name="color" id="selected-color" value="#A9CEEC">
-                <input type="submit" value="保存" name="create-data">
+                <input type="hidden" id="selected-color" name="color" value="#A9CEEC">
+                <button type="submit" class="save-button" value="保存" name="create-data">
+                    <span class="save-button-text">付箋を保存</span>
+                    <img class="save-button-icon" src="{{ url_for('static', filename='images/sticky-note.svg') }}">
+                </button>
             </form>
-            <div class="fusen-edit" onclick="fusenClick(this)">
-                <div class="fusen-inner">
-                    <div class="fusen-front">来週やること</div>
-                    <div class="fusen-back">期限日：2026 / 4 / 5</div>
-                </div>
-            </div>
         </div>
     </body>

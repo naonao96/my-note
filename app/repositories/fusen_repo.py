@@ -1,7 +1,7 @@
 from app import db
 from app.models.fusen_model import Fusen
 
-class NoteRepository:
+class FusenRepository:
 
     def __init__(self):
         self.db = db

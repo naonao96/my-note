@@ -1,6 +1,6 @@
 from flask import request, jsonify, render_template, Blueprint, redirect, url_for
 from app.dto.fusen_data import FusenData
-from app.services.notes_service import NoteService as note_ctl
+from app.services.fusen_service import NoteService as note_service
 
 '''
 Memo:notesは名前空間のようなもの
@@ -17,14 +17,16 @@ def index():
 
 @note_bp.route("/notes", methods=["POST"])
 def create_note():
-    data = request.get_json()
-    
     note = FusenData(
-        content = data.get("content"),
-        expires_at= data.get("expires_at"),
-        color= data.get("color")
+        content = request.form.get("content"),
+        expires_at= request.form.get("expires_at"),
+        color= request.form.get("color")
     )
-    note_ctl.create_note(note)
+    
+    note_ctl = note_service()
+    res_create = note_ctl.create_note(note)
+    print(res_create)
+
     return redirect(url_for("notes.index"))
 
 @note_bp.route("/notes", methods=["GET"])
