@@ -1,3 +1,4 @@
+"use static"
 /*HTML読み込み完了後に*/
 document.addEventListener('DOMContentLoaded', function() {
     /* 期限日の設定時 */
