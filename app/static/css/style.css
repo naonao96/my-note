@@ -22,15 +22,9 @@
         align-items: center;
     }
     /* タイトルデザイン */
-    .title-large {
-        font-size: 50px;
-        margin-bottom: 24px;
-        -webkit-text-stroke: 1.2px #000000;
-    }
-    .title-small {
-        font-size: 35px;
-        margin-bottom: 24px;
-        -webkit-text-stroke: 1.2px #000000;
+    .title {
+        width: 500px;
+        height: auto;
     }
     /*今日の日付デザイン*/
     .todays-text{
@@ -76,7 +70,7 @@
         color: #000000;
         border-radius: 30px;
         background-color: #A9CEEC;
-        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.5);
+        box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.12);
     }
     .fusen-back {
         transform: rotateY(180deg);
@@ -108,9 +102,9 @@
         width: 240px;
         height: 80px;
         border-radius: 10px;
-        background-color: #63B9FF;
-        border: 1px solid #00080F;
-        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.25);
+        background-color: #72b5ef;
+        border: none;
+        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.15);
         cursor: pointer;
         right: 50px;
         bottom:50px;
@@ -130,7 +124,7 @@
     .create-button:hover {
         transform: translateY(-1px);
         transition: all 0.4s ease;
-        box-shadow: 6px 6px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.5);
     }
     .flatpickr-calendar {
         border-radius: 20px;
@@ -154,12 +148,21 @@
         height: 250px;
         border-radius: 10px;
         resize: none;
-        border: 2px solid #000000;
+        border: 0.5px solid rgba(0, 0, 0, 0.1);
         font-family: charifont;
         font-size: 20px;
         padding: 10px;
         box-sizing: border-box;
-     }
+        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.15);
+        outline: none;
+        line-height: 1.8;
+    }
+    input:focus,
+    textarea:focus {
+        border-color: #72b5ef;
+        box-shadow: 0 0 0 2px rgba(123,184,245,0.2);
+        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.25);
+    }
     /*編集画面用付箋デザイン*/
     .fusen-edit {
         justify-self: center;
@@ -181,7 +184,8 @@
         height: 250px;
         background-color: #FFFFFF;
         border-radius: 20px;
-        border: 2px solid #000000;
+        border: 0.5px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.15);
         gap: 30px;
     }
      .color-option{
@@ -190,14 +194,15 @@
         border-radius: 20px;
         cursor: pointer;
         padding: 0;
+        border: 0.1px solid rgba(0, 0, 0, 0.25);
      }
      .color-option.selected {
-        border: 4px solid #000000;
+        border: 2px solid rgba(0, 0, 0, 1);
      }
     .color-option:hover {
         transform: translateY(-1px);
         transition: all 0.4s ease;
-        box-shadow: 6px 6px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.5);
     }
     /*input（日付入力ボックス）*/
     .expires-date-box{
@@ -205,12 +210,14 @@
         height: 30px;
         border-radius: 10px;
         resize: none;
-        border: 2px solid #000000;
+        border: 0.5px solid rgba(0, 0, 0, 0.1);
         font-family: charifont;
         font-size: 20px;
         text-align: left;
         padding: 10px;
         box-sizing: border-box;
+        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.15);
+        outline: none;
     }
     /*input（保存ボタン）*/
     .save-button{
@@ -222,10 +229,9 @@
         width: 400px;
         height: 80px;
         border-radius: 10px;
-        border: 1px solid #00080F;
-        background-color: #63B9FF;
-        border: 1px solid #00080F;
-        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.25);
+        border: none;
+        background-color: #72b5ef;
+        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.15);
         cursor: pointer;
         position: static;
     }
@@ -243,7 +249,7 @@
     .save-button:hover {
         transform: translateY(-1px);
         transition: all 0.4s ease;
-        box-shadow: 6px 6px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.5);
     }
 
 
