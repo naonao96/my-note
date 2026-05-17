@@ -13,78 +13,20 @@
         <main>
             <!-- TODO: 現在は静的に配置しているが今後動的に追加可能に修正 -->
             <div class="fusen-container">
-                <div class="fusen">
+                {% for fusen in fusenList %}
+                <div class="fusen" style="--fusen-color: {{ fusen.color }};">
                     <div class="fusen-inner">
-                        <div class="fusen-front">やりたいこと</div>
-                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
+                        <div class="fusen-front">{{fusen.content}}</div>
+                        <div class="fusen-back">
+                            {% if fusen.expires_at %}
+                                期限日：{{ fusen.expires_at }}
+                            {% else %}
+                                期限日なし
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
-                <div class="fusen">
-                    <div class="fusen-inner">
-                        <div class="fusen-front">ほしいもの</div>
-                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
-                    </div>
-                </div>
-                <div class="fusen">
-                    <div class="fusen-inner">
-                        <div class="fusen-front">今日やること</div>
-                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
-                    </div>
-                </div>
-                <div class="fusen">
-                    <div class="fusen-inner">
-                        <div class="fusen-front">来週やること</div>
-                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
-                    </div>
-                </div>
-                <div class="fusen">
-                    <div class="fusen-inner">
-                        <div class="fusen-front">来週やること</div>
-                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
-                    </div>
-                </div>
-                <div class="fusen">
-                    <div class="fusen-inner">
-                        <div class="fusen-front">今日やること</div>
-                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
-                    </div>
-                </div>
-                <div class="fusen">
-                    <div class="fusen-inner">
-                        <div class="fusen-front">来週やること</div>
-                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
-                    </div>
-                </div>
-                <div class="fusen">
-                    <div class="fusen-inner">
-                        <div class="fusen-front">来週やること</div>
-                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
-                    </div>
-                </div>
-                <div class="fusen">
-                    <div class="fusen-inner">
-                        <div class="fusen-front">来週やること</div>
-                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
-                    </div>
-                </div>
-                <div class="fusen">
-                    <div class="fusen-inner">
-                        <div class="fusen-front">今日やること</div>
-                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
-                    </div>
-                </div>
-                <div class="fusen">
-                    <div class="fusen-inner">
-                        <div class="fusen-front">来週やること</div>
-                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
-                    </div>
-                </div>
-                <div class="fusen">
-                    <div class="fusen-inner">
-                        <div class="fusen-front">来週やること</div>
-                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
             <button class="create-button" type="button" onclick="location.href='{{url_for("notes.new_note")}}'">
                 <span class="create-button-text">付箋を作成する</span>

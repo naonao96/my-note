@@ -23,7 +23,7 @@
                 <form action="{{ url_for('notes.create_note') }}" method="post">
                     <label class="headline-text" for="content">付箋に書きたいことは何かな<br>（１００文字まで）:</label>
                     <br>
-                    <textarea class="content-box" id="content" name="content" rows="20" cols="50"></textarea>
+                    <textarea class="content-box" id="content" name="content" rows="20" cols="50" required maxlength="100"></textarea>
                     <br><br>
                     <label class="headline-text" for="expires_at">付箋を貼り続ける期間を選択してね:</label>
                     <br>

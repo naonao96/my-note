@@ -1,6 +1,6 @@
 from flask import request, jsonify, render_template, Blueprint, redirect, url_for
 from app.dto.fusen_data import FusenData
-from app.services.fusen_service import NoteService as note_service
+from app.services.fusen_service import FusenService as fusen_service
 
 '''
 Memo:notesは名前空間のようなもの
@@ -13,7 +13,13 @@ note_bp = Blueprint('notes', __name__, url_prefix='/note_list')
 
 @note_bp.route("/")
 def index():
-    return render_template("notes_list.html")
+    note_ctl = fusen_service()
+    fusen_list = note_ctl.all_read_fusen()
+
+    return render_template(
+        "notes_list.html",
+        fusenList = fusen_list
+    )
 
 @note_bp.route("/notes", methods=["POST"])
 def create_note():
@@ -23,7 +29,7 @@ def create_note():
         color= request.form.get("color")
     )
     
-    note_ctl = note_service()
+    note_ctl = fusen_service()
     res_create = note_ctl.create_note(note)
     print(res_create)
 
@@ -31,16 +37,8 @@ def create_note():
 
 @note_bp.route("/notes", methods=["GET"])
 def get_notes():
-    notes = note_ctl.read_all_notes()
-
-    return jsonify([{
-        "id": note.id,
-        "context": note.context,
-        "created_at": note.created_at.isoformat(),  
-        "updated_at": note.updated_at.isoformat()
-    }
-        for note in notes
-    ])
+    # 今後API化可能性を考慮し残している。
+    pass
 
 @note_bp.route("/new_note", methods=["GET"])
 def new_note():
