@@ -6,11 +6,9 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     </head>
     <script src="{{ url_for('static', filename='js/fusen_common.js')}}"></script>
-    <body>
+    <body class="layout-container">
         <header>
-            <div class="header-container">
-                <img class="title" src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}">
-            </div>
+            <img class="title" src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}">
         </header>
         <main>
             <!-- TODO: 現在は静的に配置しているが今後動的に追加可能に修正 -->
@@ -39,10 +37,57 @@
                         <div class="fusen-back">期限日：2026 / 4 / 5</div>
                     </div>
                 </div>
+                <div class="fusen">
+                    <div class="fusen-inner">
+                        <div class="fusen-front">来週やること</div>
+                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
+                    </div>
+                </div>
+                <div class="fusen">
+                    <div class="fusen-inner">
+                        <div class="fusen-front">今日やること</div>
+                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
+                    </div>
+                </div>
+                <div class="fusen">
+                    <div class="fusen-inner">
+                        <div class="fusen-front">来週やること</div>
+                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
+                    </div>
+                </div>
+                <div class="fusen">
+                    <div class="fusen-inner">
+                        <div class="fusen-front">来週やること</div>
+                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
+                    </div>
+                </div>
+                <div class="fusen">
+                    <div class="fusen-inner">
+                        <div class="fusen-front">来週やること</div>
+                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
+                    </div>
+                </div>
+                <div class="fusen">
+                    <div class="fusen-inner">
+                        <div class="fusen-front">今日やること</div>
+                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
+                    </div>
+                </div>
+                <div class="fusen">
+                    <div class="fusen-inner">
+                        <div class="fusen-front">来週やること</div>
+                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
+                    </div>
+                </div>
+                <div class="fusen">
+                    <div class="fusen-inner">
+                        <div class="fusen-front">来週やること</div>
+                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
+                    </div>
+                </div>
             </div>
             <button class="create-button" type="button" onclick="location.href='{{url_for("notes.new_note")}}'">
-                <span class="create-button-text">ちょこメモを<br>
-                作成する</span>
+                <span class="create-button-text">付箋を作成する</span>
                 <img class="create-button-icon" src="{{ url_for('static', filename='images/create-button.svg') }}" alt="作成する">
             </button>
         </main>

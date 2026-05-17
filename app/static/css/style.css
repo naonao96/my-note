@@ -10,126 +10,175 @@
         font-family:tsumugi;
         src:url("../fonts/tsumugi.otf") format("opentype") 
     }
-    
-    body{
-        font-family:charifont;
-        background: #fffaf0;
+    :root{
+        /*Layout*/
+        --page-x: clamp(24px, 6vw, 112px);
+        /*color*/
+        --white: #FFFFFF;
+        --creame: #fffaf0;
+        --white-blue: #A9CEEC;
+        --white-blue-020: rgba(123,184,245,0.2);
+        --blue: #72b5ef;
+        --black: #000000;
+        --black-010: rgba(0, 0, 0, 0.1);
+        --black-012: rgba(0, 0, 0, 0.12);
+        --black-015: rgba(0, 0, 0, 0.15);
+        --black-025: rgba(0, 0, 0, 0.25);
+        --black-050: rgba(0, 0, 0, 0.5);
+        /*radius*/
+        --border-radius-s: 10px;
+        --border-radius-m: 20px;
+        --border-radius-l: 30px;
+        /*shadow*/
+        --box-shadow-s: 3px 5px 10px;
+        --box-shadow-m: 6px 8px 12px;
+        --box-shadow-l: ; 
+        /*border*/
+        --border-none: none;
+        --border-t-solid: 0.1px solid;
+        --border-m-solid: 0.5px solid;
+        --border-w-solid: 2px solid;
+        /*typography*/
+        --font-size-s: 20px;
+        --font-size-m: 25px;
+        --font-size-l: 30px;
+        --text-stroke-s: ;
+        --text-stroke-m: 0.5px;
+        --text-stroke-l: 0.8px;
+        /*spacing*/
+        --padding-s: 10px;
+        --padding-m: 20px;
+        /*Animation*/
+        --transform-rotateY: rotateY(180deg);
+        --transform-translateY: translateY(-1px);
+        --transition-slow: all 0.4s ease ;
+        /*ring*/
+        --ring-sm: 0 0 0 1px;
+        --ring-md: 0 0 0 2px;
+        --ring-lg: 0 0 0 4px;
+        /*size*/
+        --width-50: 50px;
+        --width-250: 250px;
+        --width-300: 300px; 
+        --width-400: 400px;
+        --width-500: 500px;
+        --height-80: 80px;
+        --height-250: 250px;
+
     }
-    /*ヘッダー共通デザイン*/
-    .header-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    /*全体の共通デザイン*/
+    .layout-container {
+        font-family:charifont;
+        background: var(--creame);
+    }
+    /*ヘッダーデザイン*/
+    header{
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding-top: 15px;
+        margin-bottom: 50px;
     }
     /* タイトルデザイン */
     .title {
-        width: 500px;
+        width: 400px;
         height: auto;
-    }
-    /*今日の日付デザイン*/
-    .todays-text{
-        font-size: 35px;
-        color: #0B0B5D;
-        padding: 30px;
-        letter-spacing: -0.05em;
-        -webkit-text-stroke: 1px rgba(0, 0, 0, 0.3);
-        text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.25);
     }
     /*付箋デザイン*/
     .fusen-container {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 150px;
-        padding: 20px;
+        display: grid;
+        gap: 80px;
+        padding: var(--padding-m);
+        justify-content: space-between;
     }
-   .fusen {
-        width: 300px;
-        height: 300px;
+    @media (min-width: 1024px) { 
+        .fusen-container {
+            grid-template-columns: repeat(4, 400px);
+        }
+    }
+    @media (max-width: 1023px) and (min-width: 600px) { 
+        .fusen-container {
+            grid-template-columns: repeat(2, 400px);
+        }
+    }
+    @media (max-width: 599px){ 
+        .fusen-container {
+            grid-template-columns: repeat(1,350px);
+        }
+    }
+    .fusen {
+        width: 350px;
+        height: 350px;
         perspective: 1000px;
     }
     .fusen-inner {
         position: relative;
+        transform-style: preserve-3d;    
         width: 100%;
         height: 100%;
-        transition: transform 0.6s;
-        transform-style: preserve-3d;        
+        transition: transform 0.6s;    
     }   
     .fusen-front,
     .fusen-back {
+        display: flex;
         position: absolute;
+        backface-visibility: hidden;
+        box-sizing: border-box;
+        text-align: left;
         inset: 0;
         width: 100%;
         height: 100%;
-        backface-visibility: hidden;
-        box-sizing: border-box;
-        display: flex;
-        padding: 14px;
-        font-size: 25px;
-        text-align: left;
-        color: #000000;
-        border-radius: 30px;
-        background-color: #A9CEEC;
-        box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.12);
+        padding: var(--padding-s);
+        font-size: var(--font-size-m);
+        border-radius: var(--border-radius-l);
+        color: var(--black);
+        background-color: var(--white-blue);
+        box-shadow: var(--box-shadow-s) var(--black-012)
     }
     .fusen-back {
-        transform: rotateY(180deg);
+        transform: var(--transform-rotateY);
     }   
     .isFusenClick .fusen-inner {
-        transform: rotateY(180deg);
+        transform: var(--transform-rotateY);
     }
-    /* memo: 影のデザインを変更するため、before疑似要素を削除してbox-shadowに変更（再変更可能にするため念のため残します） */
-    /*
-    .fusen ::before {
-        position: absolute;
-        bottom: -5px;
-        right: 7px;
-        z-index: -1;
-        transform: rotate(5deg);
-        width: 70%;
-        height: 50%;
-        background-color: #d0d0d0;
-        content: "";
-        filter: blur(4px);
-    }
-    */
     /*ボタンデザイン*/
     .create-button {
         display: flex;
-        font-family: charifont;
+        justify-content: space-between;
         align-items: center;
         text-align: left;
-        width: 240px;
-        height: 80px;
-        border-radius: 10px;
-        background-color: #72b5ef;
-        border: none;
-        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.15);
         cursor: pointer;
+        width: auto;
+        position: fixed;
         right: 50px;
-        bottom:50px;
-        position:fixed;
+        bottom: 50px;
+        height: var(--height-80);
+        font-family: charifont;
+        border: var(--border-none);
+        background-color: var(--blue);
+        border-radius: var(--border-radius-s);
+        box-shadow: var(--box-shadow-m) var(--black-015);
     }
     .create-button-text {
         display: block;
-        color: #000000;
-        font-size: 25px;
-        -webkit-text-stroke: 0.5px #000000;
+        color: var(--black);
+        font-size: var(--font-size-m);
+        -webkit-text-stroke: var(--text-stroke-l) var(--black);
     }
     .create-button-icon {
-        width: 52px;
+        width: 50px;
         height: 50px;
         margin-left: 20px;
     }
     .create-button:hover {
-        transform: translateY(-1px);
-        transition: all 0.4s ease;
-        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.5);
+        transform: var(--transform-translateY);
+        transition: var(--transition-slow);
+        box-shadow: var(--box-shadow-l) var(--black-050);
     }
     .flatpickr-calendar {
-        border-radius: 20px;
-        background: #fffaf0;
         margin-top: 16px;
+        border-radius: var(--border-radius-m);
+        background: var(--creame);
     }
     /*編集ページ専用デザイン*/
     .edit-page-container {
@@ -140,28 +189,28 @@
 
     }
     .headline-text{
-        font-size: 20px;
-        -webkit-text-stroke: 0.5px #000000;
+        font-size: var(--font-size-m);
+        -webkit-text-stroke: var(--text-stroke-m) var(--black);
     }
     textarea{
-        width: 400px;
-        height: 250px;
-        border-radius: 10px;
         resize: none;
-        border: 0.5px solid rgba(0, 0, 0, 0.1);
-        font-family: charifont;
-        font-size: 20px;
-        padding: 10px;
-        box-sizing: border-box;
-        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.15);
         outline: none;
-        line-height: 1.8;
+        box-sizing: border-box;
+        width: var(--width-400);
+        height: var(--height-250);
+        line-height: 1.2;
+        font-family: charifont;
+        font-size: var(--font-size-l);
+        padding: var(--padding-s);
+        border: var(--border-m-solid) var(--black-010);
+        border-radius: var(--border-radius-s);
+        box-shadow: var(--box-shadow-m) var(--black-015);
     }
     input:focus,
     textarea:focus {
-        border-color: #72b5ef;
-        box-shadow: 0 0 0 2px rgba(123,184,245,0.2);
-        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.25);
+        border-color: var(--blue);
+        box-shadow: var(--ring-md) var(--white-blue-020), 
+                    var(--box-shadow-m) var(--black-015);
     }
     /*編集画面用付箋デザイン*/
     .fusen-edit {
@@ -175,71 +224,70 @@
     /*付箋カラーの選択パレット*/
     .color-pallet-background {
         display: grid;
-        grid-template-columns: repeat(3, 100px);
         justify-content: center;
         align-content: center;
         justify-items: center;
         align-items: center;
         width: 400px;
         height: 250px;
-        background-color: #FFFFFF;
-        border-radius: 20px;
-        border: 0.5px solid rgba(0, 0, 0, 0.1);
-        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.15);
         gap: 30px;
+        grid-template-columns: repeat(3, 100px);
+        background-color: var(--white);
+        border: var(--border-m-solid) var(--black-010);
+        border-radius: var(--border-radius-m);
+        box-shadow: var(--box-shadow-m) var(--black-015);
     }
      .color-option{
+        cursor: pointer;
         width: 80px;
         height: 80px;
-        border-radius: 20px;
-        cursor: pointer;
-        padding: 0;
-        border: 0.1px solid rgba(0, 0, 0, 0.25);
+        border: var(--border-t-solid) var(--black-025);
+        border-radius: var(--border-radius-m);
      }
      .color-option.selected {
-        border: 2px solid rgba(0, 0, 0, 1);
+        border: var(--border-w-solid) var(--black);
      }
     .color-option:hover {
-        transform: translateY(-1px);
-        transition: all 0.4s ease;
-        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.5);
+        transform: var(--transform-translateY);
+        transition: var(--transition-slow);
+        box-shadow: var(--box-shadow-l) var(--black-050);
     }
     /*input（日付入力ボックス）*/
     .expires-date-box{
+        resize: none;
+        outline: none;
+        text-align: left;
+        box-sizing: border-box;
         width: 400px;
         height: 30px;
-        border-radius: 10px;
-        resize: none;
-        border: 0.5px solid rgba(0, 0, 0, 0.1);
         font-family: charifont;
-        font-size: 20px;
-        text-align: left;
-        padding: 10px;
-        box-sizing: border-box;
-        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.15);
-        outline: none;
+        font-size: var(--font-size-m);
+        padding: var(--padding-s);
+        border: var(--border-m-solid) var(--black-010);
+        border-radius: var(--border-radius-s);
+        box-shadow: var(--box-shadow-m) var(--black-015);
     }
     /*input（保存ボタン）*/
     .save-button{
         display: flex;
-        font-family: charifont;
         justify-content: center;
         align-items: center;
         text-align: left;
-        width: 400px;
-        height: 80px;
-        border-radius: 10px;
-        border: none;
-        background-color: #72b5ef;
-        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.15);
         cursor: pointer;
         position: static;
+        width: 400px;
+        height: 80px;
+        font-family: charifont;
+        border: var(--border-none);
+        background-color: var(--blue);
+        border-radius: var(--border-radius-s);
+        box-shadow: var(--box-shadow-m) var(--black-015);
     }
     .save-button-text {
         display: block;
-        color: #000000;
-        font-size: 25px;
-        -webkit-text-stroke: 0.5px #000000;
+        color: var(--black);
+        font-size: var(--font-size-m);
+        -webkit-text-stroke: var(--text-stroke-m) var(--black);
     }
     .save-button-icon {
         width: 50px;
@@ -247,9 +295,9 @@
         margin-left: 30px;
     }
     .save-button:hover {
-        transform: translateY(-1px);
-        transition: all 0.4s ease;
-        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.5);
+        transform: var(--transform-translateY);
+        transition: var(--transition-slow);
+        box-shadow: var(--box-shadow-l) var(--black-050);
     }
 
 
