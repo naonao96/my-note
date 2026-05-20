@@ -1,3 +1,4 @@
+'use strict'
 /*On click from fusen card*/
 document.addEventListener("DOMContentLoaded", function() {
   const fusenList = document.querySelectorAll('.fusen, .fusen-edit') 

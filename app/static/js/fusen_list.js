@@ -1,3 +1,3 @@
-"use static"
+"use strict"
 
 "付箋一覧に関する処理を追記します。"

@@ -14,10 +14,10 @@
         </header>
         <main>
             <div class="edit-page-container">
-                <div class="fusen-edit">
+                <div class="fusen-edit" style="--fusen-color: #A9CEEC;">
                     <div class="fusen-inner">
-                        <div class="fusen-front">来週やること</div>
-                        <div class="fusen-back">期限日：2026 / 4 / 5</div>
+                        <div id="fusen-content" class="fusen-front"></div>
+                        <div id="fusen-expires-at" class="fusen-back"></div>
                     </div>
                 </div>
                 <form action="{{ url_for('notes.create_note') }}" method="post">

@@ -35,11 +35,10 @@ def create_note():
 
     return redirect(url_for("notes.index"))
 
-@note_bp.route("/notes", methods=["GET"])
-def get_notes():
+# @note_bp.route("/notes", methods=["GET"])
+# def get_notes():
     # 今後API化可能性を考慮し残している。
-    pass
-
+    
 @note_bp.route("/new_note", methods=["GET"])
 def new_note():
     return render_template("new_note.html")

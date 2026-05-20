@@ -19,9 +19,9 @@
                         <div class="fusen-front">{{fusen.content}}</div>
                         <div class="fusen-back">
                             {% if fusen.expires_at %}
-                                期限日：{{ fusen.expires_at }}
+                                <span>期限日：</span>{{ fusen.expires_at }}
                             {% else %}
-                                期限日なし
+                                <span>期限日なし</span>
                             {% endif %}
                         </div>
                     </div>
