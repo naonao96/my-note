@@ -23,6 +23,7 @@
         --border-radius-s: 10px;
         --border-radius-m: 20px;
         --border-radius-l: 30px;
+        --border-radius-circle: 50%;
         /*shadow*/
         --box-shadow-s: 3px 5px 10px;
         --box-shadow-m: 6px 8px 12px;
@@ -93,18 +94,13 @@
     }
     @media (max-width: 1023px) and (min-width: 600px) { 
         .fusen-container {
-            grid-template-columns: repeat(2, 400px);
+            grid-template-columns: repeat(1, 400px);
         }
     }
     @media (max-width: 599px){ 
         .fusen-container {
             grid-template-columns: repeat(1,350px);
         }
-    }
-    .fusen {
-        width: 350px;
-        height: 350px;
-        perspective: 1000px;
     }
     .fusen-inner {
         position: relative;
@@ -113,6 +109,12 @@
         height: 100%;
         transition: transform 0.6s;
     }   
+    .fusen {
+        width: min(92vw, 380px);
+        aspect-ratio: 1 / 1;
+        height: auto;
+        perspective: 1000px;
+    }
     .fusen-front,
     .fusen-back {
         display: flex;
@@ -176,13 +178,41 @@
         border-radius: var(--border-radius-m);
         background: var(--creame);
     }
+    .fusen-menu-button{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        transform: translate(50%, -50%); /*translate(X軸, Y軸）*/
+        top: 0;
+        right: 0;
+        width: 42px;
+        height: 42px;
+        z-index: 100;
+        background-color: var(--white);
+        border: var(--border-m-solid) var(--black-010);
+        font-size: var(--font-size-l);
+        border-radius: var(--border-radius-circle);
+        box-shadow: var(--box-shadow-m) var(--black-015);
+    }
+    .fusen-menu-button:active {
+        transform: translate(50%, -50%) scale(0.94);
+    }
     /*編集ページ専用デザイン*/
+    textarea, input, select{
+        appearance: none;
+        -webkit-appearance: none;
+        background-color: white;
+        color: black;
+    }
+    input[type="date"]::-webkit-date-and-time-value {
+        text-align: left;
+    }
     .edit-page-container {
         display: grid;
         justify-content: center;
         align-items: center;
         grid-template-columns: 1fr 1fr;
-
     }
     .headline-text{
         font-size: var(--font-size-m);
@@ -295,7 +325,6 @@
         transition: var(--transition-slow);
         box-shadow: var(--box-shadow-l) var(--black-050);
     }
-
 
 
 
