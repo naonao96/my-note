@@ -42,3 +42,13 @@ def create_note():
 @note_bp.route("/new_note", methods=["GET"])
 def new_note():
     return render_template("new_note.html")
+
+@note_bp.route("/delete/<int:noteId>", methods=["DELETE"])
+def del_note(noteId):
+    note_ctl = fusen_service()
+    if (note_ctl.del_fusen(noteId)):
+        print("✅削除成功！！")
+    else:
+        print("削除失敗") 
+
+    return redirect(url_for("note_index"))

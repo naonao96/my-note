@@ -52,3 +52,8 @@ class FusenService:
             fusen_list.append(dto)
         
         return fusen_list
+    
+    def del_fusen(self, note_id):
+        if (self.note_repo.delete(note_id)):
+            return True
+        return False

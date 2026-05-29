@@ -2,12 +2,39 @@
 
 "付箋一覧に関する処理を追記します。"
 document.addEventListener("DOMContentLoaded", () => {
-    const menuButtons = document.querySelectorAll(".fusen-menu-button");
-
-    menuButtons.forEach((button) =>{
+    document.querySelectorAll(".fusen-menu-button").forEach((button) =>{
+        
         button.addEventListener("click", (e) => {
-            e.stopPropagation();
-            console.log("メニュー押下！！", e);
+            stopPropagation(e);
+            const menu = button.closest(".fusen-menu");
+            menu.classList.toggle("is-open");
+        })
+    })
+
+    document.querySelectorAll(".delete-button").forEach((button) => {
+        button.addEventListener("click", (e) => {
+            stopPropagation(e);
+            const fusenId = e.target.closest(".fusen").dataset.fusenId;
+            
+            if (confirm("この付箋を削除しますか？")){
+                //下記はfetch(URL, {設定(オブジェクト：HTTPメソッド)})
+                //.then() は fetch の完了後に実行される処理
+                //.then() を使わない場合、
+                //削除リクエストの完了を待たずに
+                //後続処理が実行される可能性がある
+                
+                fetch(`/note_list/delete/${fusenId}`, {
+                    method: "DELETE"
+                }).then(() => {
+                    location.reload();
+                });
+            };
         })
     })
 })
+
+
+function stopPropagation(event){
+    event.stopPropagation();
+    console.log("押下", event);
+}

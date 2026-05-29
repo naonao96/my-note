@@ -12,11 +12,22 @@
             <img class="title" src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}">
         </header>
         <main>
-            <!-- TODO: 現在は静的に配置しているが今後動的に追加可能に修正 -->
             <div class="fusen-container">
                 {% for fusen in fusenList %}
-                <div class="fusen" style="--fusen-color: {{ fusen.color }};">
-                    <button class="fusen-menu-button" id="menu">⋯</button>
+                <div class="fusen" style="--fusen-color: {{ fusen.color }};" data-fusen-id="{{ fusen.id }}">
+                    <div class="fusen-menu">
+                        <button type="button" class="fusen-menu-button">⋯</button>
+                        <div class="fusen-menu-dropdown">
+                            <button type="button" class="edit-button">
+                                <span class="create-button-text">編集する</span>
+                                <img class="button-icon" src="{{ url_for('static', filename='images/create-button.svg') }}" alt="編集する">
+                            </button><br>
+                            <button type="button" class="delete-button">
+                                <span class="delete-button-text">削除する</span>
+                                <img class="button-icon" src="{{ url_for('static', filename='images/delete-button.svg') }}" alt="編集する">
+                            </button>
+                        </div>
+                    </div>
                     <div class="fusen-inner">
                         <div class="fusen-front">{{fusen.content}}</div>
                         <div class="fusen-back">
@@ -32,7 +43,7 @@
             </div>
             <button class="create-button" type="button" onclick="location.href='{{url_for("notes.new_note")}}'">
                 <span class="create-button-text">付箋を作成する</span>
-                <img class="create-button-icon" src="{{ url_for('static', filename='images/create-button.svg') }}" alt="作成する">
+                <img class="button-icon" src="{{ url_for('static', filename='images/create-button.svg') }}" alt="作成する">
             </button>
         </main>
     </body>
