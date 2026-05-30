@@ -8,8 +8,14 @@ class FusenRepository:
 
     '''create note data'''
     def create(self, note_data):
-        self.db.session.add(note_data)
-        self.db.session.commit()
+        try:
+            self.db.session.add(note_data)
+            self.db.session.commit()
+            return True
+        except Exception as e:
+            print(e)
+            self.db.session.rollback()
+            return False
 
     '''read note data'''
     def read_all_notes(self):
@@ -20,19 +26,19 @@ class FusenRepository:
 
     '''update note data'''
     def update(self, note_data):
-        existing_note = Fusen.query.get(note_data.id)
-        if existing_note:
-            existing_note.title = note_data.title
-            existing_note.context = note_data.context
-            self.db.session.commit()
-            return True
-        return False
+        pass
 
     '''delete note data'''
     def delete(self, note_id):
         note = Fusen.query.get(note_id)
-        if note:
+        if note is None:
+            return False
+
+        try:
             self.db.session.delete(note)
             self.db.session.commit()
             return True
-        return False
+        except Exception as e:
+            print(e)
+            self.db.session.rollback()
+            return False

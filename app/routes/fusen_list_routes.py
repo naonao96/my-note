@@ -1,6 +1,7 @@
 from flask import request, jsonify, render_template, Blueprint, redirect, url_for
 from app.dto.fusen_data import FusenData
-from app.services.fusen_service import FusenService as fusen_service
+from app.services.fusen_service import FusenService
+import app.common.messages as msg
 
 '''
 Memo:notesは名前空間のようなもの
@@ -13,42 +14,51 @@ note_bp = Blueprint('notes', __name__, url_prefix='/note_list')
 
 @note_bp.route("/")
 def index():
-    note_ctl = fusen_service()
-    fusen_list = note_ctl.all_read_fusen()
+    note_ctl = FusenService()
 
     return render_template(
         "notes_list.html",
-        fusenList = fusen_list
+        fusenList = note_ctl.fusen_all_read()
     )
 
 @note_bp.route("/notes", methods=["POST"])
-def create_note():
+def fusen_create():
     note = FusenData(
         content = request.form.get("content"),
         expires_at= request.form.get("expires_at"),
         color= request.form.get("color")
     )
     
-    note_ctl = fusen_service()
-    res_create = note_ctl.create_note(note)
-    print(res_create)
+    note_ctl = FusenService()
+    res_create = note_ctl.fusen_create(note)
+    if not res_create["success"]:
+        print(msg.FUSEN_DATA_CREATE_ERROR)
 
     return redirect(url_for("notes.index"))
-
-# @note_bp.route("/notes", methods=["GET"])
-# def get_notes():
-    # 今後API化可能性を考慮し残している。
     
 @note_bp.route("/new_note", methods=["GET"])
-def new_note():
-    return render_template("new_note.html")
+def new_fusen():
+    return render_template(
+        "new_note.html",
+        fusenData = None
+        )
 
-@note_bp.route("/delete/<int:noteId>", methods=["DELETE"])
-def del_note(noteId):
-    note_ctl = fusen_service()
-    if (note_ctl.del_fusen(noteId)):
-        print("✅削除成功！！")
-    else:
-        print("削除失敗") 
+@note_bp.route("/delete_note/<int:noteId>", methods=["DELETE"])
+def delete_fusen(noteId : int):
+    note_ctl = FusenService()
+    if (not note_ctl.fusen_delete(noteId)):
+        return jsonify({
+            "success": False ,
+            "message":msg.FUSEN_DATA_DELETE_ERROR
+            })
+    
+    return jsonify({"success": True})
 
-    return redirect(url_for("note_index"))
+@note_bp.route("/edit_note/<int:noteId>", methods=["GET"])
+def edit_fusen(noteId : int):
+    note_ctl = FusenService()
+
+    return render_template(
+        "new_note.html",
+        fusenData = note_ctl.fusen_read(noteId)
+        )

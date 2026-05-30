@@ -23,13 +23,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 //削除リクエストの完了を待たずに
                 //後続処理が実行される可能性がある
                 
-                fetch(`/note_list/delete/${fusenId}`, {
+                fetch(`/note_list/delete_note/${fusenId}`, {
                     method: "DELETE"
                 }).then(() => {
                     location.reload();
                 });
             };
         })
+    })
+
+    document.querySelectorAll(".edit-button").forEach((button) => {
+        button.addEventListener("click", (e) => {
+            stopPropagation(e);
+            const fusenId = e.target.closest(".fusen").dataset.fusenId
+
+            location.href = `/note_list/edit_note/${fusenId}`
+        })
+        
     })
 })
 

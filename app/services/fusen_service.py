@@ -1,23 +1,22 @@
-'''
-このファイルは、コントローラーの役割を果たし、Routesから呼び出される関数を定義します。
-これらの関数は、ビジネスロジックを実装し、Repositoryを呼び出してデータベース操作を行います。
-コントローラーは、RoutesとRepositoryの間の橋渡し役を果たし、アプリケーションのロジックを整理するのに役立ちます。'''
+"""
+このファイルはサービス層です。
+Routesから呼び出され、アプリケーションのビジネスロジックを担当します。
+Repositoryを利用してデータの取得・更新を行い、
+ModelとDTOの変換も担当します。
+"""
 
 from app.repositories.fusen_repo  import FusenRepository
 from app.dto.fusen_data import FusenData
 from app.models.fusen_model import Fusen
+import app.common.messages as Msg
 
 class FusenService:
     def __init__(self):
         self.note_repo : FusenRepository = FusenRepository()
 
-    def create_note(self, fusen_data : FusenData):
+    def fusen_create(self, fusen_data : FusenData):
         if len(fusen_data.content) > 100:
-            error_message : str = "100文字を超える内容を入力しています。"
-            return {
-                "success" : False,
-                "error_message" : error_message
-                } 
+            return {"success" : False} 
         
         # dtoからModelへデータを受け渡す
         fusen_model : Fusen = Fusen(
@@ -25,16 +24,16 @@ class FusenService:
             expires_at = fusen_data.expires_at,
             color = fusen_data.color
         )
+        result: bool = self.note_repo.create(fusen_model)
 
-        self.note_repo.create(fusen_model)
-        # TODO:作成したノートデータを返すか検討
-        return {
-            "success" : True,
-            } 
+        return {"success" : result}
     
-    def all_read_fusen(self):
+    def fusen_all_read(self):
         fusen_list_model : list[Fusen] = self.note_repo.read_all_notes()
         fusen_list : list[FusenData] = []
+
+        if (not fusen_list_model):
+            return []
 
         for fusen in fusen_list_model:
             dto = FusenData(
@@ -53,7 +52,21 @@ class FusenService:
         
         return fusen_list
     
-    def del_fusen(self, note_id):
-        if (self.note_repo.delete(note_id)):
-            return True
-        return False
+    def fusen_read(self, note_id : int):
+        fusen_model : Fusen = self.note_repo.read_note(note_id)
+
+        if (fusen_model is None):
+            return None
+        
+        return FusenData(
+            id= fusen_model.id,
+            content=fusen_model.content,
+            color=fusen_model.color,
+            expires_at=fusen_model.expires_at,
+            created_at=fusen_model.created_at,
+            updated_at=fusen_model.updated_at,
+            status=fusen_model.status
+            )
+    
+    def fusen_delete(self, note_id : int):
+        return self.note_repo.delete(note_id)

@@ -14,20 +14,32 @@
         </header>
         <main>
             <div class="edit-page-container">
-                <div class="fusen-edit" style="--fusen-color: #A9CEEC;">
+                <div class="fusen-edit" style="--fusen-color: {{ fusenData.color if fusenData else '#A9CEEC'}};">
                     <div class="fusen-inner">
                         <div id="fusen-content" class="fusen-front"></div>
                         <div id="fusen-expires-at" class="fusen-back"></div>
                     </div>
                 </div>
-                <form action="{{ url_for('notes.create_note') }}" method="post">
+                <form action="{{ url_for('notes.fusen_create') }}" method="post">
                     <label class="headline-text" for="content">付箋に書きたいことは何かな<br>（１００文字まで）:</label>
                     <br>
-                    <textarea class="content-box" id="content" name="content" rows="20" cols="50" required maxlength="100"></textarea>
+                    <textarea 
+                        class="content-box"
+                        id="content"
+                        name="content" 
+                        rows="20" 
+                        cols="50" 
+                        required maxlength="100">{{ fusenData.content if fusenData else '' }}</textarea>
                     <br><br>
                     <label class="headline-text" for="expires_at">付箋を貼り続ける期間を選択してね:</label>
                     <br>
-                    <input class="expires-date-box" type="text" id="datepicker" name="expires_at">
+                    <input 
+                        class="expires-date-box"
+                        type="text"
+                        id="datepicker" 
+                        name="expires_at" 
+                        value="{{fusenData.expires_at if fusenData else ''}}"
+                    >
                     <br><br>
                     <label class="headline-text" for="color">付箋の色を決めてね:</label>
                     <br>
