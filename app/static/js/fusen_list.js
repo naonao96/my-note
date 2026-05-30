@@ -3,11 +3,26 @@
 "付箋一覧に関する処理を追記します。"
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".fusen-menu-button").forEach((button) =>{
-        
         button.addEventListener("click", (e) => {
             stopPropagation(e);
-            const menu = button.closest(".fusen-menu");
-            menu.classList.toggle("is-open");
+            const currentMenu = button.closest(".fusen-menu");
+            // 自分以外で開いているメニューを閉じる
+            document.querySelectorAll(".fusen-menu.is-open").forEach((menu) =>{
+                if (menu !== currentMenu){
+                    menu.classList.remove("is-open")
+                }
+            })
+            currentMenu.classList.toggle("is-open");
+        })
+    })
+
+    
+
+    document.addEventListener("click", (e) => {
+        document.querySelectorAll(".fusen-menu.is-open").forEach((menu) =>{
+            if (!menu.contains(e.target)){
+                menu.classList.remove("is-open")
+            }
         })
     })
 

@@ -7,10 +7,19 @@ document.addEventListener('DOMContentLoaded', function() {
         dateFormat: "Y-m-d",
     });
 
-    /* 付箋カラーの選択時 */
+    /* 付箋カラー選択（自動・手動） */
     const colorButtons = document.querySelectorAll(".color-option");
-    
-    colorButtons.forEach( button => {
+    const selectedColor = document.getElementById("selected-color");
+
+    colorButtons.forEach((button) => {
+        // 初回カラー選択処理
+        if (button.dataset.color === selectedColor.value ){
+            button.classList.add("selected");
+        }
+        else {
+            button.classList.remove("selected");
+        }
+        //　初回以降選択処理
         button.addEventListener("click", () => {
             // hidden inputに色を保存
             document.getElementById("selected-color").value = button.dataset.color;
@@ -37,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const fusenExpiresAt = document.getElementById("fusen-expires-at");
 
     function updatePreview(){
-        fusenContent.innerHTML = contentData.value.replace(/\n/g, "<br>");
+        fusenContent.textContent = contentData.value;
         
         if (expiresAtData.value){
             fusenExpiresAt.textContent =  `期限日：${expiresAtData.value} `;
@@ -45,7 +54,9 @@ document.addEventListener('DOMContentLoaded', function() {
         else
            fusenExpiresAt.textContent = "期限日なし";
     }
-
+    //初回起動時に実行
+    updatePreview()
+    
     contentData.addEventListener("input", updatePreview);
     expiresAtData.addEventListener("input", updatePreview);
 });

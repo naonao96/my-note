@@ -39,6 +39,7 @@
         --font-size-s: 20px;
         --font-size-m: 25px;
         --font-size-l: 30px;
+        --font-size-xl: 35px;
         --text-stroke-s: ;
         --text-stroke-m: 0.5px;
         --text-stroke-l: 0.8px;
@@ -59,6 +60,7 @@
         --width-300: 300px; 
         --width-400: 400px;
         --width-500: 500px;
+        --height-60: 60px;
         --height-80: 80px;
         --height-250: 250px;
 
@@ -93,20 +95,20 @@
         padding: var(--padding-m);
         justify-content: center;
         justify-items: center;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 380px));
     }
-    @media (min-width: 1024px) { 
+    @media (min-width: 1025px) { 
         .fusen-container {
-            grid-template-columns: repeat(4, 400px);
         }
     }
-    @media (max-width: 1023px) and (min-width: 600px) { 
+    @media (max-width: 1024px) and (min-width: 768px) { 
         .fusen-container {
-            grid-template-columns: repeat(1, 400px);
         }
     }
-    @media (max-width: 599px){ 
+    @media (max-width: 767px){ 
         .fusen-container {
-            grid-template-columns: repeat(1,350px);
+            grid-template-columns: 1fr;
+            padding-inline: 16px;
         }
     }
     .fusen-inner {
@@ -124,8 +126,6 @@
         perspective: 1000px;
     }
     .fusen:hover{
-        transform: var(--transform-translateY);
-        transition: var(--transition-slow);
         box-shadow: var(--box-shadow-l) var(--black-050);
     }
     .fusen-front,
@@ -140,11 +140,14 @@
         width: 100%;
         height: 100%;
         padding: var(--padding-s);
-        font-size: var(--font-size-m);
+        font-size: var(--font-size-l);
         border-radius: var(--border-radius-l);
         color: var(--black);
         background-color: var(--fusen-color);
         box-shadow: var(--box-shadow-s) var(--black-012)
+    }
+    .fusen-front{
+        white-space: pre-wrap;
     }
     .fusen-back {
         transform: var(--transform-rotateY);
@@ -163,7 +166,6 @@
         text-align: left;
         cursor: pointer;
         width: auto;
-        height: var(--height-80);
         font-family: charifont;
         border: var(--border-none);
         border-radius: var(--border-radius-s);
@@ -174,12 +176,15 @@
         right: 50px;
         bottom: 50px;
         background-color: var(--blue);
+        height: var(--height-80);
     }
-    .edit-button{
+    .edit-button {
         background-color: var(--white-green);
+        height: var(--height-60);
     }
-    .delete-button{
+    .delete-button {
         background-color: var(--white-red);
+        height: var(--height-60);
     }
     .create-button:active{
         transform: scale(0.94);
@@ -190,17 +195,23 @@
     .delete-button:active{
         transform: scale(0.94);
     }
-    .create-button-text,
     .delete-button-text,
-    .edit-button-text{
+    .edit-button-text,
+    .create-button-text{
         display: block;
         color: var(--black);
         font-size: var(--font-size-m);
         -webkit-text-stroke: var(--text-stroke-l) var(--black);
     }
-    .button-icon {
+    .create-button-icon {
         width: 50px;
         height: 50px;
+        margin-left: 20px;
+    }
+    .edit-button-icon,
+    .delete-button-icon {
+        width: 40px;
+        height: 40px;
         margin-left: 20px;
     }
     /*datepicker*/
@@ -226,6 +237,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        opacity: 0.5;
         width: 42px;
         height: 42px;
         border: var(--border-m-solid) var(--black-010);
@@ -244,6 +256,9 @@
     }
     .fusen-menu-button:active {
         transform: scale(0.94);
+    }
+    .fusen-menu-button:hover{
+        opacity: 1;
     }
     .fusen-menu.is-open .fusen-menu-dropdown{
         display: flex;
