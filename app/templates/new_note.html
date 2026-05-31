@@ -21,8 +21,7 @@
                     </div>
                 </div>
                 <form action="{{ url_for('notes.fusen_create') }}" method="post">
-                    <label class="headline-text" for="content">付箋に書きたいことは何かな<br>（１００文字まで）:</label>
-                    <br>
+                    <label class="headline-text" for="content">付箋に書きたいことは何かな（１００文字まで）:</label>
                     <textarea 
                         class="content-box"
                         id="content"
@@ -32,7 +31,6 @@
                         required maxlength="100">{{ fusenData.content if fusenData else '' }}</textarea>
                     <br><br>
                     <label class="headline-text" for="expires_at">付箋を貼り続ける期間を選択してね:</label>
-                    <br>
                     <input 
                         class="expires-date-box"
                         type="text"

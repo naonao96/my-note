@@ -2,6 +2,10 @@
         font-family:charifont;
         src:url("../fonts/Charifont.otf") format("opentype") 
     }
+    @font-face {
+        font-family: yomogi;
+        src:url("../fonts/Yomogi-Regular.ttf") format("opentype")
+    }
 
     :root{
         /*Layout*/
@@ -124,6 +128,7 @@
         aspect-ratio: 1 / 1;
         height: auto;
         perspective: 1000px;
+        font-family: yomogi;
     }
     .fusen:hover{
         box-shadow: var(--box-shadow-l) var(--black-050);
@@ -135,12 +140,11 @@
         backface-visibility: hidden;
         box-sizing: border-box;
         text-align: left;
-        white-space: pre-wrap;
         inset: 0;
         width: 100%;
         height: 100%;
-        padding: var(--padding-s);
-        font-size: var(--font-size-l);
+        padding: var(--padding-m);
+        font-size: var(--font-size-m);
         border-radius: var(--border-radius-l);
         color: var(--black);
         background-color: var(--fusen-color);
@@ -166,7 +170,6 @@
         text-align: left;
         cursor: pointer;
         width: auto;
-        font-family: charifont;
         border: var(--border-none);
         border-radius: var(--border-radius-s);
         box-shadow: var(--box-shadow-m) var(--black-015);
@@ -200,8 +203,10 @@
     .create-button-text{
         display: block;
         color: var(--black);
-        font-size: var(--font-size-m);
-        -webkit-text-stroke: var(--text-stroke-l) var(--black);
+        font-size: var(--font-size-s);
+        -webkit-text-stroke: var(--text-stroke-m) var(--black);
+        font-family: yomogi;
+        transform: translateY(-2px); /*文字列を若干上側に表示*/
     }
     .create-button-icon {
         width: 50px;
@@ -270,6 +275,8 @@
         -webkit-appearance: none;
         background-color: white;
         color: black;
+        font-family: yomogi;
+        font-size: var(--font-size-l);
     }
     input[type="date"]::-webkit-date-and-time-value {
         text-align: left;
@@ -279,10 +286,12 @@
         justify-content: center;
         align-items: center;
         grid-template-columns: 1fr 1fr;
+        font-family: yomogi;
     }
     .headline-text{
-        font-size: var(--font-size-m);
+        font-family: yomogi;
         -webkit-text-stroke: var(--text-stroke-m) var(--black);
+        font-size: var(--font-size-s);
     }
     .content-box{
         resize: none;
@@ -291,7 +300,6 @@
         width: var(--width-400);
         height: var(--height-250);
         line-height: 1.2;
-        font-family: charifont;
         font-size: var(--font-size-m);
         padding: var(--padding-s);
         border: var(--border-m-solid) var(--black-010);
@@ -311,6 +319,7 @@
         height: 400px;
         perspective: 1000px;
         gap: 20px;
+        font-family: yomogi;
     }
 
     /*付箋カラーの選択パレット*/
@@ -352,8 +361,7 @@
         box-sizing: border-box;
         width: 400px;
         height: 30px;
-        font-family: charifont;
-        font-size: var(--font-size-m);
+        font-size: var(--font-size-s);
         padding: var(--padding-s);
         border: var(--border-m-solid) var(--black-010);
         border-radius: var(--border-radius-s);
@@ -377,8 +385,9 @@
     }
     .save-button-text {
         display: block;
+        font-family: yomogi;
         color: var(--black);
-        font-size: var(--font-size-m);
+        font-size: var(--font-size-s);
         -webkit-text-stroke: var(--text-stroke-m) var(--black);
     }
     .save-button-icon {
