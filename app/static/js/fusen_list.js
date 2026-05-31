@@ -51,10 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
         button.addEventListener("click", (e) => {
             stopPropagation(e);
             const fusenId = e.target.closest(".fusen").dataset.fusenId
-
             location.href = `/note_list/edit_note/${fusenId}`
-        })
-        
+        })  
     })
 })
 

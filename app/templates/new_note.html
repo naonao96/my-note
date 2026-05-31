@@ -20,7 +20,14 @@
                         <div id="fusen-expires-at" class="fusen-back"></div>
                     </div>
                 </div>
-                <form action="{{ url_for('notes.fusen_create') }}" method="post">
+                <form 
+                    {% if mode == "edit" %}
+                        action="{{ url_for('notes.update_fusen', fusenId=fusenData.id) }}"
+                    {% else %}
+                        action="{{ url_for('notes.create_fusen') }}"
+                    {% endif %}
+                    method="post"
+                >
                     <label class="headline-text" for="content">付箋に書きたいことは何かな（１００文字まで）:</label>
                     <textarea 
                         class="content-box"
@@ -56,5 +63,6 @@
                     </button>
                 </form>
             </div>
+            <span>mode = {{ mode }}</span>
         </main>
     </body>

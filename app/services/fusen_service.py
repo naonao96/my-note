@@ -8,14 +8,14 @@ ModelとDTOの変換も担当します。
 from app.repositories.fusen_repo  import FusenRepository
 from app.dto.fusen_data import FusenData
 from app.models.fusen_model import Fusen
-import app.common.messages as Msg
+from app.validators.fusen_validator import max_len
 
 class FusenService:
     def __init__(self):
         self.note_repo : FusenRepository = FusenRepository()
 
     def fusen_create(self, fusen_data : FusenData):
-        if len(fusen_data.content) > 100:
+        if not max_len(fusen_data.content):
             return {"success" : False} 
         
         # dtoからModelへデータを受け渡す
@@ -70,3 +70,16 @@ class FusenService:
     
     def fusen_delete(self, note_id : int):
         return self.note_repo.delete(note_id)
+
+    def fusen_update(self, fusen_data : FusenData):
+        if not max_len(fusen_data.content):
+            return {"success" : False} 
+        fusen_model : Fusen = FusenData(
+            id= fusen_data.id,
+            content=fusen_data.content,
+            expires_at=fusen_data.expires_at,
+            color=fusen_data.color
+        )
+        result : bool = self.note_repo.update(fusen_model)
+
+        return {"success" : result}

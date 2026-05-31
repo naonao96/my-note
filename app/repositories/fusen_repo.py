@@ -7,9 +7,9 @@ class FusenRepository:
         self.db = db
 
     '''create note data'''
-    def create(self, note_data):
+    def create(self, fusen_data : Fusen):
         try:
-            self.db.session.add(note_data)
+            self.db.session.add(fusen_data)
             self.db.session.commit()
             return True
         except Exception as e:
@@ -21,12 +21,24 @@ class FusenRepository:
     def read_all_notes(self):
         return Fusen.query.all()
 
-    def read_note(self, note_id):
-        return Fusen.query.get(note_id)
+    def read_note(self, fusen_id: int):
+        return Fusen.query.get(fusen_id)
 
     '''update note data'''
-    def update(self, note_data):
-        pass
+    def update(self, fusen_data : Fusen):
+        fusen = Fusen.query.get(fusen_data.id)
+        if fusen is None:
+            return False
+        try:
+            fusen.content = fusen_data.content
+            fusen.expires_at = fusen_data.expires_at
+            fusen.color = fusen_data.color
+            db.session.commit()
+            return True
+        except Exception as e:
+            print(e)
+            db.session.rollback()
+            return False
 
     '''delete note data'''
     def delete(self, note_id):
