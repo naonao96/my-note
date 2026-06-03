@@ -8,78 +8,74 @@ ModelとDTOの変換も担当します。
 from app.repositories.fusen_repo  import FusenRepository
 from app.dto.fusen_data import FusenData
 from app.models.fusen_model import Fusen
-from app.validators.fusen_validator import max_len
+from app.validators.fusen_validator import vld_len
+import app.common.util as util
+import app.common.messages as msg
 
 class FusenService:
     def __init__(self):
         self.note_repo : FusenRepository = FusenRepository()
 
-    def fusen_create(self, fusen_data : FusenData):
-        if not max_len(fusen_data.content):
-            return {"success" : False} 
-        
-        # dtoからModelへデータを受け渡す
-        fusen_model : Fusen = Fusen(
+    def _to_model(self, fusen_data : FusenData) -> Fusen:
+        return Fusen(
+            id= fusen_data.id,
+            # ユーザーIDはログイン機能実装後解禁
+            # user_id = fusen.user_id,
             content = fusen_data.content,
-            expires_at = fusen_data.expires_at,
+            expires_at = util.empty_to_none(fusen_data.expires_at),
             color = fusen_data.color
         )
-        result: bool = self.note_repo.create(fusen_model)
 
-        return {"success" : result}
+    def fusen_create(self, fusen_data : FusenData) -> dict:
+        vld_res : dict = vld_len(fusen_data.content)
+        if not vld_res.get("success"):
+            return vld_res
+        
+        model : Fusen = self._to_model(fusen_data)
+        success: bool = self.note_repo.create(model)
+
+        return util.res_msg_pack(success, "")
     
-    def fusen_all_read(self):
+    '''Read all Fusen data'''
+    def fusen_all_read(self) -> list:
         fusen_list_model : list[Fusen] = self.note_repo.read_all_notes()
         fusen_list : list[FusenData] = []
 
         if (not fusen_list_model):
             return []
 
-        for fusen in fusen_list_model:
-            dto = FusenData(
-                id = fusen.id,
-                # ユーザーIDはログイン機能実装後解禁
-                # user_id = fusen.user_id,
-                content = fusen.content,
-                created_at= fusen.created_at,
-                updated_at= fusen.updated_at,
-                expires_at= fusen.expires_at,
-                color= fusen.color,
-                status= fusen.status
-            )
-
+        for model in fusen_list_model:
+            dto : FusenData = FusenData.from_model(model)
             fusen_list.append(dto)
         
         return fusen_list
     
-    def fusen_read(self, note_id : int):
-        fusen_model : Fusen = self.note_repo.read_note(note_id)
+    '''Read Fusen data by note_id'''
+    def fusen_read(self, note_id : int) -> FusenData | None:
+        model : Fusen = self.note_repo.read_note(note_id)
 
-        if (fusen_model is None):
+        if (model is None):
             return None
         
-        return FusenData(
-            id= fusen_model.id,
-            content=fusen_model.content,
-            color=fusen_model.color,
-            expires_at=fusen_model.expires_at,
-            created_at=fusen_model.created_at,
-            updated_at=fusen_model.updated_at,
-            status=fusen_model.status
-            )
+        return FusenData.from_model(model)
     
-    def fusen_delete(self, note_id : int):
-        return self.note_repo.delete(note_id)
+    def fusen_update(self, fusen_data : FusenData) -> dict:
+        vld_res : dict = vld_len(fusen_data.content)
+        if not vld_res.get("success"):
+            return vld_res
+        
+        model : Fusen = self._to_model(fusen_data)
+        success : bool = self.note_repo.update(model)
 
-    def fusen_update(self, fusen_data : FusenData):
-        if not max_len(fusen_data.content):
-            return {"success" : False} 
-        fusen_model : Fusen = FusenData(
-            id= fusen_data.id,
-            content=fusen_data.content,
-            expires_at=fusen_data.expires_at,
-            color=fusen_data.color
-        )
-        result : bool = self.note_repo.update(fusen_model)
+        return util.res_msg_pack(success, "")
+    
+    def fusen_delete(self, note_id : int) -> dict:
+        # ユーザーIDはログイン機能実装後解禁
+        # 引数へuser_idを渡す
+        success : bool = self.note_repo.delete(note_id)
+        if not success:
+            return util.res_msg_pack(success, msg.FUSEN_DATA_DELETE_ERROR)
 
-        return {"success" : result}
+        return util.res_msg_pack(success, "")
+    
+

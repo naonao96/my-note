@@ -48,6 +48,18 @@ and make your everyday life a little more organized and enjoyable.
 
 ---
 
+## Architecture
+
+Chokotto Memo is structured with a simple layered architecture.
+
+- Routes: handles HTTP requests and responses
+- Service: handles business logic and DTO / Model conversion
+- Repository: handles database access
+- Model: defines database tables
+- DTO: transfers data between layers
+
+---
+
 ## Features
 
 - Sticky note inspired UI
@@ -64,6 +76,7 @@ not heavy task management systems.
 
 It is designed to feel simple, lightweight, and casual —  
 just like placing a sticky note on your refrigerator.
+
 
 ## Demo
 

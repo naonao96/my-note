@@ -19,7 +19,7 @@ class FusenRepository:
 
     '''read note data'''
     def read_all_notes(self):
-        return Fusen.query.all()
+        return Fusen.query.order_by(Fusen.created_at.desc()).all()
 
     def read_note(self, fusen_id: int):
         return Fusen.query.get(fusen_id)
