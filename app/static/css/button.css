@@ -1,0 +1,72 @@
+.create-button,
+.edit-button,
+.delete-button,
+.save-button,
+.login-button {
+    display: flex;
+    text-align: left;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+    white-space: nowrap;
+    border: var(--border-none);
+    border-radius: var(--border-radius-s);
+    box-shadow: var(--box-shadow-m) var(--black-015);
+}
+.create-button{
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    background-color: var(--blue);
+    height: var(--height-60);
+}
+.edit-button {
+    background-color: var(--white-green);
+    height: var(--height-60);
+}
+.delete-button {
+    background-color: var(--white-red);
+    height: var(--height-60);
+}
+.save-button{
+    width: 400px;
+    background-color: var(--blue);
+    height: var(--height-60);
+}
+.login-button {
+    width: min(92vw, 325px);
+    height: var(--height-80);
+    background-color: var(--white);
+}
+.delete-button-text,
+.edit-button-text,
+.create-button-text,
+.save-button-text,
+.login-button-text {
+    display: block;
+    font-family: yomogi;
+    color: var(--black);
+    font-size: var(--font-size-s);
+    -webkit-text-stroke: var(--text-stroke-m) var(--black);
+    transform: translateY(-2px); /*文字列を若干上側に表示*/
+}
+.create-button-icon,
+.save-button-icon{
+    width: 50px;
+    height: 50px;
+    margin-left: 20px;
+}
+.edit-button-icon,
+.delete-button-icon,
+.login-button-icon {
+    width: 40px;
+    height: 40px;
+    margin-left: 20px;
+}
+.create-button:active,
+.edit-button:active,
+.delete-button:active,
+.save-button:active,
+.login-button:active {
+    transform: scale(0.94);
+}

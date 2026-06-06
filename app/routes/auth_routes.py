@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/login")
 
-@auth_bp.route("/login")
+@auth_bp.route("/")
 def login_home():
     return render_template("login.html")
 

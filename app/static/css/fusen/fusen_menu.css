@@ -1,0 +1,44 @@
+/*
+　付箋メニュー周辺（編集・削除）に関するデザイン
+　・ドロップダウン
+　・編集ボタン
+　・削除ボタン
+*/
+.fusen-menu{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    transform: translate(50%, -50%); /*translate(X軸, Y軸）*/
+}
+.fusen-menu-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5;
+    width: 42px;
+    height: 42px;
+    border: var(--border-m-solid) var(--black-010);
+    font-size: var(--font-size-l);
+    border-radius: var(--border-radius-circle);
+    background-color: var(--white);
+    box-shadow: var(--box-shadow-m) var(--black-015);
+}
+.fusen-menu-dropdown{
+    display: none;
+    position: absolute;
+    top: 48px;
+    right: 0;
+    z-index: 100;
+    border-radius:var(--border-radius-m);
+}
+.fusen-menu-button:active {
+    transform: scale(0.94);
+}
+.fusen-menu-button:hover{
+    opacity: 1;
+}
+.fusen-menu.is-open .fusen-menu-dropdown{
+    display: flex;
+    flex-direction: column;
+}

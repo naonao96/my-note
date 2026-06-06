@@ -1,0 +1,68 @@
+@import url(./animation.css);
+@import url(./base.css);
+
+.login-container {
+    display: grid;
+    --fusen-size: 360px;
+    --fusen-gap: 32px;
+    --fusen-area-width: calc((var(--fusen-size) * 4) + (var(--fusen-gap) * 3));
+    margin: 0;
+    overflow-y: hidden;
+    height: 100vh;
+}
+.login-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-title img {
+    animation: title-bounce-in 3.0s ease-out both;
+}
+.login-header,
+.login-footer {
+    margin-inline: auto;
+    width: min(100%, var(--fusen-area-width));
+}
+
+.login-header {
+    display: grid;
+    grid-template-columns: repeat(4, var(--fusen-size));
+    gap: var(--fusen-gap);
+    align-items: start;
+    transform: translateY(calc(var(--fusen-offset-y)* -1));
+}
+.login-footer {
+    display: grid;
+    grid-template-columns: repeat(4, var(--fusen-size));
+    gap: var(--fusen-gap);
+    align-items: start;
+}
+.footer-fusen-group {
+    grid-column: 1 / 3;
+    display: grid;
+    grid-template-columns: repeat(2, var(--fusen-size));
+    gap: var(--fusen-gap);
+    transform: translateY(var(--fusen-offset-y));
+}
+.login-fusen {
+    width: min(92vw, 325px);
+    aspect-ratio: 1 / 1;
+    perspective: 1000px;
+    padding: var(--padding-m);
+    border-radius: var(--border-radius-l);
+    box-shadow: var(--box-shadow-s) var(--black-012)
+}
+
+.top-y-fusen {
+    transform: translateY(calc(var(--fusen-offset-y)* -1));
+}
+.under-y-fusen {
+    transform: translateY(var(--fusen-offset-y));
+}
+.google-login-button {
+    grid-column: 4;
+    justify-self: center;
+    align-self: center;
+    font-family: yomogi;
+    gap: 10px;
+}

@@ -10,12 +10,12 @@
         <script src="{{ url_for('static', filename='js/fusen_edit.js') }}"></script>
     </head>
     <body class="layout-container">
-        <header  onclick="location.href='{{ url_for("notes.index")}}'">
-            <img class="title" src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}">
+        <header class="after-login-header" onclick="location.href='{{ url_for("notes.index")}}'">
+            <img class="header-title" src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}">
         </header>
         <main>
             <div class="edit-page-container">
-                <div class="fusen-edit" style="--fusen-color: {{ fusenData.color if fusenData else '#A9CEEC'}};">
+                <div class="fusen fusen-edit-position" style="--fusen-color: {{ fusenData.color if fusenData else '#A9CEEC'}};">
                     <div class="fusen-inner">
                         <div id="fusen-content" class="fusen-front"></div>
                         <div id="fusen-expires-at" class="fusen-back"></div>
@@ -66,6 +66,5 @@
                     </button>
                 </form>
             </div>
-            <span>mode = {{ mode }}</span>
         </main>
     </body>

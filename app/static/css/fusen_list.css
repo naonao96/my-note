@@ -1,0 +1,17 @@
+.fusen-container {
+    display: grid;
+    gap: 80px;
+    padding: var(--padding-m);
+    justify-content: center;
+    justify-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 380px));
+}
+@media (max-width: 767px){ 
+    .fusen-container {
+        grid-template-columns: 1fr;
+        padding-inline: 16px;
+    }
+}
+.fusen-list-position {
+    position: relative;
+}
