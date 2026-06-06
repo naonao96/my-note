@@ -18,7 +18,7 @@
     right: 50px;
     bottom: 50px;
     background-color: var(--blue);
-    height: var(--height-60);
+    height: var(--height-80);
 }
 .edit-button {
     background-color: var(--white-green);
@@ -31,12 +31,12 @@
 .save-button{
     width: 400px;
     background-color: var(--blue);
-    height: var(--height-60);
+    height: var(--height-80);
 }
 .login-button {
-    width: min(92vw, 325px);
-    height: var(--height-80);
-    background-color: var(--white);
+    width: min(100vw, 360px);
+    height: var(--height-100);
+    background-color: var(--white-soft);
 }
 .delete-button-text,
 .edit-button-text,
@@ -46,9 +46,20 @@
     display: block;
     font-family: yomogi;
     color: var(--black);
+    transform: translateY(-2px); /*文字列を若干上側に表示*/
+}
+.delete-button-text,
+.edit-button-text,
+.create-button-text,
+.save-button-text {
+    color: var(--black);
     font-size: var(--font-size-s);
     -webkit-text-stroke: var(--text-stroke-m) var(--black);
-    transform: translateY(-2px); /*文字列を若干上側に表示*/
+}
+.login-button-text {
+    color: var(--black-070);
+    font-size: var(--font-size-m);
+    -webkit-text-stroke: var(--text-stroke-l) var(--black-070);
 }
 .create-button-icon,
 .save-button-icon{

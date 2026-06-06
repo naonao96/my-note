@@ -3,6 +3,7 @@
         --page-x: clamp(24px, 6vw, 112px);
         /*color*/
         --white: #FFFFFF;
+        --white-soft: rgb(255 255 255 / 55%);
         --creame: #fffaf0;
         --white-blue: #A9CEEC;
         --white-blue-020: rgba(123,184,245,0.2);
@@ -15,6 +16,8 @@
         --black-015: rgba(0, 0, 0, 0.15);
         --black-025: rgba(0, 0, 0, 0.25);
         --black-050: rgba(0, 0, 0, 0.5);
+        --black-060: rgba(0, 0, 0, 0.6);
+        --black-070: rgba(0, 0, 0, 0.7);
         --fusen-color: none;
         /*radius*/
         --border-radius-s: 10px;
@@ -55,7 +58,8 @@
         --width-500: 500px;
         --height-60: 60px;
         --height-80: 80px;
+        --height-100: 100px;
         --height-250: 250px;
         /*position*/
-        --fusen-offset-y: 120px;
+        --fusen-offset-y: 60px;
     }
