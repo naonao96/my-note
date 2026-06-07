@@ -8,6 +8,9 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     CLIENT_ID = os.getenv('CLIENT_ID')
+    REDIRECT_URI = os.getenv('REDIRECT_URI')
+    CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+    FLASK_SECRET_KEY= os.getenv('FLASK_SECRET_KEY')
 
     #debug用
     DEBUG_FLG = os.getenv('DEBUG_FLG')

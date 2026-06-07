@@ -15,7 +15,7 @@
     </header>
     <main class="login-main">
         <img class="login-title" src="{{ url_for('static', filename='images/title_chocottoMemo_login.svg')}}"><br>
-        <button class="login-button google-login-button" onclick="location.href='{{url_for("notes.index")}}'">
+        <button class="login-button google-login-button" onclick="location.href='{{url_for("auth.google_login")}}'">
             <img class="login-button-icon" src="{{url_for('static', filename='images/google-logo.svg')}}">
             <span class="login-button-text">Googleでログイン</span>
         </button>
