@@ -1,9 +1,9 @@
 from app import db
 
 class Fusen(db.Model):
+    __tablename__ = "fusen"
     id = db.Column(db.Integer, primary_key=True)
-    # ユーザーIDはログイン機能実装後解禁
-    # user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False) 
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False) 
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())

@@ -34,8 +34,8 @@
     height: var(--height-80);
 }
 .login-button {
-    width: min(100vw, 360px);
-    height: var(--height-100);
+    width: min(50vw, 300px);
+    height: var(--height-80);
     background-color: var(--white-soft);
 }
 .delete-button-text,
@@ -57,9 +57,9 @@
     -webkit-text-stroke: var(--text-stroke-m) var(--black);
 }
 .login-button-text {
-    color: var(--black-070);
-    font-size: var(--font-size-m);
-    -webkit-text-stroke: var(--text-stroke-l) var(--black-070);
+    color: var(--black);
+    font-size: var(--font-size-s);
+    -webkit-text-stroke: var(--text-stroke-m) var(--black);
 }
 .create-button-icon,
 .save-button-icon{

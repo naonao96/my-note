@@ -1,10 +1,11 @@
 @import url(./animation.css);
 @import url(./base.css);
-
 .login-container {
     display: grid;
-    --fusen-size: 310px;
-    --fusen-gap: 32px;
+    position: fixed;
+    inset: 0;
+    --fusen-size: clamp(150px, 18vw, 170px);;
+    --fusen-gap: clamp(20px, 4vw, 45px);
     --fusen-area-width: calc((var(--fusen-size) * 4) + (var(--fusen-gap) * 3));
     grid-template-rows: 1fr auto 1fr;
     margin: 0;
@@ -22,7 +23,7 @@
 }
 .login-title {
     animation: title-bounce-in 3.0s ease-out both;
-    width: clamp(260px, 100vw, 800px);
+    width: clamp(150px, 90vw, 500px);
     height: auto;
 }
 .login-header,
@@ -51,16 +52,12 @@
     display: grid;
     grid-template-columns: repeat(2, var(--fusen-size));
     gap: var(--fusen-gap);
-    transform: translateY(var(--fusen-offset-y));
 }
 .login-fusen {
-    width: min(90vw, 250px);
     aspect-ratio: 1 / 1;
-    padding: var(--padding-m);
     border-radius: var(--border-radius-l);
     box-shadow: var(--box-shadow-s) var(--black-012)
 }
-
 .top-y-fusen {
     transform: translateY(calc(var(--fusen-offset-y)* -1));
 }
