@@ -2,6 +2,8 @@ from app import create_app, db
 from app.routes.fusen_list_routes import note_bp
 from app.main_routes import main_bp
 from app.routes.auth_routes import auth_bp
+from app.models.fusen_model import Fusen
+from app.models.user_model import User
 
 app = create_app()
 

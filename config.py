@@ -11,6 +11,4 @@ class Config:
     REDIRECT_URI = os.getenv('REDIRECT_URI')
     CLIENT_SECRET = os.getenv('CLIENT_SECRET')
     FLASK_SECRET_KEY= os.getenv('FLASK_SECRET_KEY')
-
-    #debug用
-    DEBUG_FLG = os.getenv('DEBUG_FLG')
+    SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE')

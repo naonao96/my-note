@@ -54,7 +54,7 @@ def login_callback():
     
     token_data:dict = response.json()
     print(token_data)
-    access_token:dict = token_data.get("access_token")
+    access_token:str | None = token_data.get("access_token")
     
     if not access_token:
         print("アクセストークンの取得に失敗しました。")
