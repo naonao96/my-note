@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime, date
 from app.models.fusen_model import Fusen
+import app.common.util as util
 
 @dataclass
 class FusenData:
@@ -16,7 +17,7 @@ class FusenData:
 
     @staticmethod
     def from_model(model : Fusen):
-        fusen_data : FusenData = FusenData(
+        return FusenData(
             id = model.id,
             content= model.content,
             created_at= model.created_at,
@@ -25,4 +26,13 @@ class FusenData:
             color= model.color,
             status= model.status
         )
-        return fusen_data
+    @staticmethod
+    def to_model(self, fusen_data : FusenData) -> Fusen:
+        return Fusen(
+            id= fusen_data.id,
+            # ユーザーIDはログイン機能実装後解禁
+            # user_id = fusen.user_id,
+            content = fusen_data.content,
+            expires_at = util.empty_to_none(fusen_data.expires_at),
+            color = fusen_data.color
+        )
