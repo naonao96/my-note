@@ -4,17 +4,17 @@
         <meta charset="UTF-8">
         <title>ちょこっとメモ</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <script src="{{ url_for('static', filename='js/fusen_common.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/fusen_list.js')}}"></script>
     </head>
-    <script src="{{ url_for('static', filename='js/fusen_common.js')}}"></script>
-    <script src="{{ url_for('static', filename='js/fusen_list.js')}}"></script>
     <body class="layout-container">
-        <header>
-            <img class="title" src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}">
+        <header class="after-login-header">
+            <img class="header-title" src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}">
         </header>
         <main>
             <div class="fusen-container">
                 {% for fusen in fusenList %}
-                <div class="fusen" style="--fusen-color: {{ fusen.color }};" data-fusen-id="{{ fusen.id }}">
+                <div class="fusen fusen-list-position" style="--fusen-color: {{ fusen.color }};" data-fusen-id="{{ fusen.id }}">
                     <div class="fusen-menu">
                         <button type="button" class="fusen-menu-button">⋯</button>
                         <div class="fusen-menu-dropdown">

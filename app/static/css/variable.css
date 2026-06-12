@@ -1,0 +1,65 @@
+    :root{
+        /*Layout*/
+        --page-x: clamp(24px, 6vw, 112px);
+        /*color*/
+        --white: #FFFFFF;
+        --white-soft: rgb(255 255 255 / 55%);
+        --creame: #fffaf0;
+        --white-blue: #A9CEEC;
+        --white-blue-020: rgba(123,184,245,0.2);
+        --blue: #72b5ef;
+        --black: #000000;
+        --white-red: #F48A8C;
+        --white-green: #5EC277;
+        --black-010: rgba(0, 0, 0, 0.1);
+        --black-012: rgba(0, 0, 0, 0.12);
+        --black-015: rgba(0, 0, 0, 0.15);
+        --black-025: rgba(0, 0, 0, 0.25);
+        --black-050: rgba(0, 0, 0, 0.5);
+        --black-060: rgba(0, 0, 0, 0.6);
+        --black-070: rgba(0, 0, 0, 0.7);
+        --fusen-color: none;
+        /*radius*/
+        --border-radius-s: 10px;
+        --border-radius-m: 20px;
+        --border-radius-l: 30px;
+        --border-radius-circle: 50%;
+        /*shadow*/
+        --box-shadow-s: 3px 5px 10px;
+        --box-shadow-m: 6px 8px 12px;
+        /*border*/
+        --border-none: none;
+        --border-t-solid: 0.1px solid;
+        --border-m-solid: 0.5px solid;
+        --border-w-solid: 2px solid;
+        /*typography*/
+        --font-size-s: 20px;
+        --font-size-m: 25px;
+        --font-size-l: 30px;
+        --font-size-xl: 35px;
+        --text-stroke-m: 0.5px;
+        --text-stroke-l: 0.8px;
+        /*spacing*/
+        --padding-s: 10px;
+        --padding-m: 20px;
+        /*Animation*/
+        --transform-rotateY: rotateY(180deg);
+        --transform-translateY: translateY(-1px);
+        --transition-slow: all 0.4s ease ;
+        /*ring*/
+        --ring-sm: 0 0 0 1px;
+        --ring-md: 0 0 0 2px;
+        --ring-lg: 0 0 0 4px;
+        /*size*/
+        --width-50: 50px;
+        --width-250: 250px;
+        --width-300: 300px; 
+        --width-400: 400px;
+        --width-500: 500px;
+        --height-60: 60px;
+        --height-80: 80px;
+        --height-100: 100px;
+        --height-250: 250px;
+        /*position*/
+        --fusen-offset-y: 60px;
+    }

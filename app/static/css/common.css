@@ -1,0 +1,22 @@
+/*全体の共通デザイン*/
+.layout-container {
+    font-family:charifont;
+    background: var(--creame);
+}
+.after-login-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding-top: 15px;
+    margin-bottom: 50px;
+}
+/* タイトルデザイン */
+.header-title {
+    width: 400px;
+    height: auto;
+}
+.header-title:hover{
+    transform: var(--transform-translateY);
+    transition: var(--transition-slow);
+    box-shadow: var(--box-shadow-l) var(--black-050);
+}

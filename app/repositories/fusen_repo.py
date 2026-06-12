@@ -18,10 +18,10 @@ class FusenRepository:
             return False
 
     '''read note data'''
-    def read_all_notes(self):
+    def read_all_fusen(self):
         return Fusen.query.order_by(Fusen.created_at.desc()).all()
 
-    def read_note(self, fusen_id: int):
+    def read_fusen(self, fusen_id: int):
         return Fusen.query.get(fusen_id)
 
     '''update note data'''
