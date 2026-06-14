@@ -46,7 +46,7 @@
                         type="text"
                         id="datepicker" 
                         name="expires_at" 
-                        value="{{fusenData.expires_at if fusenData else ''}}"
+                        value="{{fusenData.expires_at or '' if fusenData else ''}}"
                     >
                     <br><br>
                     <label class="headline-text" for="color">付箋の色を決めてね:</label>

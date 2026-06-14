@@ -1,13 +1,16 @@
 import app.common.messages as msg
-import app.common.util as util
+from app.models.fusen_model import Fusen
 
 '''
 付箋内容バリデーション(Null,空文字,MaxLength(101文字以上)の場合：False)
 エラーメッセージを渡す
 '''
-def vld_content(content : str | None) -> dict:
+def vld_content(content : str | None) -> None:
     if content is None or content.strip() == "":
-        return util.res_msg_pack(False, msg.FUSEN_CONTENTS_NULL_ERROR)
+        raise Exception(msg.FUSEN_CONTENTS_NULL_ERROR)
     elif len(content) > 100:
-        return util.res_msg_pack(False, msg.FUSEN_CONTENTS_LENGTH_ERROR)
-    return util.res_msg_pack(True, "")
+        raise Exception(msg.FUSEN_CONTENTS_LENGTH_ERROR)
+
+def fusen_data_exist_check(fusen_data : Fusen | None) -> None:
+    if fusen_data is None:
+        raise Exception(msg.FUSEN_DATA_READ_ERROR)

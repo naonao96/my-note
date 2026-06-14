@@ -16,8 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     })
 
-    
-
     document.addEventListener("click", (e) => {
         document.querySelectorAll(".fusen-menu.is-open").forEach((menu) =>{
             if (!menu.contains(e.target)){
@@ -55,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
         })  
     })
 })
-
 
 function stopPropagation(event){
     event.stopPropagation();

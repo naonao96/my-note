@@ -7,6 +7,7 @@ import secrets
 import requests
 import app.validators.user_validator as user_valid
 import app.common.consts as consts
+import logging
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -26,48 +27,32 @@ def google_login():
 def login_callback():
     response:requests.Response
     service : UserService = UserService()
-    state = request.args.get("state")
-    oauth_state = session.get("oauth_state")
+    try:
+        user_valid.unauthorized_check(request.args.get("state"), session.get("oauth_state"))
+        
+        code: str | None = request.args.get("code")
+        user_valid.get_access_token_code_check(code)
 
-    if not user_valid.unauthorized_check(state, oauth_state):
-        session_clean("oauth_state")
-        return redirect(url_for("auth.login_home"))
-    
-    code: str | None = request.args.get("code")
-    if not user_valid.get_access_token_code_check(code):
-        session_clean("oauth_state")
-        return redirect(url_for("auth.login_home"))
+        response = requests.post(consts.ACCESS_TOKEN_REQ_URL, data=callback_param(code), timeout=10)
+        user_valid.login_check(response)
+        
+        access_token:str | None = response.json().get("access_token")
+        user_valid.access_token_check(access_token)
+        
+        response = requests.get(consts.USER_INFO_RES_URL, headers={"Authorization":f"Bearer {access_token}"}, timeout=10)
+        user_valid.google_user_read_check(response)
 
-    response = requests.post(consts.ACCESS_TOKEN_REQ_URL, data=callback_param(code))
-    if not user_valid.login_check(response):
-        session_clean("oauth_state")
-        return redirect(url_for("auth.login_home"))
-    
-    access_token:str | None = response.json().get("access_token")
-    if not user_valid.access_token_check(access_token):
-        session_clean("oauth_state")
-        return redirect(url_for("auth.login_home"))
-    
-    response = requests.get(consts.USER_INFO_RES_URL, headers={"Authorization":f"Bearer {access_token}"})
-    if not user_valid.google_user_read_check(response):
-        session_clean("oauth_state")
-        return redirect(url_for("auth.login_home"))
-    
-    # Googleユーザの存在のチェック（存在しなければ新規作成）
-    google_user:dict = response.json()
-    user_data : UserData | None = service.user_read(google_user.get("id"))
-    if user_data is None:
-        create_user:UserData = set_user_data(google_user)
-        service.user_create(create_user)
-        user_data = service.user_read(google_user.get("id"))
-    
-    if not user_valid.user_data_exist_check(user_data):
-        session_clean("oauth_state")
-        return redirect(url_for("auth.login_home"))
-    
-    session["user_id"] = user_data.id
-    session_clean("oauth_state")
+        user_data : UserData = user_check(service, response.json())
+        user_valid.user_data_exist_check(user_data)
 
+        session["user_id"] = user_data.id
+        
+    except Exception as e:
+        logging.exception(e)
+        return redirect(url_for("auth.login_home"))
+    finally:
+        session_clean("oauth_state")
+    
     return redirect(url_for("notes.index"))
 
 '''Param・dto設定関数'''
@@ -96,6 +81,15 @@ def set_user_data(google_user:dict) -> UserData:
         name=google_user.get("name"),
         picture=google_user.get("picture"),
     )
+
+'''ユーザの存在チェック（存在しない場合はユーザー登録）'''
+def user_check(service : UserService, google_user : dict):
+        user_data : UserData | None = service.user_read(google_user.get("id"))
+        if user_data is None:
+            create_user:UserData = set_user_data(google_user)
+            service.user_create(create_user)
+            user_data = service.user_read(google_user.get("id"))
+        return user_data
 
 '''後始末（セキュリティのため不要なセッションは削除）'''
 def session_clean(session_name : str):
