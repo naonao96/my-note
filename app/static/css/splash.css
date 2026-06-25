@@ -1,6 +1,6 @@
 @import url(./animation.css);
 @import url(./base.css);
-.login-container {
+.splash-container {
     display: grid;
     position: fixed;
     inset: 0;
@@ -14,32 +14,32 @@
     min-height: 100dvh;
     width: 100vw;
 }
-.login-main {
+.splash-main {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 0;
 }
-.login-title {
+.splash-title {
     animation: title-bounce-in 3.0s ease-out both;
     width: clamp(150px, 90vw, 500px);
     height: auto;
 }
-.login-header,
-.login-footer {
+.splash-header,
+.splash-footer {
     margin-inline: auto;
     width: min(100%, var(--fusen-area-width));
 }
 
-.login-header {
+.splash-header {
     display: grid;
     grid-template-columns: repeat(4, var(--fusen-size));
     gap: var(--fusen-gap);
     align-items: start;
     transform: translateY(calc(var(--fusen-offset-y)* -1));
 }
-.login-footer {
+.splash-footer {
     display: grid;
     align-items: end;
     align-self: end;
@@ -53,7 +53,7 @@
     grid-template-columns: repeat(2, var(--fusen-size));
     gap: var(--fusen-gap);
 }
-.login-fusen {
+.splash-fusen {
     aspect-ratio: 1 / 1;
     border-radius: var(--border-radius-l);
     box-shadow: var(--box-shadow-s) var(--black-012)
@@ -63,15 +63,4 @@
 }
 .under-y-fusen {
     transform: translateY(var(--fusen-offset-y));
-}
-.google-login-button {
-    grid-column: 3 / 4;
-    justify-self: center;
-    align-self: center;
-    gap: 10px;
-    transition: all 0.2s ease;
-}
-.google-login-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }

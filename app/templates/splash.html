@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>ちょこっとメモ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script type="module" src="{{ url_for('static', filename='js/startupMain.js') }}" defer></script>
+</head>
+<body class="layout-container splash-container" data-timer="{{ timer }}" data-next-url="{{ nextUrl }}">
+    <header class="splash-header">
+        <div class="splash-fusen" style="background: #F8C394;"></div>
+        <div class="splash-fusen top-y-fusen" style="background: #A9CEEC;"></div>
+        <div class="splash-fusen" style="background: #B3ADFF;"></div>
+        <div class="splash-fusen top-y-fusen" style="background: #FFE57B;"></div>
+    </header>
+    <main class="splash-main">
+        <img class="splash-title" src="{{ url_for('static', filename='images/title_chocottoMemo_login.svg')}}"><br>
+    </main>
+    <footer class="splash-footer">
+        <div class="footer-fusen-group">
+            <div class="splash-fusen under-y-fusen" style="background: #FF9699;"></div>
+            <div class="splash-fusen" style="background: #96F8AF;"></div>
+        </div>
+    </footer>
+</body>

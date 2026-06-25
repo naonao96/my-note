@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, redirect, session, request, url_for
+from flask import Blueprint, redirect, session, request, url_for
 from config import Config
 from urllib.parse import urlencode
 from app.services.users_service import UserService
@@ -10,10 +10,6 @@ import app.common.consts as consts
 import logging
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
-
-@auth_bp.route("/login")
-def login_home():
-    return render_template("login.html")
 
 @auth_bp.route("/google/login", methods=["GET"])
 def google_login():

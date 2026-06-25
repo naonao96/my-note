@@ -15,6 +15,6 @@
 @import url(./fusen/fusen_menu.css);
 
 /* 画面単位 */
-@import url(./login.css);
+@import url(./splash.css);
 @import url(./fusen_list.css);
 @import url(./fusen_edit.css);

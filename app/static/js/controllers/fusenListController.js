@@ -1,8 +1,25 @@
 "use strict"
+import { stopPropagation } from "../common/eventUtil.js"
 
-"付箋一覧に関する処理を追記します。"
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".fusen-menu-button").forEach((button) =>{
+export function init(){
+    const fusenMenuButton = document.querySelectorAll(".fusen-menu-button")
+    const storageMode = document.body.dataset.storageMode
+
+    if (storageMode === "login") {
+    // fetch("/note_list/api/read_list")
+    } else {
+        // IndexedDBから読む
+    }
+
+    setupMenu(fusenMenuButton);
+    setupCloseMenuOnDocumentClick();
+    setupDeleteButtons();
+    setupEditButtons();
+}
+
+// 付箋一覧画面で発生するイベント処理
+function setupMenu(fusenMenuButton){
+    fusenMenuButton.forEach((button) =>{
         button.addEventListener("click", (e) => {
             stopPropagation(e);
             const currentMenu = button.closest(".fusen-menu");
@@ -15,7 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
             currentMenu.classList.toggle("is-open");
         })
     })
+}
 
+function setupCloseMenuOnDocumentClick(){
     document.addEventListener("click", (e) => {
         document.querySelectorAll(".fusen-menu.is-open").forEach((menu) =>{
             if (!menu.contains(e.target)){
@@ -23,7 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
     })
+};
 
+function setupDeleteButtons(){
     document.querySelectorAll(".delete-button").forEach((button) => {
         button.addEventListener("click", (e) => {
             stopPropagation(e);
@@ -44,17 +65,14 @@ document.addEventListener("DOMContentLoaded", () => {
             };
         })
     })
+};
 
+function setupEditButtons(){
     document.querySelectorAll(".edit-button").forEach((button) => {
         button.addEventListener("click", (e) => {
             stopPropagation(e);
             const fusenId = e.target.closest(".fusen").dataset.fusenId
-            location.href = `/note_list/edit_note/${fusenId}`
+            window.location.href = `/note_list/edit_note/${fusenId}`
         })  
     })
-})
-
-function stopPropagation(event){
-    event.stopPropagation();
-    console.log("押下", event);
-}
+};

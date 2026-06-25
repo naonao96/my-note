@@ -4,10 +4,9 @@
         <meta charset="UTF-8">
         <title>ちょこっとメモ</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <script src="{{ url_for('static', filename='js/fusen_common.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/fusen_edit.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script type="module" src="{{ url_for('static', filename='js/fusenEditMain.js') }}"></script>
     </head>
     <body class="layout-container">
         <header class="after-login-header" onclick="location.href='{{ url_for("notes.index")}}'">
@@ -22,7 +21,7 @@
                     </div>
                 </div>
                 <form 
-                    {% if mode == "edit" %}
+                    {% if fusenMode == "edit" %}
                         action="{{ url_for('notes.update_fusen', fusenId=fusenData.id) }}"
                     {% else %}
                         action="{{ url_for('notes.create_fusen') }}"

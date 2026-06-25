@@ -81,3 +81,25 @@
 .login-button:active {
     transform: scale(0.94);
 }
+.google-login-button {
+    grid-column: 3 / 4;
+    justify-self: center;
+    align-self: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+.google-login-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.google-login-button {
+    grid-column: 3 / 4;
+    justify-self: center;
+    align-self: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+.google-login-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}

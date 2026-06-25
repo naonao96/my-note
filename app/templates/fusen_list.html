@@ -4,12 +4,15 @@
         <meta charset="UTF-8">
         <title>ちょこっとメモ</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <script src="{{ url_for('static', filename='js/fusen_common.js')}}"></script>
-        <script src="{{ url_for('static', filename='js/fusen_list.js')}}"></script>
+        <script type="module" src="{{ url_for('static', filename='js/fusenListMain.js') }}"></script>
     </head>
-    <body class="layout-container">
+    <body class="layout-container" data-strage-mode="{{ strageMode }}">
         <header class="after-login-header">
             <img class="header-title" src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}">
+            <button class="login-button google-login-button" onclick="location.href='{{url_for("auth.google_login")}}'">
+                <img class="login-button-icon" src="{{url_for('static', filename='images/google-logo.svg')}}">
+                <span class="login-button-text">Googleでログイン</span>
+            </button>
         </header>
         <main>
             <div class="fusen-container">
