@@ -4,9 +4,11 @@ from app.services.fusen_service import FusenService
 from app.common.decorators import login_required
 import logging
 import app.common.consts as consts
+import app.common.messages as msg
 
 note_bp = Blueprint('notes', __name__, url_prefix='/note_list')
 
+# -----Page Routes-----
 @note_bp.route("/")
 def startup():
     is_logged_in : bool = session.get("user_id") is not None
@@ -17,35 +19,55 @@ def startup():
 @note_bp.route("/new_note", methods=["GET"])
 @login_required
 def open_create_window():
-    return render_template_pack(consts.EDIT_HTML_NAME, consts.CREATE_MODE, None)
+    return render_template_pack(consts.EDIT_HTML_NAME, fusen_mode=consts.CREATE_MODE)
 
-# API -----------------------------------------------------------------------------------------------------
-@note_bp.route("/api/read_list")
+# -----API Routes-----
+# 付箋一覧を取得（全件取得）
+@note_bp.route("/api/notes", methods=["GET"])
 @login_required
-def index():
+def read_fusen_list():
     service : FusenService = FusenService()
+    dict_list : list = []
     try:
-        dto_list : list = service.fusen_all_read(session.get("user_id"))
+        dto_list = service.fusen_all_read(session.get("user_id"))
+        dict_list : list = [
+            jsonify_data_pack(dto)
+            for dto in dto_list
+        ]
     except Exception as e:
         logging.exception(e)
-        dto_list = []
-
-    return render_template_pack(consts.LIST_HTML_NAME, dto_list=dto_list)
-
-@note_bp.route("/api/edit/<int:fusenId>", methods=["GET"])
-@login_required
-def open_edit_window(fusenId : int):
-    service : FusenService = FusenService()
-    dto : FusenData
-    try:
-        dto = service.fusen_read(fusenId, session.get("user_id"))
-    except Exception as e:
-        logging.exception(e)
-        return redirect(url_for("notes.index"))
+        return jsonify({
+            "success" : False,
+            "fusenList" : dict_list,
+            "message" : msg.FUSEN_DATA_READ_ERROR
+        }), 500
         
-    return render_template_pack(consts.EDIT_HTML_NAME, consts.EDIT_MODE, dto=dto)
+    return jsonify({
+        "success" : True,
+        "fusenList" : dict_list
+    }), 200
 
-@note_bp.route("/api/create", methods=["POST"])
+# 付箋を編集する際に使用するために作成したAPI（その他単独で付箋データを取得したい場合使用可能）
+@note_bp.route("/api/notes/<int:fusenId>", methods=["GET"])
+@login_required
+def read_fusen(fusenId : int):
+    service : FusenService = FusenService()
+    try:
+        dto_dict : dict = jsonify_data_pack(service.fusen_read(fusenId, session.get("user_id")))
+    except Exception as e:
+        logging.exception(e)
+        return jsonify({
+            "success" : False,
+            "fusenData" : None
+        }), 500
+
+    return jsonify({
+        "success" : True,
+        "fusenMode": consts.EDIT_MODE,
+        "fusenData" : dto_dict
+    }), 200
+
+@note_bp.route("/api/notes", methods=["POST"])
 @login_required
 def create_fusen():
     service : FusenService = FusenService()
@@ -54,11 +76,15 @@ def create_fusen():
         service.fusen_create(dto)
     except Exception as e:
         logging.exception(e)
-        return render_template_pack(consts.EDIT_HTML_NAME, consts.CREATE_MODE, dto=dto)
+        return jsonify({
+            "success" : False
+        }), 500
+
+    return jsonify({
+            "success" : True
+        }), 201
     
-    return redirect(url_for("notes.index"))
-    
-@note_bp.route("/api/update/<int:fusenId>", methods=["POST"])
+@note_bp.route("/api/notes/<int:fusenId>", methods=["PUT"])
 @login_required
 def update_fusen(fusenId : int):
     service : FusenService = FusenService()
@@ -67,11 +93,17 @@ def update_fusen(fusenId : int):
         service.fusen_update(dto)
     except Exception as e:
         logging.exception(e)
-        return render_template_pack(consts.EDIT_HTML_NAME, consts.EDIT_MODE, dto=dto)
+        return jsonify({
+                "success" : False,
+                "fusenMode" : consts.EDIT_MODE,
+                "fusenData" : jsonify_data_pack(dto)
+            }), 500
     
-    return redirect(url_for("notes.index"))
+    return jsonify({
+                "success" : True,
+            }), 200
 
-@note_bp.route("/api/delete/<int:fusenId>", methods=["DELETE"])
+@note_bp.route("/api/notes/<int:fusenId>", methods=["DELETE"])
 @login_required
 def delete_fusen(fusenId : int):
     service : FusenService = FusenService()
@@ -79,11 +111,16 @@ def delete_fusen(fusenId : int):
         service.fusen_delete(fusenId, session.get("user_id"))
     except Exception as e:
         logging.exception(e)
-        return redirect(url_for("notes.index"))
+        return jsonify({
+            "success" : False
+        }), 500
     
-    return jsonify()
+    return jsonify({
+        "success" : True
+    }), 200
 
-# -------------------------------------------------------------
+# -----モジュール共通関数-----
+# フロントからの入力を受けDTOへデータをPack
 def set_fusen_data(fusen_id : int | None = None) -> FusenData:
     return FusenData(
         id= fusen_id,
@@ -93,6 +130,7 @@ def set_fusen_data(fusen_id : int | None = None) -> FusenData:
         color= request.form.get("color")
     )
 
+# render_templateへデータをPack（冗長なため関数化）
 def render_template_pack(
         html_name : str, 
         storage_mode : str = consts.LOCAL_MODE, 
@@ -107,3 +145,16 @@ def render_template_pack(
             fusenData=dto,
             fusenList=dto_list
         )
+
+# jsonifyでレスポンス時に使用するFusenData(DICT)を作成（冗長なため関数化）
+def jsonify_data_pack(dto : FusenData) -> dict:
+    return {
+        "id" : dto.id,
+        "user_id" : dto.user_id,
+        "content" : dto.content,
+        "created_at" : dto.created_at,
+        "updated_at" : dto.updated_at,
+        "expires_at" : dto.expires_at,
+        "color" : dto.color,
+        "status" : dto.status
+    }
