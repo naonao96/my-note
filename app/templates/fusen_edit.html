@@ -9,7 +9,7 @@
         <script type="module" src="{{ url_for('static', filename='js/fusenEditMain.js') }}"></script>
     </head>
     <body class="layout-container">
-        <header class="after-login-header" onclick="location.href='{{ url_for("notes.index")}}'">
+        <header class="after-login-header" onclick="location.href='{{ url_for("notes.startup")}}'">
             <img class="header-title" src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}">
         </header>
         <main>
@@ -20,20 +20,12 @@
                         <div id="fusen-expires-at" class="fusen-back"></div>
                     </div>
                 </div>
-                <form 
-                    {% if fusenMode == "edit" %}
-                        action="{{ url_for('notes.update_fusen', fusenId=fusenData.id) }}"
-                    {% else %}
-                        action="{{ url_for('notes.create_fusen') }}"
-                    {% endif %}
-                    method="post"
-                >
+                <form id="fusen-form" data-fusen-mode="{{ fusenMode }}" data-fusen-id="{{ fusenData.id }}">
                     <label class="headline-text" for="content">付箋に書きたいことは何かな<br>（１００文字まで）:</label>
                     <br>
                     <textarea 
                         class="content-box"
                         id="content"
-                        name="content" 
                         rows="20" 
                         cols="50" 
                         required maxlength="100">{{ fusenData.content if fusenData else '' }}</textarea>

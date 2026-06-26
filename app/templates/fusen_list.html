@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <script type="module" src="{{ url_for('static', filename='js/fusenListMain.js') }}"></script>
     </head>
-    <body class="layout-container" data-strage-mode="{{ strageMode }}">
+    <body class="layout-container" data-storage-mode="{{ storageMode }}">
         <header class="after-login-header">
             <img class="header-title" src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}">
             <button class="login-button google-login-button" onclick="location.href='{{url_for("auth.google_login")}}'">

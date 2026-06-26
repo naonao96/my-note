@@ -1,10 +1,11 @@
 "use strict"
 import { stopPropagation } from "../common/eventUtil.js"
+import { fetchDeleteApi, fetchCreateApi, fetchReadDataApi } from "../repository/apiFusenRepository.js"
 
 export function init(){
     const fusenMenuButton = document.querySelectorAll(".fusen-menu-button")
     const storageMode = document.body.dataset.storageMode
-
+    debugger;
     if (storageMode === "login") {
     // fetch("/note_list/api/read_list")
     } else {
@@ -34,6 +35,7 @@ function setupMenu(fusenMenuButton){
     })
 }
 
+// メニューボタン（編集・削除）外を押下時にボタン非表示とする
 function setupCloseMenuOnDocumentClick(){
     document.addEventListener("click", (e) => {
         document.querySelectorAll(".fusen-menu.is-open").forEach((menu) =>{
@@ -44,25 +46,13 @@ function setupCloseMenuOnDocumentClick(){
     })
 };
 
+// ログイン者のみ使用可能なAPI経由の削除処理
 function setupDeleteButtons(){
     document.querySelectorAll(".delete-button").forEach((button) => {
         button.addEventListener("click", (e) => {
             stopPropagation(e);
             const fusenId = e.target.closest(".fusen").dataset.fusenId;
-            
-            if (confirm("この付箋を削除しますか？")){
-                //下記はfetch(URL, {設定(オブジェクト：HTTPメソッド)})
-                //.then() は fetch の完了後に実行される処理
-                //.then() を使わない場合、
-                //削除リクエストの完了を待たずに
-                //後続処理が実行される可能性がある
-                
-                fetch(`/note_list/delete_note/${fusenId}`, {
-                    method: "DELETE"
-                }).then(() => {
-                    location.reload();
-                });
-            };
+            fetchDeleteApi(fusenId)
         })
     })
 };
@@ -72,7 +62,18 @@ function setupEditButtons(){
         button.addEventListener("click", (e) => {
             stopPropagation(e);
             const fusenId = e.target.closest(".fusen").dataset.fusenId
+            //TODO:下記はFlask Routingのままとなっているため修正
+            //例：
+            //const result = await fetchReadDataApi(fusenId);
+            //openEditModal(result.fusenData);
             window.location.href = `/note_list/edit_note/${fusenId}`
         })  
     })
 };
+
+function setupCreateButtons(){
+    const form = document.querySelector("#fusen-form");
+    form.addEventListener("submit", async (e) => {
+        await fetchCreateApi(form)
+    })
+}
