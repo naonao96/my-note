@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
     <head>
         <meta charset="UTF-8">
         <title>ちょこっとメモ</title>
@@ -16,33 +16,15 @@
         </header>
         <main>
             <div class="fusen-container">
-                {% for fusen in fusenList %}
-                <div class="fusen fusen-list-position" style="--fusen-color: {{ fusen.color }};" data-fusen-id="{{ fusen.id }}">
-                    <div class="fusen-menu">
-                        <button type="button" class="fusen-menu-button">⋯</button>
-                        <div class="fusen-menu-dropdown">
-                            <button type="button" class="edit-button">
-                                <span class="edit-button-text">編集する</span>
-                                <img class="edit-button-icon" src="{{ url_for('static', filename='images/create-button.svg') }}" alt="編集する">
-                            </button><br>
-                            <button type="button" class="delete-button">
-                                <span class="delete-button-text">削除する</span>
-                                <img class="delete-button-icon" src="{{ url_for('static', filename='images/delete-button.svg') }}" alt="編集する">
-                            </button>
+                <template id="fusen-template">
+                    <div class="fusen fusen-list-position" data-fusen-id="">
+                        {% include "parts/fusen_menu.html" %}
+                        <div class="fusen-inner">
+                            <div class="fusen-front"></div>
+                            <div class="fusen-back"></div>
                         </div>
                     </div>
-                    <div class="fusen-inner">
-                        <div class="fusen-front">{{fusen.content}}</div>
-                        <div class="fusen-back">
-                            {% if fusen.expires_at %}
-                                <span>期限日：</span>{{ fusen.expires_at }}
-                            {% else %}
-                                <span>期限日なし</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
+                </template>
             </div>
             <button class="create-button" type="button" onclick="location.href='{{url_for("notes.open_create_window")}}'">
                 <span class="create-button-text">付箋を作成する</span>

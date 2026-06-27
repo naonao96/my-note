@@ -1,4 +1,5 @@
 "use strict"
+import { fetchCreateApi } from "../repository/apiFusenRepository.js"
 
 export function init(){
     const colorButtons = document.querySelectorAll(".color-option");
@@ -11,6 +12,7 @@ export function init(){
     initExpiresAt();
     setupColorSelect(colorButtons, selectedColor);
     setupRealtimePreview(contentData, fusenContent, expiresAtData, fusenExpiresAt);
+    setupCreateButtons();
 }
 
 // 期限日の設定
@@ -52,8 +54,8 @@ function setupColorSelect(colorButtons, selectedColor){
     });
 }
 
+//formへ入力した値をリアルタイムで反映する
 function setupRealtimePreview(contentData, fusenContent, expiresAtData, fusenExpiresAt) {
-    /*formへ入力した値をリアルタイムで反映する*/
     function updatePreview(){
         fusenContent.textContent = contentData.value;
         if (expiresAtData.value){
@@ -67,3 +69,11 @@ function setupRealtimePreview(contentData, fusenContent, expiresAtData, fusenExp
     contentData.addEventListener("input", updatePreview);
     expiresAtData.addEventListener("input", updatePreview);
 };
+
+// API経由の付箋作成イベント
+function setupCreateButtons(){
+    const form = document.querySelector("#fusen-form");
+    form.addEventListener("submit", async (e) => {
+        await fetchCreateApi(form)
+    })
+}

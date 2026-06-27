@@ -1,17 +1,17 @@
 "use strict"
-import { stopPropagation } from "../common/eventUtil.js"
-import { fetchDeleteApi, fetchCreateApi, fetchReadDataApi } from "../repository/apiFusenRepository.js"
+import { stopPropagation, storageModeCheck, apiResultCheck } from "../common/eventUtil.js"
+import { renderFusenList } from "../ui/fusenList.js";
+import { fetchDeleteApi, fetchReadDataApi, fetchReadDataListApi } from "../repository/apiFusenRepository.js"
 
-export function init(){
-    const fusenMenuButton = document.querySelectorAll(".fusen-menu-button")
-    const storageMode = document.body.dataset.storageMode
-    debugger;
-    if (storageMode === "login") {
-    // fetch("/note_list/api/read_list")
-    } else {
-        // IndexedDBから読む
+export async function init(){
+    if (storageModeCheck(document.body.dataset.storageMode)){
+        const result = await fetchReadDataListApi();
+        if (apiResultCheck(result.success)){
+            renderFusenList(result.fusenList)
+        }   
     }
 
+    const fusenMenuButton = document.querySelectorAll(".fusen-menu-button");
     setupMenu(fusenMenuButton);
     setupCloseMenuOnDocumentClick();
     setupDeleteButtons();
@@ -49,31 +49,23 @@ function setupCloseMenuOnDocumentClick(){
 // ログイン者のみ使用可能なAPI経由の削除処理
 function setupDeleteButtons(){
     document.querySelectorAll(".delete-button").forEach((button) => {
-        button.addEventListener("click", (e) => {
+        button.addEventListener("click", async (e) => {
             stopPropagation(e);
             const fusenId = e.target.closest(".fusen").dataset.fusenId;
-            fetchDeleteApi(fusenId)
+            await fetchDeleteApi(fusenId)
         })
     })
 };
 
 function setupEditButtons(){
     document.querySelectorAll(".edit-button").forEach((button) => {
-        button.addEventListener("click", (e) => {
+        button.addEventListener("click", async (e) => {
             stopPropagation(e);
             const fusenId = e.target.closest(".fusen").dataset.fusenId
-            //TODO:下記はFlask Routingのままとなっているため修正
-            //例：
-            //const result = await fetchReadDataApi(fusenId);
+            //TODO:将来モーダル化予定
             //openEditModal(result.fusenData);
-            window.location.href = `/note_list/edit_note/${fusenId}`
+            const result = await fetchReadDataApi(fusenId);
+            console.log(result)
         })  
     })
 };
-
-function setupCreateButtons(){
-    const form = document.querySelector("#fusen-form");
-    form.addEventListener("submit", async (e) => {
-        await fetchCreateApi(form)
-    })
-}

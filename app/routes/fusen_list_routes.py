@@ -12,9 +12,9 @@ note_bp = Blueprint('notes', __name__, url_prefix='/note_list')
 @note_bp.route("/")
 def startup():
     if session.get("user_id") is not None:
-        return render_template_pack(consts.LIST_HTML_NAME, strage_mode=consts.LOGIN_MODE, dto_list=[])
+        return render_template_pack(consts.LIST_HTML_NAME, storage_mode=consts.LOGIN_MODE, dto_list=[])
     else:
-        return render_template_pack(consts.LIST_HTML_NAME, strage_mode=consts.LOCAL_MODE, dto_list=[])
+        return render_template_pack(consts.LIST_HTML_NAME, storage_mode=consts.LOCAL_MODE, dto_list=[])
 
 @note_bp.route("/new_note")
 def open_create_window():

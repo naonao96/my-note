@@ -45,11 +45,11 @@ def login_callback():
         
     except Exception as e:
         logging.exception(e)
-        return redirect(url_for("auth.login_home"))
+        return redirect(url_for("notes.startup"))
     finally:
         session_clean("oauth_state")
     
-    return redirect(url_for("notes.index"))
+    return redirect(url_for("notes.startup"))
 
 '''Param・dto設定関数'''
 def google_first_req_param(state:str) -> dict:

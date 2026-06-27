@@ -1,7 +1,7 @@
 "use strict"
 
-export function fetchCreateApi(form){
-    const mode = form.dataset.mode
+export async function fetchCreateApi(form){
+    const mode = form.dataset.fusenMode
     const fusenId = form.dataset.fusenId
 
     const url = mode === "edit"
@@ -14,7 +14,7 @@ export function fetchCreateApi(form){
             color: document.querySelector("#selected-color").value,
             expires_at: document.querySelector("#datepicker").value
         }
-    const response = fetch(url, {
+    const response = await fetch(url, {
         method: method,
         headers: {
             "Content-Type" : "application/json"
@@ -29,15 +29,29 @@ export function fetchCreateApi(form){
     window.location.href = "/note_list/"
 }
 
-export  function fetchReadDataApi(fusenId){
-    fetch(`/note_list/api/notes/${fusenId}`, {
+export async function fetchReadDataListApi(){
+    const response = await fetch("/note_list/api/notes", {
         method: "GET"
-    }).then(() => {
-        location.reload();
-    });
+    })
+    if (!response.ok){
+        alert("付箋情報の取得に失敗しました。")
+        return;
+    }
+    return await response.json()
 }
 
-export function fetchDeleteApi(e, fusenId){
+export async function fetchReadDataApi(fusenId){
+    const response = await fetch(`/note_list/api/notes/${fusenId}`, {
+        method: "GET"
+    })
+    if (!response.ok){
+        alert("付箋情報の取得に失敗しました。")
+        return;
+    }
+    return await response.json()
+}
+
+export function fetchDeleteApi(fusenId){
     if (confirm("この付箋を削除しますか？")){            
         fetch(`/note_list/api/notes/${fusenId}`, {
             method: "DELETE"
