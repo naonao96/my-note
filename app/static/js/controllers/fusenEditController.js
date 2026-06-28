@@ -74,6 +74,8 @@ function setupRealtimePreview(contentData, fusenContent, expiresAtData, fusenExp
 function setupCreateButtons(){
     const form = document.querySelector("#fusen-form");
     form.addEventListener("submit", async (e) => {
+        console.log("submit発火");
+        e.preventDefault();
         await fetchCreateApi(form)
     })
 }

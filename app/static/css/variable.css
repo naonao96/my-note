@@ -11,6 +11,7 @@
         --black: #000000;
         --white-red: #F48A8C;
         --white-green: #5EC277;
+        --brown: #836147;
         --black-010: rgba(0, 0, 0, 0.1);
         --black-012: rgba(0, 0, 0, 0.12);
         --black-015: rgba(0, 0, 0, 0.15);
@@ -42,6 +43,7 @@
         /*spacing*/
         --padding-s: 10px;
         --padding-m: 20px;
+        --page-side-space: 50px;
         /*Animation*/
         --transform-rotateY: rotateY(180deg);
         --transform-translateY: translateY(-1px);

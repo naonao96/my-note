@@ -26,7 +26,9 @@ export async function fetchCreateApi(form){
         alert("保存に失敗しました。")
         return;
     }
-    window.location.href = "/note_list/"
+    console.log("redirect start")
+    window.location.assign("/note_list/")
+    console.log("redirect end")
 }
 
 export async function fetchReadDataListApi(){
