@@ -1,5 +1,4 @@
 'use strict'
-import { fetchReadDataListApi } from "../repository/apiFusenRepository.js"
 
 export function renderFusenList(fusenList){
     const container = document.querySelector(".fusen-container");

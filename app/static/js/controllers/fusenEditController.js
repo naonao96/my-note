@@ -1,5 +1,6 @@
 "use strict"
 import { fetchCreateApi } from "../repository/apiFusenRepository.js"
+import { init as setupFlip } from "../ui/fusenFlip.js"
 
 export function init(){
     const colorButtons = document.querySelectorAll(".color-option");
@@ -9,14 +10,15 @@ export function init(){
     const expiresAtData = document.getElementById("datepicker");
     const fusenExpiresAt = document.getElementById("fusen-expires-at");
 
-    initExpiresAt();
+    setupflatpickr();
     setupColorSelect(colorButtons, selectedColor);
     setupRealtimePreview(contentData, fusenContent, expiresAtData, fusenExpiresAt);
     setupCreateButtons();
+    setupFlip();
 }
 
 // 期限日の設定
-function initExpiresAt() {
+function setupflatpickr() {
     flatpickr("#datepicker", {
         enableTime: false,
         dateFormat: "Y-m-d",
@@ -72,10 +74,9 @@ function setupRealtimePreview(contentData, fusenContent, expiresAtData, fusenExp
 
 // API経由の付箋作成イベント
 function setupCreateButtons(){
-    const form = document.querySelector("#fusen-form");
+    const form = document.getElementById("fusen-form");
     form.addEventListener("submit", async (e) => {
-        console.log("submit発火");
-        e.preventDefault();
+        e.preventDefault(); // 通常のform送信は停止する
         await fetchCreateApi(form)
     })
 }

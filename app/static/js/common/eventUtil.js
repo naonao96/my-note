@@ -16,10 +16,9 @@ export function storageModeCheck(mode){
     }
 }
 
-export function apiResultCheck(success){
-    if (!success) {
-        console.error("付箋情報の取得に失敗しました。");
-        return false;
+// アサーション用ヘルパー関数
+export function assert(condition, message){
+    if (!condition){
+        throw new Error(message);
     }
-    return true
 }
