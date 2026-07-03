@@ -3,22 +3,28 @@ import { fetchCreateApi } from "../repository/apiFusenRepository.js"
 import { init as setupFlip } from "../ui/fusenFlip.js"
 
 export function init(){
-    const colorButtons = document.querySelectorAll(".color-option");
-    const selectedColor = document.getElementById("selected-color");
-    const contentData = document.getElementById("content");
-    const fusenContent = document.getElementById("fusen-content");
-    const expiresAtData = document.getElementById("datepicker");
-    const fusenExpiresAt = document.getElementById("fusen-expires-at");
-
-    setupflatpickr();
-    setupColorSelect(colorButtons, selectedColor);
-    setupRealtimePreview(contentData, fusenContent, expiresAtData, fusenExpiresAt);
-    setupCreateButtons();
+    const elems = getElements();
+    setupFlatpickr();
+    colorSelect(elems.colorButtons, elems.selectedColor);
+    realtimePreview(elems.contentData, elems.fusenContent, elems.expiresAtData, elems.fusenExpiresAt);
+    createFusen(elems.createFusenForm);
     setupFlip();
 }
 
+function getElements(){
+    return {
+        colorButtons: document.querySelectorAll(".color-option"),
+        selectedColor: document.getElementById("selected-color"),
+        contentData: document.getElementById("content"),
+        fusenContent: document.getElementById("fusen-content"),
+        expiresAtData: document.getElementById("datepicker"),
+        fusenExpiresAt: document.getElementById("fusen-expires-at"),
+        createFusenForm: document.getElementById("fusen-form")
+    }
+}
+
 // 期限日の設定
-function setupflatpickr() {
+function setupFlatpickr() {
     flatpickr("#datepicker", {
         enableTime: false,
         dateFormat: "Y-m-d",
@@ -26,57 +32,76 @@ function setupflatpickr() {
 }
 
 // 付箋カラー選択（自動・手動）
-function setupColorSelect(colorButtons, selectedColor){
-    colorButtons.forEach((button) => {
-        // 初回カラー選択処理
-        if (button.dataset.color === selectedColor.value ){
-            button.classList.add("selected");
+function colorSelect(colorButtons, selectedColor){
+    removeAllSelected(colorButtons);
+    colorButtons.forEach(button => {
+        initSelectedColor(button, selectedColor);
+        const handler = () => {
+            handleColorSelect(button, selectedColor, colorButtons)
         }
-        else {
-            button.classList.remove("selected");
-        }
-        //　初回以降選択処理
-        button.addEventListener("click", () => {
-            // hidden inputに色を保存
-            selectedColor.value = button.dataset.color;
-
-            //いったん全部の選択状態を解除する
-            colorButtons.forEach(btn => {
-                btn.classList.remove("selected");
-            });
-
-            //押したボタンだけ選択状態にする
-            button.classList.add("selected");
-
-            //プレビュー用の付箋へ色をリアルタイムで反映する
-            document.querySelectorAll(".fusen-front, .fusen-back").forEach(fusen => {
-                fusen.style.setProperty("--fusen-color", button.dataset.color)
-            });
-        });
+        button.addEventListener("click", handler);
     });
 }
 
-//formへ入力した値をリアルタイムで反映する
-function setupRealtimePreview(contentData, fusenContent, expiresAtData, fusenExpiresAt) {
-    function updatePreview(){
-        fusenContent.textContent = contentData.value;
-        if (expiresAtData.value){
-            fusenExpiresAt.textContent =  `期限日：${expiresAtData.value} `;
-        }
-        else
-           fusenExpiresAt.textContent = "期限日なし";
+// 内容・期限をリアルタイムに変更する
+function realtimePreview(contentData, fusenContent, expiresAtData, fusenExpiresAt) {
+    const preview = () => {
+        updatePreview(contentData, fusenContent, expiresAtData, fusenExpiresAt);
     }
-    //初回起動時に実行
-    updatePreview()
-    contentData.addEventListener("input", updatePreview);
-    expiresAtData.addEventListener("input", updatePreview);
+    preview();
+    contentData.addEventListener("input", preview);
+    expiresAtData.addEventListener("input", preview);
 };
 
-// API経由の付箋作成イベント
-function setupCreateButtons(){
-    const form = document.getElementById("fusen-form");
+// 付箋情報を保存
+function createFusen(form){
     form.addEventListener("submit", async (e) => {
         e.preventDefault(); // 通常のform送信は停止する
         await fetchCreateApi(form)
     })
+}
+
+//　初回の付箋色の選択（編集モードなら一覧から引き継ぎ）
+function initSelectedColor(button, selectedColor){
+    if (button.dataset.color === selectedColor.value ){
+        addSelected(button);
+    }
+}
+
+// 初回以降（手動で選択で表示切替）
+function handleColorSelect(button, selectedColor, colorButtons){
+    selectedColor.value = button.dataset.color;
+    removeAllSelected(colorButtons);
+    addSelected(button);
+    reflectFusenColor(button.dataset.color);
+}
+
+// 付箋プレビューの色も付箋色選択パレットと同期する
+function reflectFusenColor(color){
+    document.querySelectorAll(".fusen-front, .fusen-back").forEach(fusen => {
+        fusen.style.setProperty("--fusen-color", color)
+    });
+}
+
+// 付箋プレビューへ期限日を同期
+function updatePreview(contentData, fusenContent, expiresAtData, fusenExpiresAt){
+    fusenContent.textContent = contentData.value;
+    if (expiresAtData.value){
+        fusenExpiresAt.textContent =  `期限日：${expiresAtData.value} `;
+    }
+    else{
+        fusenExpiresAt.textContent = "期限日なし";
+    }  
+}
+
+// 付箋色選択パレットの選択状態をリセット
+function removeAllSelected(colorButtons){
+    colorButtons.forEach(colorButton => {
+        colorButton.classList.remove("selected");
+    });
+}
+
+// 付箋色選択パレットでユーザが選択した色を有効化
+function addSelected(button){
+    button.classList.add("selected");
 }

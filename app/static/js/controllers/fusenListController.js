@@ -4,77 +4,79 @@ import { renderFusenList } from "../ui/fusenList.js";
 import { renderFusenEdit } from "../ui/fusenEdit.js"
 import { fetchDeleteApi, fetchReadDataApi, fetchReadDataListApi } from "../repository/apiFusenRepository.js"
 import { init as setupFlip } from "../ui/fusenFlip.js"
-
-const FUSEN_ID_EXIST_ERROR = "付箋IDの取得に失敗しました。"
-const FUSEN_DATA_FETCH_ERROR = "付箋情報の取得に失敗しました。"
+import { Messages as msg } from "../common/messages.js";
 
 export async function init(){
     if (storageModeCheck(document.body.dataset.storageMode)){
         const result = await fetchReadDataListApi();
-        assert(result.success, FUSEN_DATA_FETCH_ERROR);
+        assert(result.success, msg.FUSEN_DATA_FETCH_ERROR);
+
         renderFusenList(result.fusenList);
         setupFlip();
     }
-
-    const fusenMenuButton = document.querySelectorAll(".fusen-menu-button");
-    setupMenu(fusenMenuButton);
-    setupCloseMenuOnDocumentClick();
-    setupDeleteButtons();
-    setupEditButtons();
+    setupFusenListEvents();
 }
 
-// 付箋一覧画面で発生するイベント処理
-function setupMenu(fusenMenuButton){
-    fusenMenuButton.forEach( button =>{
-        button.addEventListener("click", (e) => {
-            stopPropagation(e);
-            const currentMenu = button.closest(".fusen-menu");
-            // 自分以外で開いているメニューを閉じる
-            document.querySelectorAll(".fusen-menu.is-open").forEach( menu =>{
-                if (menu !== currentMenu){
-                    menu.classList.remove("is-open")
-                }
-            })
-            currentMenu.classList.toggle("is-open");
-        })
+function setupFusenListEvents(){
+    document.addEventListener("click", async (e) => {
+        const menuButton = e.target.closest(".fusen-menu-button");
+        const editButton = e.target.closest(".edit-button");
+        const deleteButton = e.target.closest(".delete-button");
+        const loginButton = e.target.closest(".login-button");
+
+        stopPropagation(e);
+
+        if (menuButton){
+            toggleMenu(menuButton);
+            return;
+        }
+        if (editButton){
+            await editFusen(editButton);
+            return;
+        }
+        if (deleteButton){
+            await deleteFusen(deleteButton);
+            return;
+        }
+        if (loginButton){
+            
+        }
+
+        // それ以外クリック時
+        closeAllMenus();
     })
 }
 
-// メニューボタン押下イベントハンドラ（編集・削除ボタン外を押下時に編集・削除ボタンを非表示とする）
-function setupCloseMenuOnDocumentClick(){
-    document.addEventListener("click", (e) => {
-        document.querySelectorAll(".fusen-menu.is-open").forEach( menu =>{
-            if (!menu.contains(e.target)){
-                menu.classList.remove("is-open")
-            }
-        })
-    })
+function toggleMenu(button){
+    const currentMenu = button.closest(".fusen-menu");
+    const isOpen = currentMenu.classList.contains("is-open");
+    closeAllMenus();
+    if (!isOpen){
+        currentMenu.classList.add("is-open");
+    }
+}
+
+async function deleteFusen(button){
+    const result = await fetchDeleteApi(getFusenId(button))
+    assert(result.success, msg.FUSEN_DATA_FETCH_ERROR);
+    button.closest(".fusen").remove();
 };
 
-// 削除ボタン押下イベントハンドラ（ログイン者のみ使用可能なAPI経由の削除処理）
-function setupDeleteButtons(){
-    document.querySelectorAll(".delete-button").forEach( button => {
-        button.addEventListener("click", async (e) => {
-            stopPropagation(e);
-            let fusenId = e.target.closest(".fusen").dataset.fusenId;
-            assert(fusenId, FUSEN_ID_EXIST_ERROR)
-            await fetchDeleteApi(fusenId)
-        })
-    })
+async function editFusen(button){
+    const result = await fetchReadDataApi(getFusenId(button));
+    assert(result.success, msg.FUSEN_DATA_FETCH_ERROR);
+    renderFusenEdit(result.fusenData)
 };
 
-//編集ボタン押下イベントハンドラ
-function setupEditButtons(){
-    document.querySelectorAll(".edit-button").forEach( button => {
-        button.addEventListener("click", async (e) => {
-            stopPropagation(e);
-            const fusenId = e.target.closest(".fusen").dataset.fusenId
-            assert(fusenId, FUSEN_ID_EXIST_ERROR)
-            //TODO:将来モーダル化予定
-            //openEditModal(result.fusenData);
-            const result = await fetchReadDataApi(fusenId);
-            assert(result.success, FUSEN_DATA_FETCH_ERROR);
-            renderFusenEdit(result.fusenData)
-        })
-    })
-};
+
+function getFusenId(element) {
+  const fusenId = element.closest(".fusen")?.dataset.fusenId;
+  assert(fusenId, msg.FUSEN_ID_EXIST_ERROR);
+  return fusenId;
+}
+
+function closeAllMenus(){
+    document.querySelectorAll(".fusen-menu.is-open").forEach(menu => {
+        menu.classList.remove("is-open");
+    });
+}
