@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>ちょこっとメモ</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -35,8 +36,8 @@
                         <button type="button" class="color-option" data-color="#B3ADFF" style="background: #B3ADFF;"></button>
                     </div><br>
                     <input type="hidden" id="selected-color" name="color">
-                    <button type="submit" class="save-button" value="保存" name="create-data">
-                        <span class="save-button-text">付箋を保存</span>
+                    <button type="submit" class="button save-button" value="保存" name="create-data">
+                        <span class="button-text button-text-black">付箋を保存する</span>
                         <img class="save-button-icon" src="{{ url_for('static', filename='images/sticky-note.svg') }}">
                     </button>
                 </form>

@@ -18,3 +18,6 @@
 @import url(./splash.css);
 @import url(./fusen_list.css);
 @import url(./fusen_edit.css);
+
+/*モーダル*/
+@import url(./modal.css);

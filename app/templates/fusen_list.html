@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>ちょこっとメモ</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <script type="module" src="{{ url_for('static', filename='js/fusenListMain.js') }}"></script>
@@ -9,7 +10,7 @@
     <body class="layout-container" data-storage-mode="{{ storageMode }}">
         <header class="after-login-header">
             <img class="header-title" src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}">
-            <button class="login-button login-button-text">ログイン</button>
+            <button id="login-open-button" class="button login-button button-text button-text-white">ログイン</button>
         </header>
         <main>
             <div class="fusen-container">
@@ -23,14 +24,11 @@
                     </div>
                 </template>
             </div>
-            <button class="create-button" type="button" onclick="location.href='{{url_for("notes.open_create_window")}}'">
-                <span class="create-button-text">付箋を作成する</span>
+            <button class="button create-button" type="button" onclick="location.href='{{url_for("notes.open_create_window")}}'">
+                <span class="button-text button-text-black">付箋を作成する</span>
                 <img class="create-button-icon" src="{{ url_for('static', filename='images/create-button.svg') }}" alt="作成する">
             </button>
-            <button class="google-login-button" onclick="location.href='{{url_for("auth.google_login")}}'">
-                <img class="google-login-button-icon" src="{{url_for('static', filename='images/google-logo.svg')}}">
-                <span class="google-login-button-text">Googleでログイン</span>
-            </button>
+            {% include "parts/login-modal.html" %}
         </main>
     </body>
 </html>

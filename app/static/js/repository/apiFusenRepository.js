@@ -51,7 +51,7 @@ export async function fetchDeleteApi(fusenId){
             success: false
         };          
     }
-    const response = fetch(`/note_list/api/notes/${fusenId}`, {
+    const response = await fetch(`/note_list/api/notes/${fusenId}`, {
         method: "DELETE"
     })
     assert(response.ok, msg.DATA_DELETE_ERROR)
