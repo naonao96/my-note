@@ -24,13 +24,27 @@
     flex-direction: column;
     box-shadow: var(--box-shadow-m) var(--black-015);
 }
-.login-heading-m {
+.edit-modal {
+    display: grid;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 101;
+    grid-template-columns: repeat(1, minmax(280px, 300px));
+    align-items: center;
+    justify-content: center;
+    font-family: yomogi;
+    border-radius: var(--border-radius-l);
+    background: var(--creame); 
+}
+.heading-m {
     text-align: center;
     color: var(--black);
     -webkit-text-stroke: var(--text-stroke-m) var(--black);
     font-size: 24px;
 }
-.login-heading-s {
+.heading-s {
     text-align: center;
     color: var(--black);
     font-size: 20px;

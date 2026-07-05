@@ -15,7 +15,7 @@
             <button id="login-open-button" class="button login-button button-text button-text-white">ログイン</button>
         </header>
         <main>
-            <div class="fusen-container">
+            <div id="fusen-list" class="fusen-container">
                 <template id="fusen-template">
                     <div class="fusen fusen-list-position" data-fusen-id="">
                         {% include "parts/fusen_menu.html" %}
@@ -26,8 +26,8 @@
                     </div>
                 </template>
             </div>
-            <button id="edit-open-button" class="button create-button" type="button">
-                <span class="button-text button-text-black">付箋を作成する</span>
+            <button id="create-open-button" class="button create-button" type="button">
+                <span class="button-text button-text-black">作成する</span>
                 <img class="create-button-icon" src="{{ url_for('static', filename='images/create-button.svg') }}" alt="作成する">
             </button>
             {% include "parts/login-modal.html" %}

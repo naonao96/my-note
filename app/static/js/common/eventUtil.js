@@ -1,5 +1,7 @@
 'use strict'
 
+import { messages } from "../common/messages.js";
+
 // 対象のイベント伝播停止
 export function stopPropagation(event){
     event.stopPropagation();
@@ -21,4 +23,10 @@ export function assert(condition, message){
     if (!condition){
         throw new Error(message);
     }
+}
+
+export function getFusenId(elem) {
+  const fusenId = elem.closest(".fusen")?.dataset.fusenId;
+  assert(fusenId, messages.FUSEN_ID_EXIST_ERROR);
+  return fusenId;
 }

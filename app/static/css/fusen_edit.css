@@ -1,17 +1,3 @@
-.edit-modal {
-    display: grid;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 101;
-    grid-template-columns: repeat(1, minmax(280px, 300px));
-    align-items: center;
-    justify-content: center;
-    font-family: yomogi;
-    border-radius: var(--border-radius-l);
-    background: var(--creame); 
-}
 .content-box,
 .expires-date-box,
 .color-pallet-background {
