@@ -5,6 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>ちょこっとメモ</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script type="module" src="{{ url_for('static', filename='js/fusenListMain.js') }}"></script>
     </head>
     <body class="layout-container" data-storage-mode="{{ storageMode }}">
@@ -24,11 +26,12 @@
                     </div>
                 </template>
             </div>
-            <button class="button create-button" type="button" onclick="location.href='{{url_for("notes.open_create_window")}}'">
+            <button id="edit-open-button" class="button create-button" type="button">
                 <span class="button-text button-text-black">付箋を作成する</span>
                 <img class="create-button-icon" src="{{ url_for('static', filename='images/create-button.svg') }}" alt="作成する">
             </button>
             {% include "parts/login-modal.html" %}
+            {% include "parts/edit-modal.html" %}
         </main>
     </body>
 </html>

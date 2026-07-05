@@ -13,7 +13,6 @@ textarea, input, select{
     background-color: white;
     color: black;
     font-family: yomogi;
-    font-size: var(--font-size-l);
 }
 input[type="date"]::-webkit-date-and-time-value {
     text-align: left;
@@ -23,5 +22,5 @@ textarea:focus {
     border-color: var(--blue);
     box-shadow: var(--ring-md) var(--white-blue-020), 
                 var(--box-shadow-m) var(--black-015);
-    font-size: var(--font-size-m);
+    font-size: var(--font-size-s);
 }

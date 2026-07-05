@@ -1,6 +1,6 @@
 "use strict"
 import { assert } from "../common/eventUtil.js"
-import { Messages as msg } from "../common/messages.js";
+import { messages as msg } from "../common/messages.js";
 
 export async function fetchCreateApi(form){
     const mode = form.dataset.fusenMode

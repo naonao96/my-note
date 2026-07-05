@@ -4,7 +4,9 @@ import { renderFusenList } from "../ui/fusenList.js";
 import { renderFusenEdit } from "../ui/fusenEdit.js"
 import { fetchDeleteApi, fetchReadDataApi, fetchReadDataListApi } from "../repository/apiFusenRepository.js"
 import { init as setupFlip } from "../ui/fusenFlip.js"
-import { Messages as msg } from "../common/messages.js";
+import { messages as msg } from "../common/messages.js";
+import { modalhandler } from "./modal/modalController.js";
+import {init as initEditModal} from "./fusenEditController.js"
 
 export async function init(){
     if (storageModeCheck(document.body.dataset.storageMode)){
@@ -14,7 +16,12 @@ export async function init(){
         renderFusenList(result.fusenList);
         setupFlip();
     }
+    //ログインモーダルの初期化・イベント登録
+    modalAddEventListner("login-open-button", "login-modal-overlay", "login-modal")
+    //編集モーダルの初期化・イベント登録
+    modalAddEventListner("edit-open-button", "edit-modal-overlay", "edit-modal")
     setupFusenListEvents();
+    initEditModal();
 }
 
 function setupFusenListEvents(){
@@ -79,4 +86,15 @@ function closeAllMenus(){
     document.querySelectorAll(".fusen-menu.is-open").forEach(menu => {
         menu.classList.remove("is-open");
     });
+}
+
+//引数(イベント発火元Elem,　オーバレイElem, Modal本体Elem)
+//モーダルOpen, closeのイベント登録
+function modalAddEventListner(openButton, overlay, modal){
+    const modalElems =  {
+        openButton: document.getElementById(openButton),
+        overlay: document.getElementById(overlay),
+        modal: document.getElementById(modal)
+    }
+    modalhandler(modalElems);
 }

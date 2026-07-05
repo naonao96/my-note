@@ -1,5 +1,6 @@
 .modal-overlay.hidden,
-.login-modal.hidden {
+.login-modal.hidden,
+.edit-modal.hidden {
     display: none;
 }
 .modal-overlay {

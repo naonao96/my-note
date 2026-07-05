@@ -16,10 +16,6 @@ def startup():
     else:
         return render_template_pack(consts.LIST_HTML_NAME, storage_mode=consts.LOCAL_MODE, dto_list=[])
 
-@note_bp.route("/new_note")
-def open_create_window():
-    return render_template_pack(consts.EDIT_HTML_NAME, fusen_mode=consts.CREATE_MODE)
-
 # -----API Routes-----
 @note_bp.route("/api/notes", methods=["POST"])
 @login_required
