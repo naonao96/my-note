@@ -1,15 +1,16 @@
 "use strict"
+import { EDIT_MODE } from "../common/consts.js";
 import { assert } from "../common/eventUtil.js"
-import { messages as msg } from "../common/messages.js";
+import { messages } from "../common/messages.js";
 
-export async function fetchCreateApi(form){
+export async function fetchUpsertApi(form){
     const mode = form.dataset.fusenMode
     const fusenId = form.dataset.fusenId
 
-    const url = mode === "edit"
+    const url = mode === EDIT_MODE
     ? `/note_list/api/notes/${fusenId}`
     : "/note_list/api/notes"
-    const method = mode === "edit" ? "PUT" : "POST" 
+    const method = mode === EDIT_MODE ? "PUT" : "POST" 
 
     const body = {
             content: document.querySelector("#content").value,
@@ -23,16 +24,14 @@ export async function fetchCreateApi(form){
         },
         body: JSON.stringify(body) 
     });
-    assert(response.ok, msg.DATA_SAVE_ERROR)
-    window.location.assign("/note_list/")
+    assert(response.ok, messages.DATA_SAVE_ERROR)
 }
 
 export async function fetchReadDataListApi(){
     const response = await fetch("/note_list/api/notes", {
         method: "GET"
     })
-    assert(response.ok, msg.DATA_READ_ERROR)
-
+    assert(response.ok, messages.DATA_READ_ERROR)
     return await response.json()
 }
 
@@ -40,8 +39,7 @@ export async function fetchReadDataApi(fusenId){
     const response = await fetch(`/note_list/api/notes/${fusenId}`, {
         method: "GET"
     })
-    assert(response.ok, msg.DATA_READ_ERROR)
-
+    assert(response.ok, messages.DATA_READ_ERROR)
     return await response.json()
 }
 
@@ -54,8 +52,7 @@ export async function fetchDeleteApi(fusenId){
     const response = await fetch(`/note_list/api/notes/${fusenId}`, {
         method: "DELETE"
     })
-    assert(response.ok, msg.DATA_DELETE_ERROR)
-
+    assert(response.ok, messages.DATA_DELETE_ERROR)
     return await response.json()
 }
 

@@ -1,6 +1,10 @@
 'use strict'
 
+import { assert } from "../common/eventUtil.js";
+import { messages } from "../common/messages.js";
+
 export function renderFusenList(fusenList){
+    assert(fusenList, messages.CONDITIONS_UNDIFINED_ERROR)
     const container = document.querySelector(".fusen-container");
     const template = document.querySelector("#fusen-template");
 
@@ -21,6 +25,11 @@ export function renderFusenList(fusenList){
         
         container.appendChild(clone);
     });
+}
+
+// UIから付箋UIを削除する
+export function removefusen(button){
+    button.closest(".fusen").remove();
 }
 
         

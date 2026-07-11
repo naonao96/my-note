@@ -1,16 +1,17 @@
 "use strict"
 import { stopPropagation, storageModeCheck, assert, getFusenId } from "../common/eventUtil.js"
 import { renderFusenList } from "../ui/fusenList.js";
-import { renderFusenEdit } from "../ui/fusenEdit.js"
+import { removefusen } from "../ui/fusenList.js"
 import { fetchDeleteApi, fetchReadDataListApi } from "../repository/apiFusenRepository.js"
 import { setupFusenFlip } from "../ui/fusenFlip.js"
 import { messages as msg } from "../common/messages.js";
+import { deleteFusen, readFusenList } from "../service/fusenService.js";
+
 
 export async function init(){
     const elems = getElements();
     if (storageModeCheck(document.body.dataset.storageMode)){
-        const result = await fetchReadDataListApi();
-        assert(result.success, msg.FUSEN_DATA_FETCH_ERROR);
+        const result = await readFusenList();
         renderFusenList(result.fusenList);
         setupFusenFlip(elems.fusenListWindow);
     }
@@ -36,7 +37,8 @@ function setupFusenListEvents(){
         }
         if (deleteButton){
             stopPropagation(e);
-            await deleteFusen(deleteButton);
+            await deleteFusen();
+            removefusen(deleteButton)
             return;
         }
 
@@ -53,12 +55,6 @@ function toggleMenu(button){
         currentMenu.classList.add("is-open");
     }
 }
-
-async function deleteFusen(button){
-    const result = await fetchDeleteApi(getFusenId(button))
-    assert(result.success, msg.FUSEN_DATA_FETCH_ERROR);
-    button.closest(".fusen").remove();
-};
 
 function closeAllMenus(){
     document.querySelectorAll(".fusen-menu.is-open").forEach(menu => {

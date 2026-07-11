@@ -1,27 +1,81 @@
 "use strict"
-import { fetchCreateApi } from "../repository/apiFusenRepository.js"
+
+import { upsertFusen, readFusen } from "../service/fusenService.js";
+import { handleColorSelect, syncSelectedColor, updatePreview } from "../ui/fusenEdit.js";
 import { setupFusenFlip } from "../ui/fusenFlip.js"
+import { setCreateModal, setEditModal } from "../state/modalState.js";
+import { openModal, setupModal } from "./modalController.js";
+import { messages } from "../common/messages.js";
+import { assert } from "../common/eventUtil.js";
 
 export function init(){
     const elems = getElements();
+
     setupFlatpickr();
-    colorSelect(elems);
-    realtimePreview(elems);
-    createFusen(elems);
-    setupFusenFlip(elems.editModal);
+    setupColorSelectedButtons(elems.color);
+    realtimePreview(elems.preview);
+    createButtonHandler(elems.form);
+    setupFusenFlip(elems.modal.modal);
+    setupCreateModalOpen(elems);
+    setupEditModalOpen(elems);
 }
 
-function getElements(){
+function getElements() {
     return {
-        colorButtons: document.querySelectorAll(".color-option"),
-        selectedColor: document.getElementById("selected-color"),
-        contentData: document.getElementById("content"),
-        fusenContent: document.getElementById("fusen-content"),
-        expiresAtData: document.getElementById("datepicker"),
-        fusenExpiresAt: document.getElementById("fusen-expires-at"),
-        createFusenForm: document.getElementById("fusen-form"),
-        editModal: document.getElementById("edit-modal")
-    }
+        form: document.getElementById("fusen-form"),
+
+        modal: {
+            overlay: document.getElementById("edit-modal-overlay"),
+            modal: document.getElementById("edit-modal")
+        },
+
+        color: {
+            colorButtons: document.querySelectorAll(".color-option"),
+            selectedColor: document.getElementById("selected-color"),
+            editModal: document.getElementById("edit-modal")
+        },
+
+        preview: {
+            contentData: document.getElementById("content"),
+            fusenContent: document.getElementById("fusen-content"),
+            expiresAtData: document.getElementById("datepicker"),
+            fusenExpiresAt: document.getElementById("fusen-expires-at")
+        },
+
+        createButton: document.getElementById("create-open-button"),
+    };
+}
+
+function setupCreateModalOpen(elems) {
+    setupModal(
+        "#create-open-button",
+        "edit-modal-overlay",
+        "edit-modal",
+        () => {
+            setCreateModal(elems.form);
+            syncSelectedColor(elems.color);
+            updatePreview(elems.preview);
+        }
+    );
+}
+
+function setupEditModalOpen(elems) {
+    document.addEventListener("click", async (e) => {
+        const editButton = e.target.closest(".edit-button");
+
+        if (!editButton) return;
+
+        e.preventDefault();
+
+        const result = await readFusen(editButton);
+
+        assert(result?.fusenData, messages.CONDITIONS_UNDIFINED_ERROR);
+
+        setEditModal(elems.form, result.fusenData);
+        syncSelectedColor(elems.color);
+        updatePreview(elems.preview);
+        openModal(elems.modal);
+    });
 }
 
 // 期限日の設定
@@ -33,76 +87,29 @@ function setupFlatpickr() {
 }
 
 // 付箋カラー選択（自動・手動）
-function colorSelect(elems){
-    removeAllSelected(elems.colorButtons);
+function setupColorSelectedButtons(elems){
+    syncSelectedColor(elems);
     elems.colorButtons.forEach(button => {
-        initSelectedColor(button, elems.selectedColor);
-        const handler = () => {
-            handleColorSelect(button, elems.selectedColor, elems.colorButtons, elems.editModal)
-        }
-        button.addEventListener("click", handler);
+        button.addEventListener("click", () => {
+            handleColorSelect(button, elems)
+        });
     });
 }
 
 // 内容・期限をリアルタイムに変更する
 function realtimePreview(elems) {
-    const preview = () => {
-        updatePreview(elems.contentData, elems.fusenContent, elems.expiresAtData, elems.fusenExpiresAt);
-    }
-    preview();
-    elems.contentData.addEventListener("input", preview);
-    elems.expiresAtData.addEventListener("input", preview);
+    elems.contentData.addEventListener("input", () => {
+        updatePreview(elems);
+    });
+    elems.expiresAtData.addEventListener("input", () => {
+        updatePreview(elems);
+    });
 };
 
-// 付箋情報を保存
-function createFusen(elems){
-    elems.createFusenForm.addEventListener("submit", async (e) => {
+function createButtonHandler(form){
+    form.addEventListener("submit", async (e) => {
         e.preventDefault(); // 通常のform送信は停止する
-        await fetchCreateApi(form)
+        await upsertFusen(form);
+        window.location.assign("/note_list/");
     })
-}
-
-//　初回の付箋色の選択（編集モードなら一覧から引き継ぎ）
-function initSelectedColor(button, selectedColor){
-    if (button.dataset.color === selectedColor.value ){
-        addSelected(button);
-    }
-}
-
-// 初回以降（手動で選択で表示切替）
-function handleColorSelect(button, selectedColor, colorButtons, editModal){
-    selectedColor.value = button.dataset.color;
-    removeAllSelected(colorButtons);
-    addSelected(button);
-    reflectFusenColor(editModal, button.dataset.color);
-}
-
-// 付箋プレビューの色も付箋色選択パレットと同期する
-function reflectFusenColor(editModal, color){
-    editModal.querySelectorAll(".fusen-front, .fusen-back").forEach(fusen => {
-        fusen.style.setProperty("--fusen-color", color)
-    });
-}
-
-// 付箋プレビューへ期限日を同期
-function updatePreview(contentData, fusenContent, expiresAtData, fusenExpiresAt){
-    fusenContent.textContent = contentData.value;
-    if (expiresAtData.value){
-        fusenExpiresAt.textContent =  `期限日：${expiresAtData.value} `;
-    }
-    else{
-        fusenExpiresAt.textContent = "期限日なし";
-    }  
-}
-
-// 付箋色選択パレットの選択状態をリセット
-function removeAllSelected(colorButtons){
-    colorButtons.forEach(colorButton => {
-        colorButton.classList.remove("selected");
-    });
-}
-
-// 付箋色選択パレットでユーザが選択した色を有効化
-function addSelected(button){
-    button.classList.add("selected");
 }

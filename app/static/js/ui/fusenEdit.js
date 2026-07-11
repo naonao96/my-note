@@ -1,26 +1,43 @@
 "use strict"
 
-export function renderFusenEdit(fusenData){
-    const form = document.getElementById("fusen-form");
-    const content = document.getElementById("content");
-    const expiresAt = document.getElementById("datepicker")
-    const color = document.getElementById("selected-color")
-
-    form.dataset.fusenId = fusenData.fusenId;
-    content.value = fusenData.content ?? "";
-    expiresAt.value = fusenData.expires_at ?? "";
-    color.value = fusenData.color ?? "#A9CEEC";
+//　初回の付箋色の選択（編集モードなら一覧から引き継ぎ）
+export function syncSelectedColor(elems) {
+    removeAllSelected(elems);
+    elems.colorButtons.forEach(button => {
+        if (button.dataset.color === elems.selectedColor.value) {
+            addSelected(button);
+        }
+    });
 }
 
-//TODO:フォームを開くときは一度初期化を行うよう修正
-function resetFusenForm(){
-    document.getElementById("content").value = "";
-    document.getElementById("datepicker").value = "";
-    document.getElementById("selected-color").value = "#A9CEEC";
+// 初回以降（手動で選択で表示切替）
+export function handleColorSelect(button, elems){
+    elems.selectedColor.value = button.dataset.color;
+    syncSelectedColor(elems)
+    updateColorPreview(elems.editModal, button.dataset.color);
+}
 
-    document.getElementById("fusen-content").textContent = "";
-    document.getElementById("fusen-expires-at").textContent = "";
-    
-    const fusen = document.querySelector("#edit-modal .fusen");
-    fusen.style.setProperty("--fusen-color", "#A9CEEC");
+// 付箋プレビューへ期限日を同期
+export function updatePreview(elems){
+    elems.fusenContent.textContent = elems.contentData.value;
+    elems.fusenExpiresAt.textContent = elems.expiresAtData.value ? `期限日：${elems.expiresAtData.value} ` : elems.fusenExpiresAt.textContent = "期限日なし";
+}
+
+// 付箋色選択パレットの選択状態をリセット
+export function removeAllSelected(elems){
+    elems.colorButtons.forEach(colorButton => {
+        colorButton.classList.remove("selected");
+    });
+}
+
+// 付箋色選択パレットでユーザが選択した色を有効化
+function addSelected(button){
+    button.classList.add("selected");
+}
+
+// 付箋プレビューの色も付箋色選択パレットと同期する
+function updateColorPreview(editModal, color){
+    editModal.querySelectorAll(".fusen-front, .fusen-back").forEach(fusen => {
+        fusen.style.setProperty("--fusen-color", color)
+    });
 }

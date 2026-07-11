@@ -23,6 +23,7 @@ export function assert(condition, message){
     if (!condition){
         throw new Error(message);
     }
+    console.log(`★データの状態：${condition}`);
 }
 
 export function getFusenId(elem) {
