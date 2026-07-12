@@ -2,7 +2,6 @@
 import { stopPropagation, storageModeCheck, assert, getFusenId } from "../common/eventUtil.js"
 import { renderFusenList } from "../ui/fusenList.js";
 import { removefusen } from "../ui/fusenList.js"
-import { fetchDeleteApi, fetchReadDataListApi } from "../repository/apiFusenRepository.js"
 import { setupFusenFlip } from "../ui/fusenFlip.js"
 import { messages as msg } from "../common/messages.js";
 import { deleteFusen, readFusenList } from "../service/fusenService.js";

@@ -20,8 +20,13 @@
                     <div class="fusen fusen-list-position" data-fusen-id="">
                         {% include "parts/fusen_menu.html" %}
                         <div class="fusen-inner">
-                            <div class="fusen-front"></div>
-                            <div class="fusen-back"></div>
+                            <div class="fusen-front">
+                                <span class="fusen-content"></span>
+                                <img class="fusen-logo" src="{{ url_for('static', filename='images/Title_chocottoMemo_fusen.svg')}}">
+                            </div>
+                            <div class="fusen-back">
+                                <span class="fusen-expires-at"></span>
+                            </div>
                         </div>
                     </div>
                 </template>

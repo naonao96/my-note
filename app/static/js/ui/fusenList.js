@@ -12,8 +12,8 @@ export function renderFusenList(fusenList){
         const clone = template.content.cloneNode(true);
 
         const fusenElement = clone.querySelector(".fusen");
-        const front = clone.querySelector(".fusen-front");
-        const back = clone.querySelector(".fusen-back");
+        const front = clone.querySelector(".fusen-content");
+        const back = clone.querySelector(".fusen-expires-at");
 
         fusenElement.dataset.fusenId = fusen.id;
         fusenElement.style.setProperty("--fusen-color", fusen.color)

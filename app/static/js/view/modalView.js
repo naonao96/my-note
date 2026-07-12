@@ -1,7 +1,6 @@
 "use strict"
 
 import { CREATE_MODE, DEFAULT_COLOR, EDIT_MODE } from "../common/consts.js";
-import { syncSelectedColor } from "../ui/fusenEdit.js";
 
 export function setCreateModal(form){
     setModalCommonValues({

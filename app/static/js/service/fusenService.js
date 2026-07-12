@@ -17,8 +17,9 @@ export async function readFusenList(){
 
 export async function deleteFusen(button){
     assert(button, messages.CONDITIONS_UNDIFINED_ERROR)
-    const result = await fetchDeleteApi(getFusenId(button))
-    assert(result.success, messages.FUSEN_DATA_FETCH_ERROR);
+    if (confirm("この付箋を削除しますか？")){
+        await fetchDeleteApi(getFusenId(button))      
+    }
 };
 
 export async function readFusen(button){

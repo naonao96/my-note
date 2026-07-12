@@ -72,7 +72,6 @@
 }
 .fusen-edit-position {
     justify-self: center;
-    width: min(90vw, 250px);
 }
 .headline-text{
     font-family: yomogi;

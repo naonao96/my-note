@@ -44,15 +44,9 @@ export async function fetchReadDataApi(fusenId){
 }
 
 export async function fetchDeleteApi(fusenId){
-    if (!confirm("この付箋を削除しますか？")){
-        return {
-            success: false
-        };          
-    }
     const response = await fetch(`/note_list/api/notes/${fusenId}`, {
         method: "DELETE"
     })
     assert(response.ok, messages.DATA_DELETE_ERROR)
-    return await response.json()
 }
 

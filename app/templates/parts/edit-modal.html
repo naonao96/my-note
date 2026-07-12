@@ -2,16 +2,21 @@
 <div id="edit-modal" class="edit-modal hidden">
     <div class="fusen fusen-edit-position">
         <div class="fusen-inner">
-            <div id="fusen-content" class="fusen-front"></div>
-            <div id="fusen-expires-at" class="fusen-back"></div>
+            <div class="fusen-front">
+                <span id="fusen-content"></span>
+                <img class="fusen-logo" src="{{ url_for('static', filename='images/Title_chocottoMemo_fusen.svg')}}">
+            </div>
+            <div class="fusen-back">
+                <span id="fusen-expires-at"></span>
+            </div>
         </div>
     </div>
     <form id="fusen-form" class="form-container">
-        <label class="headline-text" for="content">内容を入力してね:</label>
+        <label class="headline-text" for="content">内容</label>
         <textarea class="content-box" id="content" rows="20" cols="50" required maxlength="100"></textarea>
-        <label class="headline-text" for="expires_at">期間を選択してね:</label>
+        <label class="headline-text" for="expires_at">期限</label>
         <input class="expires-date-box" type="text" id="datepicker" name="expires_at">
-        <label class="headline-text" for="color">色を決めてね:</label>
+        <label class="headline-text" for="color">色</label>
         <div class="color-pallet-background">
             <button type="button" class="color-option" data-color="#A9CEEC" style="background: #A9CEEC;"></button>
             <button type="button" class="color-option" data-color="#F8C394" style="background: #F8C394;"></button>
@@ -22,7 +27,7 @@
         </div>
         <input type="hidden" id="selected-color" name="color">
         <button type="submit" class="button save-button" value="保存" name="create-data">
-            <span class="button-text button-text-black">付箋を保存</span>
+            <span class="button-text button-text-black">保存する</span>
             <img class="icon" src="{{ url_for('static', filename='images/sticky-note.svg') }}">
         </button>
     </form>

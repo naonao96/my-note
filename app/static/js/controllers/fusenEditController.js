@@ -3,7 +3,7 @@
 import { upsertFusen, readFusen } from "../service/fusenService.js";
 import { handleColorSelect, syncSelectedColor, updatePreview } from "../ui/fusenEdit.js";
 import { setupFusenFlip } from "../ui/fusenFlip.js"
-import { setCreateModal, setEditModal } from "../state/modalState.js";
+import { setCreateModal, setEditModal } from "../view/modalView.js";
 import { openModal, setupModal } from "./modalController.js";
 import { messages } from "../common/messages.js";
 import { assert } from "../common/eventUtil.js";
