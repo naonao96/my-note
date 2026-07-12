@@ -37,7 +37,7 @@ function setupFusenListEvents(){
         }
         if (deleteButton){
             stopPropagation(e);
-            await deleteFusen();
+            await deleteFusen(deleteButton);
             removefusen(deleteButton)
             return;
         }

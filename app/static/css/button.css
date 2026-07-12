@@ -35,9 +35,10 @@
 }
 .save-button{
     text-align: center;
-    width: min(90vw, 300px);
+    width: 100%;
     background-color: var(--blue);
-    height: var(--height-50)
+    height: var(--height-50);
+    margin-top: var(--margin-m);
 }
 .google-login-button {
     text-align: center;
@@ -66,14 +67,7 @@
     color: var(--white);
     -webkit-text-stroke: var(--text-stroke-l) var(--white);
 }
-.create-button-icon,
-.save-button-icon{
-    width: clamp(20px, 20vw, 40px);
-    height: auto;
-}
-.edit-button-icon,
-.delete-button-icon,
-.google-login-button-icon {
+.icon {
     width: min(40vw, 27px);
     height: auto;
 }

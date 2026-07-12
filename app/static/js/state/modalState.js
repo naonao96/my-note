@@ -22,7 +22,7 @@ export function setEditModal(form, fusenData){
     })
     // 保存判定で使用
     form.dataset.fusenMode = EDIT_MODE;
-    form.dataset.fusenId = fusenData.fusenId;
+    form.dataset.fusenId = fusenData.id;
 }
 
 function setModalCommonValues({ content, date, color }) {

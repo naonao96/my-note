@@ -6,12 +6,12 @@
             <div id="fusen-expires-at" class="fusen-back"></div>
         </div>
     </div>
-    <form id="fusen-form">
-        <label class="headline-text" for="content">付箋に書きたいことは何かな<br>（１００文字まで）:</label><br>
-        <textarea class="content-box" id="content" rows="20" cols="50" required maxlength="100"></textarea><br>
-        <label class="headline-text" for="expires_at">付箋を貼り続ける期間を選択してね:</label><br>
-        <input class="expires-date-box" type="text" id="datepicker" name="expires_at"><br>
-        <label class="headline-text" for="color">付箋の色を決めてね:</label><br>
+    <form id="fusen-form" class="form-container">
+        <label class="headline-text" for="content">内容を入力してね:</label>
+        <textarea class="content-box" id="content" rows="20" cols="50" required maxlength="100"></textarea>
+        <label class="headline-text" for="expires_at">期間を選択してね:</label>
+        <input class="expires-date-box" type="text" id="datepicker" name="expires_at">
+        <label class="headline-text" for="color">色を決めてね:</label>
         <div class="color-pallet-background">
             <button type="button" class="color-option" data-color="#A9CEEC" style="background: #A9CEEC;"></button>
             <button type="button" class="color-option" data-color="#F8C394" style="background: #F8C394;"></button>
@@ -19,11 +19,11 @@
             <button type="button" class="color-option" data-color="#96F8AF" style="background: #96F8AF;"></button>
             <button type="button" class="color-option" data-color="#FFE57B" style="background: #FFE57B;"></button>
             <button type="button" class="color-option" data-color="#B3ADFF" style="background: #B3ADFF;"></button>
-        </div><br>
+        </div>
         <input type="hidden" id="selected-color" name="color">
         <button type="submit" class="button save-button" value="保存" name="create-data">
-            <span class="button-text button-text-black">付箋を保存する</span>
-            <img class="save-button-icon" src="{{ url_for('static', filename='images/sticky-note.svg') }}">
+            <span class="button-text button-text-black">付箋を保存</span>
+            <img class="icon" src="{{ url_for('static', filename='images/sticky-note.svg') }}">
         </button>
     </form>
 </div>
