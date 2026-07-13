@@ -1,7 +1,6 @@
 .fusen-container {
     display: grid;
-    gap: 80px;
-    padding: var(--padding-m);
+    gap: 20px;
     justify-content: center;
     justify-items: center;
     grid-template-columns: repeat(auto-fit, minmax(320px, 380px));

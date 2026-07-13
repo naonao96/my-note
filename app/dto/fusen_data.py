@@ -22,7 +22,11 @@ class FusenData:
             content= model.content,
             created_at= model.created_at,
             updated_at= model.updated_at,
-            expires_at= model.expires_at,
+            expires_at=(
+                model.expires_at.strftime("%Y-%m-%d")
+                if model.expires_at
+                else None
+            ),
             color= model.color,
             status= model.status
         )

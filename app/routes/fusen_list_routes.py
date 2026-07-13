@@ -1,105 +1,123 @@
-'''
-Memo:notesは名前空間のようなもの
-BlueprintはFlaskの機能で、アプリケーションのルーティングやビュー関数をグループ化するためのもの
-url_prefixはこのBlueprintに属するすべてのルートのURLの前に付加されるプレフィックスを指定するためのもの
-例えば、url_prefix='/note_list'と指定すると、このBlueprintに属するすべてのルートは
-/note_listから始まるURLになります
-'''
-from flask import request, jsonify, render_template, Blueprint, redirect, url_for, session
+from flask import request, jsonify, render_template, Blueprint, session
 from app.dto.fusen_data import FusenData
 from app.services.fusen_service import FusenService
 from app.common.decorators import login_required
+import app.common.consts as consts
+import app.common.messages as msg
 import logging
 
 note_bp = Blueprint('notes', __name__, url_prefix='/note_list')
-LIST_HTML_NAME : str = "fusen_list.html"
-EDIT_HTML_NAME : str = "fusen_edit.html"
-CREATE_MODE : str = "create"
-EDIT_MODE : str = "edit"
 
+# -----Page Routes-----
 @note_bp.route("/")
-@login_required
-def index():
-    service : FusenService = FusenService()
-    dto_list : list
-    try:
-        dto_list = service.fusen_all_read(session.get("user_id"))
-    except Exception as e:
-        logging.exception(e)
-        dto_list = []
+def startup():
+    if session.get("user_id") is not None:
+        return render_template_pack(consts.LIST_HTML_NAME, storage_mode=consts.LOGIN_MODE, dto_list=[])
+    else:
+        return render_template_pack(consts.LIST_HTML_NAME, storage_mode=consts.LOCAL_MODE, dto_list=[])
 
-    return render_template_pack(LIST_HTML_NAME, dto_list=dto_list)
-
-@note_bp.route("/new_note", methods=["GET"])
-@login_required
-def open_create_window():
-    return render_template_pack(EDIT_HTML_NAME, CREATE_MODE, None)
-
-@note_bp.route("/edit_note/<int:fusenId>", methods=["GET"])
-@login_required
-def open_edit_window(fusenId : int):
-    service : FusenService = FusenService()
-    dto : FusenData
-    try:
-        dto = service.fusen_read(fusenId, session.get("user_id"))
-    except Exception as e:
-        logging.exception(e)
-        return redirect(url_for("notes.index"))
-        
-    return render_template_pack(EDIT_HTML_NAME, EDIT_MODE, dto=dto)
-
-@note_bp.route("/notes", methods=["POST"])
+# -----API Routes-----
+@note_bp.route("/api/notes", methods=["POST"])
 @login_required
 def create_fusen():
     service : FusenService = FusenService()
     dto : FusenData =set_fusen_data()
     try:
         service.fusen_create(dto)
+        return jsonify({"success" : True}), 201
     except Exception as e:
         logging.exception(e)
-        return render_template_pack(EDIT_HTML_NAME, CREATE_MODE, dto=dto)
+        return jsonify({"success" : False}), 500 
+
+# 付箋一覧を取得（全件取得）
+@note_bp.route("/api/notes", methods=["GET"])
+@login_required
+def read_fusen_list():
+    service : FusenService = FusenService()
+    dict_list : list = []
+    try:
+        dto_list = service.fusen_all_read(session.get("user_id"))
+        dict_list : list = [
+            jsonify_data_pack(dto)
+            for dto in dto_list
+        ]
+        return jsonify({"success" : True, "fusenList" : dict_list}), 200
+    except Exception as e:
+        logging.exception(e)
+        return jsonify({"success" : False, "fusenList" : dict_list, "message" : msg.FUSEN_DATA_READ_ERROR}), 500
+
+# 付箋を編集する際に使用するために作成したAPI（その他単独で付箋データを取得したい場合使用可能）
+@note_bp.route("/api/notes/<int:fusenId>", methods=["GET"])
+@login_required
+def read_fusen(fusenId : int):
+    service : FusenService = FusenService()
+    try:
+        dto_dict : dict = jsonify_data_pack(service.fusen_read(fusenId, session.get("user_id")))
+        return jsonify({"success" : True, "fusenMode": consts.EDIT_MODE, "fusenData" : dto_dict}), 200
+    except Exception as e:
+        logging.exception(e)
+        return jsonify({"success" : False, "fusenData" : None}), 500
     
-    return redirect(url_for("notes.index"))
-    
-@note_bp.route("/notes/<int:fusenId>", methods=["POST"])
+@note_bp.route("/api/notes/<int:fusenId>", methods=["PUT"])
 @login_required
 def update_fusen(fusenId : int):
     service : FusenService = FusenService()
     dto : FusenData =set_fusen_data(fusenId)
     try:
         service.fusen_update(dto)
+        return jsonify({"success" : True}), 200
     except Exception as e:
         logging.exception(e)
-        return render_template_pack(EDIT_HTML_NAME, EDIT_MODE, dto=dto)
-    
-    return redirect(url_for("notes.index"))
+        return jsonify({"success" : False, "fusenMode" : consts.EDIT_MODE, "fusenData" : jsonify_data_pack(dto)}), 500
 
-@note_bp.route("/delete_note/<int:fusenId>", methods=["DELETE"])
+@note_bp.route("/api/notes/<int:fusenId>", methods=["DELETE"])
 @login_required
 def delete_fusen(fusenId : int):
     service : FusenService = FusenService()
     try: 
         service.fusen_delete(fusenId, session.get("user_id"))
+        return jsonify({"success" : True}), 200
     except Exception as e:
         logging.exception(e)
-        return redirect(url_for("notes.index"))
-    
-    return jsonify()
+        return jsonify({"success" : False}), 500
 
-# -------------------------------------------------------------
+# -----モジュール共通関数-----
+# フロントからの入力を受けDTOへデータをPack
 def set_fusen_data(fusen_id : int | None = None) -> FusenData:
+    data = request.get_json()
     return FusenData(
         id= fusen_id,
         user_id=session.get("user_id"),
-        content= request.form.get("content"),
-        expires_at= request.form.get("expires_at"),
-        color= request.form.get("color")
+        content= data.get("content"),
+        expires_at= data.get("expires_at"),
+        color= data.get("color")
     )
 
-def render_template_pack(html_name : str, config_mode : str = CREATE_MODE, dto : FusenData | None = None, dto_list : list | None = None):
+# render_templateへデータをPack（冗長なため関数化）
+def render_template_pack(
+        html_name : str, 
+        storage_mode : str = consts.LOCAL_MODE, 
+        fusen_mode : str = consts.CREATE_MODE, 
+        dto : FusenData | None = None, 
+        dto_list : list | None = None
+        ):
     return render_template(
             html_name,
-            mode=config_mode,
+            storageMode=storage_mode,
+            fusenMode=fusen_mode,
             fusenData=dto,
             fusenList=dto_list
         )
+
+# jsonifyでレスポンス時に使用するFusenData(DICT)を作成（冗長なため関数化）
+def jsonify_data_pack(dto : FusenData) -> dict:
+    return {
+        "id" : dto.id,
+        "user_id" : dto.user_id,
+        "content" : dto.content,
+        "created_at" : dto.created_at,
+        "updated_at" : dto.updated_at,
+        "expires_at" : dto.expires_at,
+        "color" : dto.color,
+        "status" : dto.status
+    }

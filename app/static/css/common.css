@@ -4,15 +4,19 @@
     background: var(--creame);
 }
 .after-login-header {
+    display: flex;
     position: sticky;
+    justify-content: space-between;
     top: 0;
     z-index: 100;
-    padding-top: 15px;
-    margin-bottom: 50px;
+    padding-top: min(50vw, 15px);
+    margin-bottom: min(50vw, 20px);
+    padding-inline: var(--page-side-space);
 }
 /* タイトルデザイン */
 .header-title {
-    width: 400px;
+    display: block;
+    width: clamp(180px, 40vw, 300px);
     height: auto;
 }
 .header-title:hover{

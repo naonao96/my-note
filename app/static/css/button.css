@@ -1,83 +1,73 @@
-.create-button,
-.edit-button,
-.delete-button,
-.save-button,
-.login-button {
+.button {
     display: flex;
-    text-align: left;
     align-items: center;
-    cursor: pointer;
     justify-content: center;
+    gap: 5px;
+    cursor: pointer;
     white-space: nowrap;
     border: var(--border-none);
     border-radius: var(--border-radius-s);
     box-shadow: var(--box-shadow-m) var(--black-015);
+    transition: all 0.2s ease;
+    padding: 5px;
+}
+.button:active {
+    transform: scale(0.94);
 }
 .create-button{
     position: fixed;
-    right: 50px;
+    text-align: left;
+    right: var(--page-side-space);
     bottom: 50px;
     background-color: var(--blue);
-    height: var(--height-80);
+    height: var(--height-50)
 }
 .edit-button {
+    text-align: center;
     background-color: var(--white-green);
-    height: var(--height-60);
+    height: var(--height-50);
+    margin-bottom: 10px;
 }
 .delete-button {
+    text-align: center;
     background-color: var(--white-red);
-    height: var(--height-60);
+    height: var(--height-50)
 }
 .save-button{
-    width: 400px;
+    text-align: center;
+    width: 100%;
     background-color: var(--blue);
-    height: var(--height-80);
+    height: var(--height-50);
+    margin-top: var(--margin-m);
+}
+.google-login-button {
+    text-align: center;
+    background-color: var(--brown);
+    margin-bottom: 20px;
 }
 .login-button {
-    width: min(50vw, 300px);
-    height: var(--height-80);
-    background-color: var(--white-soft);
+    text-align: center;
+    background-color: var(--brown);
+    grid-column: 3 / 4;
+    justify-self: center;
+    align-self: center;
+    height: var(--height-40)
 }
-.delete-button-text,
-.edit-button-text,
-.create-button-text,
-.save-button-text,
-.login-button-text {
+.button-text {
     display: block;
     font-family: yomogi;
+    transform: translateY(-2px);
+    font-size: 16px;   
+}
+.button-text-black {
     color: var(--black);
-    transform: translateY(-2px); /*文字列を若干上側に表示*/
+    -webkit-text-stroke: var(--text-stroke-l) var(--black);
 }
-.delete-button-text,
-.edit-button-text,
-.create-button-text,
-.save-button-text {
-    color: var(--black);
-    font-size: var(--font-size-s);
-    -webkit-text-stroke: var(--text-stroke-m) var(--black);
+.button-text-white {
+    color: var(--white);
+    -webkit-text-stroke: var(--text-stroke-l) var(--white);
 }
-.login-button-text {
-    color: var(--black);
-    font-size: var(--font-size-s);
-    -webkit-text-stroke: var(--text-stroke-m) var(--black);
-}
-.create-button-icon,
-.save-button-icon{
-    width: 50px;
-    height: 50px;
-    margin-left: 20px;
-}
-.edit-button-icon,
-.delete-button-icon,
-.login-button-icon {
-    width: 40px;
-    height: 40px;
-    margin-left: 20px;
-}
-.create-button:active,
-.edit-button:active,
-.delete-button:active,
-.save-button:active,
-.login-button:active {
-    transform: scale(0.94);
+.icon {
+    width: min(40vw, 27px);
+    height: auto;
 }

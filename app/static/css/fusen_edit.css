@@ -1,23 +1,26 @@
-.edit-page-container {
+.form-container {
     display: grid;
-    justify-content: center;
-    align-items: center;
-    grid-template-columns: 1fr 1fr;
-    font-family: yomogi;
+    display: grid;
+    width: min(90vw, 250px);
+    justify-self: center;
+    gap: 4px;
 }
-.headline-text{
+.content-box,
+.expires-date-box,
+.color-pallet-background {
+    width: 100%;
+}
+.content-box,
+.expires-date-box {
     font-family: yomogi;
-    -webkit-text-stroke: var(--text-stroke-m) var(--black);
-    font-size: var(--font-size-s);
+    font-size: 16px;
 }
 .content-box{
     resize: none;
     outline: none;
     box-sizing: border-box;
-    width: var(--width-400);
-    height: var(--height-250);
+    height: 130px;
     line-height: 1.2;
-    font-size: var(--font-size-m);
     padding: var(--padding-s);
     border: var(--border-m-solid) var(--black-010);
     border-radius: var(--border-radius-s);
@@ -34,9 +37,7 @@
     outline: none;
     text-align: left;
     box-sizing: border-box;
-    width: 400px;
     height: 30px;
-    font-size: var(--font-size-s);
     padding: var(--padding-s);
     border: var(--border-m-solid) var(--black-010);
     border-radius: var(--border-radius-s);
@@ -44,26 +45,22 @@
 }
 /*付箋カラーの選択パレット*/
 .color-pallet-background {
-    display: grid;
+    display: flex;
     justify-content: center;
     align-content: center;
     justify-items: center;
     align-items: center;
-    width: 400px;
-    height: 250px;
-    gap: 30px;
-    grid-template-columns: repeat(3, 100px);
+    height: 30px;
     background-color: var(--white);
     border: var(--border-m-solid) var(--black-010);
-    border-radius: var(--border-radius-m);
+    border-radius: var(--border-radius-s);
     box-shadow: var(--box-shadow-m) var(--black-015);
 }
 .color-option{
     cursor: pointer;
-    width: 80px;
-    height: 80px;
+    width: 25px;
+    aspect-ratio: 1 / 1;
     border: var(--border-t-solid) var(--black-025);
-    border-radius: var(--border-radius-m);
 }
 .color-option.selected {
     border: var(--border-w-solid) var(--black);
@@ -75,4 +72,9 @@
 }
 .fusen-edit-position {
     justify-self: center;
+}
+.headline-text{
+    font-family: yomogi;
+    -webkit-text-stroke: var(--text-stroke-m) var(--black);
+    font-size: var(--font-size-s);
 }
