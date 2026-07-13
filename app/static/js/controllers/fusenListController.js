@@ -3,18 +3,20 @@ import { stopPropagation, storageModeCheck, assert, getFusenId } from "../common
 import { renderFusenList } from "../ui/fusenList.js";
 import { removefusen } from "../ui/fusenList.js"
 import { setupFusenFlip } from "../ui/fusenFlip.js"
-import { messages as msg } from "../common/messages.js";
+import { messages, messages as msg } from "../common/messages.js";
 import { deleteFusen, readFusenList } from "../service/fusenService.js";
 
 
 export async function init(){
     const elems = getElements();
-    if (storageModeCheck(document.body.dataset.storageMode)){
-        const result = await readFusenList();
+    const result = await readFusenList();
+    assert(result, messages.CONDITIONS_UNDIFINED_ERROR);
+    
+    if (result.fusenList){
         renderFusenList(result.fusenList);
         setupFusenFlip(elems.fusenListWindow);
+        setupFusenListEvents(elems);
     }
-    setupFusenListEvents(elems);
 }
 
 function getElements(){
@@ -36,8 +38,9 @@ function setupFusenListEvents(){
         }
         if (deleteButton){
             stopPropagation(e);
-            await deleteFusen(deleteButton);
-            removefusen(deleteButton)
+            if(await deleteFusen(deleteButton)){
+                removefusen(deleteButton)
+            }
             return;
         }
 

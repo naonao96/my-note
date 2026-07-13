@@ -14,7 +14,7 @@ export function init(){
     setupFlatpickr();
     setupColorSelectedButtons(elems.color);
     realtimePreview(elems.preview);
-    createButtonHandler(elems.form);
+    handleFusenSubmit(elems);
     setupFusenFlip(elems.modal.modal);
     setupCreateModalOpen(elems);
     setupEditModalOpen(elems);
@@ -40,6 +40,12 @@ function getElements() {
             fusenContent: document.getElementById("fusen-content"),
             expiresAtData: document.getElementById("datepicker"),
             fusenExpiresAt: document.getElementById("fusen-expires-at")
+        },
+
+        fusenData: {
+            content: document.getElementById("#content").value,
+            color: document.getElementById("selected-color").value,
+            expires_at: document.getElementById("datepicker").value
         },
 
         createButton: document.getElementById("create-open-button"),
@@ -106,10 +112,10 @@ function realtimePreview(elems) {
     });
 };
 
-function createButtonHandler(form){
-    form.addEventListener("submit", async (e) => {
+function handleFusenSubmit(elems){
+    elems.form.addEventListener("submit", async (e) => {
         e.preventDefault(); // 通常のform送信は停止する
-        await upsertFusen(form);
+        await upsertFusen(elems);
         window.location.assign("/note_list/");
     })
 }

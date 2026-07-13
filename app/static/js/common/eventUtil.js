@@ -8,7 +8,8 @@ export function stopPropagation(event){
     console.log("押下", event);
 };
 
-export function storageModeCheck(mode){
+export function storageModeCheck(){
+    const mode = getStorageMode()
     if (mode === "login") {
         // API経由PostgresSQLと通信
         return true
@@ -18,16 +19,23 @@ export function storageModeCheck(mode){
     }
 }
 
+function isApiMode() {
+    return storageModeCheck(document.body.dataset.storageMode);
+}
+
 // アサーション用ヘルパー関数
 export function assert(condition, message){
     if (!condition){
         throw new Error(message);
     }
-    console.log(`★データの状態：${condition}`);
 }
 
 export function getFusenId(elem) {
   const fusenId = elem.closest(".fusen")?.dataset.fusenId;
   assert(fusenId, messages.FUSEN_ID_EXIST_ERROR);
   return fusenId;
+}
+
+function getStorageMode() {
+    return document.body.dataset.storageMode;
 }
