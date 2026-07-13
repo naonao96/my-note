@@ -1,7 +1,7 @@
 "use strict"
 
 import { upsertFusen, readFusen } from "../service/fusenService.js";
-import { handleColorSelect, syncSelectedColor, updatePreview } from "../ui/fusenEdit.js";
+import { getFusenData, handleColorSelect, syncSelectedColor, updatePreview } from "../ui/fusenEdit.js";
 import { setupFusenFlip } from "../ui/fusenFlip.js"
 import { setCreateModal, setEditModal } from "../view/modalView.js";
 import { openModal, setupModal } from "./modalController.js";
@@ -40,12 +40,6 @@ function getElements() {
             fusenContent: document.getElementById("fusen-content"),
             expiresAtData: document.getElementById("datepicker"),
             fusenExpiresAt: document.getElementById("fusen-expires-at")
-        },
-
-        fusenData: {
-            content: document.getElementById("#content").value,
-            color: document.getElementById("selected-color").value,
-            expires_at: document.getElementById("datepicker").value
         },
 
         createButton: document.getElementById("create-open-button"),
@@ -115,7 +109,12 @@ function realtimePreview(elems) {
 function handleFusenSubmit(elems){
     elems.form.addEventListener("submit", async (e) => {
         e.preventDefault(); // 通常のform送信は停止する
-        await upsertFusen(elems);
+
+        await upsertFusen({
+            form: elems.form,
+            fusenData: getFusenData(elems)
+        });
+
         window.location.assign("/note_list/");
     })
 }

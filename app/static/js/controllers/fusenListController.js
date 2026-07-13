@@ -1,9 +1,9 @@
 "use strict"
-import { stopPropagation, storageModeCheck, assert, getFusenId } from "../common/eventUtil.js"
+import { stopPropagation, assert } from "../common/eventUtil.js"
 import { renderFusenList } from "../ui/fusenList.js";
-import { removefusen } from "../ui/fusenList.js"
+import { removeFusen } from "../ui/fusenList.js"
 import { setupFusenFlip } from "../ui/fusenFlip.js"
-import { messages, messages as msg } from "../common/messages.js";
+import { messages } from "../common/messages.js";
 import { deleteFusen, readFusenList } from "../service/fusenService.js";
 
 
@@ -39,7 +39,7 @@ function setupFusenListEvents(){
         if (deleteButton){
             stopPropagation(e);
             if(await deleteFusen(deleteButton)){
-                removefusen(deleteButton)
+                removeFusen(deleteButton)
             }
             return;
         }

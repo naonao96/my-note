@@ -30,6 +30,14 @@ export function removeAllSelected(elems){
     });
 }
 
+export function getFusenData(elems){
+     return {
+        content: elems.preview.contentData.value,
+        color: elems.color.selectedColor.value,
+        expires_at: elems.preview.expiresAtData.value
+     }
+}
+
 // 付箋色選択パレットでユーザが選択した色を有効化
 function addSelected(button){
     button.classList.add("selected");

@@ -3,9 +3,9 @@ import { EDIT_MODE } from "../common/consts.js";
 import { assert } from "../common/eventUtil.js"
 import { messages } from "../common/messages.js";
 
-export async function fetchUpsertApi(elems){
-    const mode = elems.form.dataset.fusenMode
-    const fusenId = elems.form.dataset.fusenId
+export async function fetchUpsertApi(requestData){
+    const mode = requestData.form.dataset.fusenMode
+    const fusenId = requestData.form.dataset.fusenId
 
     const url = mode === EDIT_MODE
     ? `/note_list/api/notes/${fusenId}`
@@ -17,7 +17,7 @@ export async function fetchUpsertApi(elems){
         headers: {
             "Content-Type" : "application/json"
         },
-        body: JSON.stringify(elems.fusenData) 
+        body: JSON.stringify(requestData.fusenData) 
     });
     assert(response.ok, messages.DATA_SAVE_ERROR)
 }

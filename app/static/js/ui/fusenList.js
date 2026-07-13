@@ -28,7 +28,7 @@ export function renderFusenList(fusenList){
 }
 
 // UIから付箋UIを削除する
-export function removefusen(button){
+export function removeFusen(button){
     button.closest(".fusen").remove();
 }
 

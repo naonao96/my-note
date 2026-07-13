@@ -4,10 +4,10 @@ import { assert, getFusenId, storageModeCheck } from "../common/eventUtil.js";
 import { messages } from "../common/messages.js";
 import { fetchUpsertApi, fetchDeleteApi, fetchReadDataApi, fetchReadDataListApi } from "../repository/apiFusenRepository.js";
 
-export async function upsertFusen(elems){
-    assert(elems, messages.CONDITIONS_UNDIFINED_ERROR)     
+export async function upsertFusen(requestData){
+    assert(requestData, messages.CONDITIONS_UNDIFINED_ERROR)     
     if (storageModeCheck()){
-        await fetchUpsertApi(elems)
+        await fetchUpsertApi(requestData)
     }
 }
 
