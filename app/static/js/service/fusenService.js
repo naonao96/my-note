@@ -3,17 +3,26 @@
 import { assert, getFusenId, storageModeCheck } from "../common/eventUtil.js";
 import { messages } from "../common/messages.js";
 import { fetchUpsertApi, fetchDeleteApi, fetchReadDataApi, fetchReadDataListApi } from "../repository/apiFusenRepository.js";
+import { createLocalFusenData, readAllLocalFusenData } from "../repository/indexedDBRepository.js";
 
 export async function upsertFusen(requestData){
-    assert(requestData, messages.CONDITIONS_UNDIFINED_ERROR)     
+    assert(requestData, messages.CONDITIONS_UNDIFINED_ERROR)
     if (storageModeCheck()){
         await fetchUpsertApi(requestData)
+    }
+    else {
+        await createLocalFusenData(requestData)
     }
 }
 
 export async function readFusenList(){
     if (storageModeCheck()){
         const result = await fetchReadDataListApi();
+        assert(result.success, messages.FUSEN_DATA_FETCH_ERROR);
+        return result;
+    }
+    else {
+        const result = await readAllLocalFusenData();
         assert(result.success, messages.FUSEN_DATA_FETCH_ERROR);
         return result;
     }
