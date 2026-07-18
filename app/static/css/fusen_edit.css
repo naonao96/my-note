@@ -9,6 +9,7 @@
 .expires-date-box,
 .color-pallet-background {
     width: 100%;
+    margin-top: 5px;
 }
 .content-box,
 .expires-date-box {
