@@ -3,12 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#fffaf0">
         <title>ちょこっとメモ</title>
-        <link
-        rel="icon"
-        type="image/png"
-        href="{{ url_for('static', filename='images/favicon.png') }}"
-        >
+        <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -16,7 +13,7 @@
     </head>
     <body class="layout-container" data-storage-mode="{{ storageMode }}">
         <header class="after-login-header">
-            <img class="header-title" src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}">
+            <img class="header-title" src="{{ url_for('static', filename='images/icon-80.svg')}}">
             <button id="login-open-button" class="button login-button button-text button-text-white">ログイン</button>
         </header>
         <main>

@@ -48,8 +48,8 @@
 .login-button {
     text-align: center;
     background-color: var(--brown);
-    grid-column: 3 / 4;
-    justify-self: center;
+    grid-column: 3;
+    justify-self: right;
     align-self: center;
     height: var(--height-40)
 }

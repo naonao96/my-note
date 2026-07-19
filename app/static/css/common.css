@@ -4,9 +4,10 @@
     background: var(--creame);
 }
 .after-login-header {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
     position: sticky;
-    justify-content: space-between;
     top: 0;
     z-index: 100;
     padding-top: min(50vw, 15px);
@@ -16,8 +17,8 @@
 /* タイトルデザイン */
 .header-title {
     display: block;
-    width: clamp(180px, 40vw, 300px);
-    height: auto;
+    grid-column: 2;
+    justify-self: center;
 }
 .header-title:hover{
     transform: var(--transform-translateY);
