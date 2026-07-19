@@ -19,26 +19,33 @@
     text-align: left;
     right: var(--page-side-space);
     bottom: 50px;
-    background-color: var(--blue);
-    height: var(--height-50)
+    background-color: color-mix(in srgb, var(--creame) 80%, transparent);
+    height: var(--height-60);
+    aspect-ratio: 1/1;
+    border: var(--border-w-solid) var(--brown);
 }
 .edit-button {
     text-align: center;
-    background-color: var(--white-green);
-    height: var(--height-50);
+    background-color: color-mix(in srgb, var(--creame) 80%, transparent);
     margin-bottom: 10px;
+    height: var(--height-60); 
+    aspect-ratio: 1/1;
+    border: var(--border-w-solid) var(--brown);
 }
 .delete-button {
     text-align: center;
-    background-color: var(--white-red);
-    height: var(--height-50)
+    background-color: color-mix(in srgb, var(--creame) 80%, transparent);
+    height: var(--height-60);
+    aspect-ratio: 1/1;
+    border: var(--border-w-solid) var(--brown);
 }
 .save-button{
     text-align: center;
     width: 100%;
-    background-color: var(--blue);
-    height: var(--height-50);
+    background-color: color-mix(in srgb, var(--creame) 80%, transparent);
+    height: var(--height-60);
     margin-top: var(--margin-m);
+    border: var(--border-w-solid) var(--brown);
 }
 .google-login-button {
     text-align: center;
