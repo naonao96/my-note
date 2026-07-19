@@ -40,6 +40,7 @@ function setupFusenListEvents(){
             stopPropagation(e);
             if(await deleteFusen(deleteButton)){
                 removeFusen(deleteButton)
+                window.location.assign("/note_list/");
             }
             return;
         }
