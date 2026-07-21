@@ -9,7 +9,10 @@
 {% block body %}
 <header class="after-login-header">
     <img class="header-title" src="{{ url_for('static', filename='images/icon-80.svg')}}">
-    <button id="login-open-button" class="button login-button button-text button-text-white">ログイン</button>
+    <button id="login-open-button" class="button login-button button-text button-text-white hidden">ログイン</button>
+    <button id="user-info-button" class="button user-button hidden">
+        <img class="icon" src="{{ url_for('static', filename='images/user-button.svg')}}" alt="ユーザー管理">
+    </button>    
 </header>
 <main>
     <div id="fusen-list" class="fusen-container">

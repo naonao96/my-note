@@ -1,13 +1,13 @@
 "use strict"
 
-import { assert, getFusenId, storageModeCheck } from "../common/eventUtil.js";
+import { assert, getFusenId, isLoggedIn } from "../common/eventUtil.js";
 import { messages } from "../common/messages.js";
 import { fetchUpsertApi, fetchDeleteApi, fetchReadDataApi, fetchReadDataListApi } from "../repository/apiFusenRepository.js";
 import { upsertLocalFusenData, deleteLocalFusenData, readAllLocalFusenData, readLocalFusenData } from "../repository/indexedDBRepository.js";
 
 export async function upsertFusen(requestData){
     assert(requestData, messages.CONDITIONS_UNDIFINED_ERROR)
-    if (storageModeCheck()){
+    if (isLoggedIn()){
         await fetchUpsertApi(requestData);
     }
     else {
@@ -16,7 +16,7 @@ export async function upsertFusen(requestData){
 }
 
 export async function readFusenList(){
-    if (storageModeCheck()){
+    if (isLoggedIn()){
         const result = await fetchReadDataListApi();
         assert(result.success, messages.FUSEN_DATA_FETCH_ERROR);
         return result;
@@ -33,7 +33,7 @@ export async function deleteFusen(button){
     if (!confirm("この付箋を削除しますか？")){
         return false;   
     }
-    if (storageModeCheck()){
+    if (isLoggedIn()){
         await fetchDeleteApi(getFusenId(button));
         return true;
     }
@@ -45,7 +45,7 @@ export async function deleteFusen(button){
 
 export async function readFusen(button){
     assert(button, messages.CONDITIONS_UNDIFINED_ERROR)
-    if (storageModeCheck()){
+    if (isLoggedIn()){
         const result = await fetchReadDataApi(getFusenId(button));
         assert(result.success, messages.FUSEN_DATA_FETCH_ERROR);
         return result;

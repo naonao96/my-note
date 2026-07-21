@@ -25,3 +25,8 @@
     transition: var(--transition-slow);
     box-shadow: var(--box-shadow-l) var(--black-050);
 }
+
+/*　toggle用（要素の表示・非表示の切り替え）　*/
+.hidden {
+    display: none;
+}

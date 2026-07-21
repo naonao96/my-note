@@ -14,38 +14,37 @@
 .button:active {
     transform: scale(0.94);
 }
+.create-button,
+.edit-button,
+.delete-button,
+.save-button,
+.user-button {
+    background-color: color-mix(in srgb, var(--creame) 80%, transparent);
+    height: var(--height-60);
+    border: var(--border-w-solid) var(--brown);
+}
 .create-button{
     position: fixed;
-    text-align: left;
+    aspect-ratio: 1/1;
     right: var(--page-side-space);
     bottom: 50px;
-    background-color: color-mix(in srgb, var(--creame) 80%, transparent);
-    height: var(--height-60);
-    aspect-ratio: 1/1;
-    border: var(--border-w-solid) var(--brown);
 }
 .edit-button {
-    text-align: center;
-    background-color: color-mix(in srgb, var(--creame) 80%, transparent);
     margin-bottom: 10px;
-    height: var(--height-60); 
     aspect-ratio: 1/1;
-    border: var(--border-w-solid) var(--brown);
 }
 .delete-button {
-    text-align: center;
-    background-color: color-mix(in srgb, var(--creame) 80%, transparent);
-    height: var(--height-60);
     aspect-ratio: 1/1;
-    border: var(--border-w-solid) var(--brown);
 }
-.save-button{
-    text-align: center;
+.save-button {
     width: 100%;
-    background-color: color-mix(in srgb, var(--creame) 80%, transparent);
-    height: var(--height-60);
     margin-top: var(--margin-m);
-    border: var(--border-w-solid) var(--brown);
+}
+.user-button {
+    aspect-ratio: 1/1;
+    grid-column: 3;
+    justify-self: right;
+    align-self: center;
 }
 .google-login-button {
     text-align: center;
@@ -58,7 +57,7 @@
     grid-column: 3;
     justify-self: right;
     align-self: center;
-    height: var(--height-40)
+    height: var(--height-40);
 }
 .button-text {
     display: block;
