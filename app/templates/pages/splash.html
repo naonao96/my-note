@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<head>
-    <meta charset="UTF-8">
-    <title>ちょこっとメモ</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% extends "base.html" %}
+{% block head %}
     <script type="module" src="{{ url_for('static', filename='js/startupMain.js') }}" defer></script>
-</head>
-<body class="layout-container splash-container" data-timer="{{ timer }}" data-next-url="{{ nextUrl }}">
+{% endblock %}
+{% block body_class %}layout-container splash-container{% endblock %}
+{% block body_attribute %}data-timer="{{ timer }}" data-next-url="{{ nextUrl }}"{% endblock %}
+{% block body %}
     <header class="splash-header">
         <div class="splash-fusen" style="background: #F8C394;"></div>
         <div class="splash-fusen top-y-fusen" style="background: #A9CEEC;"></div>
@@ -21,4 +20,4 @@
             <div class="splash-fusen" style="background: #96F8AF;"></div>
         </div>
     </footer>
-</body>
+{% endblock %}

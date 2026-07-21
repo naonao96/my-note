@@ -64,15 +64,21 @@
     display: block;
     font-family: yomogi;
     transform: translateY(-2px);
-    font-size: 16px;   
 }
 .button-text-black {
     color: var(--black);
     -webkit-text-stroke: var(--text-stroke-l) var(--black);
+    font-size: 16px;
 }
 .button-text-white {
     color: var(--white);
     -webkit-text-stroke: var(--text-stroke-l) var(--white);
+    font-size: 16px;
+}
+.button-text-brown {
+    color: var(--brown);
+    -webkit-text-stroke: var(--text-stroke-m) var(--brown);
+    font-size: 24px;
 }
 .icon {
     width: min(40vw, 27px);
