@@ -16,14 +16,13 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: var(--black);
-    opacity: 0.7;
+    color: var(--brown);
     width: 35px;
     height: 35px;
-    border: var(--border-m-solid) var(--black-010);
+    border: var(--border-m-solid) var(--brown);
     font-size: var(--font-size-m);
     border-radius: var(--border-radius-circle);
-    background-color: var(--white);
+    background-color: color-mix(in srgb, var(--creame) 80%, transparent);
     box-shadow: var(--box-shadow-m) var(--black-015);
 }
 .fusen-menu-dropdown{

@@ -14,31 +14,37 @@
 .button:active {
     transform: scale(0.94);
 }
+.create-button,
+.edit-button,
+.delete-button,
+.save-button,
+.user-button {
+    background-color: color-mix(in srgb, var(--creame) 80%, transparent);
+    height: var(--height-60);
+    border: var(--border-w-solid) var(--brown);
+}
 .create-button{
     position: fixed;
-    text-align: left;
+    aspect-ratio: 1/1;
     right: var(--page-side-space);
     bottom: 50px;
-    background-color: var(--blue);
-    height: var(--height-50)
 }
 .edit-button {
-    text-align: center;
-    background-color: var(--white-green);
-    height: var(--height-50);
     margin-bottom: 10px;
+    aspect-ratio: 1/1;
 }
 .delete-button {
-    text-align: center;
-    background-color: var(--white-red);
-    height: var(--height-50)
+    aspect-ratio: 1/1;
 }
-.save-button{
-    text-align: center;
+.save-button {
     width: 100%;
-    background-color: var(--blue);
-    height: var(--height-50);
     margin-top: var(--margin-m);
+}
+.user-button {
+    aspect-ratio: 1/1;
+    grid-column: 3;
+    justify-self: right;
+    align-self: center;
 }
 .google-login-button {
     text-align: center;
@@ -48,24 +54,30 @@
 .login-button {
     text-align: center;
     background-color: var(--brown);
-    grid-column: 3 / 4;
-    justify-self: center;
+    grid-column: 3;
+    justify-self: right;
     align-self: center;
-    height: var(--height-40)
+    height: var(--height-40);
 }
 .button-text {
     display: block;
     font-family: yomogi;
     transform: translateY(-2px);
-    font-size: 16px;   
 }
 .button-text-black {
     color: var(--black);
     -webkit-text-stroke: var(--text-stroke-l) var(--black);
+    font-size: 16px;
 }
 .button-text-white {
     color: var(--white);
     -webkit-text-stroke: var(--text-stroke-l) var(--white);
+    font-size: 16px;
+}
+.button-text-brown {
+    color: var(--brown);
+    -webkit-text-stroke: var(--text-stroke-m) var(--brown);
+    font-size: 24px;
 }
 .icon {
     width: min(40vw, 27px);

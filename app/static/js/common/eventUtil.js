@@ -2,37 +2,25 @@
 
 import { messages } from "../common/messages.js";
 
-// 対象のイベント伝播停止
 export function stopPropagation(event){
     event.stopPropagation();
     console.log("押下", event);
 };
 
-export function storageModeCheck(){
-    const mode = getStorageMode()
-    if (mode === "login") {
-        // API経由PostgresSQLと通信
-        return true
-    } else {
-        // ローカルのIndexedDBと通信
-        return false
-    }
+export function isLoggedIn(){
+    return getStorageMode() === "login"
 }
 
-function isApiMode() {
-    return storageModeCheck(document.body.dataset.storageMode);
-}
-
-// アサーション用ヘルパー関数
 export function assert(condition, message){
     if (!condition){
         throw new Error(message);
     }
 }
 
+// 付箋IDは複数回取得するので共通化（型配慮IDはINTで統一）
 export function getFusenId(elem) {
-  const fusenId = elem.closest(".fusen")?.dataset.fusenId;
-  assert(fusenId, messages.FUSEN_ID_EXIST_ERROR);
+  const fusenId = Number(elem.closest(".fusen")?.dataset.fusenId);
+  assert(Number.isInteger(fusenId), messages.FUSEN_ID_EXIST_ERROR);
   return fusenId;
 }
 
