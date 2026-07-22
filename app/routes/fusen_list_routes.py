@@ -20,9 +20,9 @@ def startup():
 @note_bp.route("/api/notes", methods=["POST"])
 @login_required
 def create_fusen():
-    service : FusenService = FusenService()
-    dto : FusenData =set_fusen_data()
     try:
+        service : FusenService = FusenService()
+        dto : FusenData =set_fusen_data()
         service.fusen_create(dto)
         return jsonify({"success" : True}), 201
     except Exception as e:
@@ -33,9 +33,9 @@ def create_fusen():
 @note_bp.route("/api/notes", methods=["GET"])
 @login_required
 def read_fusen_list():
-    service : FusenService = FusenService()
-    dict_list : list = []
     try:
+        service : FusenService = FusenService()
+        dict_list : list = []
         dto_list = service.fusen_all_read(session.get("user_id"))
         dict_list : list = [
             jsonify_data_pack(dto)
@@ -50,8 +50,8 @@ def read_fusen_list():
 @note_bp.route("/api/notes/<int:fusenId>", methods=["GET"])
 @login_required
 def read_fusen(fusenId : int):
-    service : FusenService = FusenService()
     try:
+        service : FusenService = FusenService()
         dto_dict : dict = jsonify_data_pack(service.fusen_read(fusenId, session.get("user_id")))
         return jsonify({"success" : True, "fusenMode": consts.EDIT_MODE, "fusenData" : dto_dict}), 200
     except Exception as e:
@@ -61,9 +61,9 @@ def read_fusen(fusenId : int):
 @note_bp.route("/api/notes/<int:fusenId>", methods=["PUT"])
 @login_required
 def update_fusen(fusenId : int):
-    service : FusenService = FusenService()
-    dto : FusenData =set_fusen_data(fusenId)
     try:
+        service : FusenService = FusenService()
+        dto : FusenData =set_fusen_data(fusenId)
         service.fusen_update(dto)
         return jsonify({"success" : True}), 200
     except Exception as e:
@@ -73,8 +73,8 @@ def update_fusen(fusenId : int):
 @note_bp.route("/api/notes/<int:fusenId>", methods=["DELETE"])
 @login_required
 def delete_fusen(fusenId : int):
-    service : FusenService = FusenService()
     try: 
+        service : FusenService = FusenService()
         service.fusen_delete(fusenId, session.get("user_id"))
         return jsonify({"success" : True}), 200
     except Exception as e:
@@ -84,7 +84,11 @@ def delete_fusen(fusenId : int):
 # -----モジュール共通関数-----
 # フロントからの入力を受けDTOへデータをPack
 def set_fusen_data(fusen_id : int | None = None) -> FusenData:
-    data = request.get_json()
+    data = request.get_json(silent=True)
+
+    if not isinstance(data, dict):
+        raise ValueError("JSON形式のリクエストデータが必要です")
+    
     return FusenData(
         id= fusen_id,
         user_id=session.get("user_id"),

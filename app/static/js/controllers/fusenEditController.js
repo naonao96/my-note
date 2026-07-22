@@ -40,9 +40,7 @@ function getElements() {
             fusenContent: document.getElementById("fusen-content"),
             expiresAtData: document.getElementById("datepicker"),
             fusenExpiresAt: document.getElementById("fusen-expires-at")
-        },
-
-        createButton: document.getElementById("create-open-button"),
+        }
     };
 }
 
@@ -66,15 +64,17 @@ function setupEditModalOpen(elems) {
         if (!editButton) return;
 
         e.preventDefault();
-
-        const result = await readFusen(editButton);
-
-        assert(result?.fusenData, messages.CONDITIONS_UNDIFINED_ERROR);
-
-        setEditModal(elems.form, result.fusenData);
-        syncSelectedColor(elems.color);
-        updatePreview(elems.preview);
-        openModal(elems.modal);
+        try{
+            const result = await readFusen(editButton);
+            assert(result?.fusenData, messages.CONDITIONS_UNDIFINED_ERROR);
+            setEditModal(elems.form, result.fusenData);
+            syncSelectedColor(elems.color);
+            updatePreview(elems.preview);
+            openModal(elems.modal);
+        }
+        catch(error){
+            console.error(messages.DATA_READ_ERROR, error);
+        }
     });
 }
 
@@ -87,11 +87,11 @@ function setupFlatpickr() {
 }
 
 // 付箋カラー選択（自動・手動）
-function setupColorSelectedButtons(elems){
-    syncSelectedColor(elems);
-    elems.colorButtons.forEach(button => {
+function setupColorSelectedButtons(colorElems){
+    syncSelectedColor(colorElems);
+    colorElems.colorButtons.forEach(button => {
         button.addEventListener("click", () => {
-            handleColorSelect(button, elems)
+            handleColorSelect(button, colorElems)
         });
     });
 }
@@ -109,12 +109,15 @@ function realtimePreview(elems) {
 function handleFusenSubmit(elems){
     elems.form.addEventListener("submit", async (e) => {
         e.preventDefault(); // 通常のform送信は停止する
-
-        await upsertFusen({
-            form: elems.form,
-            fusenData: getFusenData(elems)
-        });
-
-        window.location.assign("/note_list/");
+        try{
+            await upsertFusen({
+                form: elems.form,
+                fusenData: getFusenData(elems)
+            });
+            window.location.assign("/note_list/");
+        }
+        catch(error){
+            console.error(messages.DATA_SAVE_ERROR, error);
+        }
     })
 }

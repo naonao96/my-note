@@ -9,13 +9,17 @@ import { deleteFusen, readFusenList } from "../service/fusenService.js";
 
 export async function init(){
     const elems = getElements();
-    const result = await readFusenList();
-    assert(result, messages.CONDITIONS_UNDIFINED_ERROR);
-    
-    if (result.fusenList){
-        renderFusenList(result.fusenList);
+    try{
+        const result = await readFusenList();
+        assert(result, messages.CONDITIONS_UNDIFINED_ERROR);
+        if (result.fusenList){
+            renderFusenList(result.fusenList);
+        }
         setupFusenFlip(elems.fusenListWindow);
         setupFusenListEvents(elems);
+    }
+    catch(error){
+        console.error(messages.DATA_READ_ERROR, error);
     }
 }
 
@@ -38,11 +42,15 @@ function setupFusenListEvents(){
         }
         if (deleteButton){
             stopPropagation(e);
-            if(await deleteFusen(deleteButton)){
-                removeFusen(deleteButton)
-                window.location.assign("/note_list/");
+            try{
+                if(await deleteFusen(deleteButton)) {
+                    removeFusen(deleteButton);
+                }
+                return;
             }
-            return;
+            catch(error){
+                console.error(messages.DATA_DELETE_ERROR, error);
+            }
         }
 
         // それ以外クリック時
