@@ -1,5 +1,6 @@
-## About Chokotto Memo
+![Chokotto Memo](app/static/images/Title_chocottoMemo.svg)![Chokotto Memo](app/static/images/icon-80.svg)
 
+## About Chokotto Memo
 **「冷蔵庫へ貼り付ける付箋の感覚を、デジタルへ。」**  
 **"Bringing the feeling of sticky notes on your refrigerator into the digital world."**
 
@@ -42,6 +43,8 @@ and make your everyday life a little more organized and enjoyable.
 - HTML
 - CSS
 - JavaScript
+- IndexedDB
+- Service Worker (PWA)
 
 ### Database
 - PostgreSQL
@@ -50,15 +53,23 @@ and make your everyday life a little more organized and enjoyable.
 
 ## Architecture
 
-Chokotto Memo is structured with a simple layered architecture.
+Chokotto Memo follows a layered architecture based on the Repository Pattern.
 
-- Routes: handles HTTP requests and responses
-- Service: handles business logic and DTO / Model conversion
-- Repository: handles database access
-- Model: defines database tables
-- DTO: transfers data between layers
+- Routes
+- Service
+- Repository
+- DTO
+- Model
 
----
+```mermaid
+flowchart TD
+    Route --> Service
+    Service --> Repository
+    Repository --> Database[(PostgreSQL)]
+
+    Service <--> DTO
+    Repository <--> Model
+```
 
 ## Features
 
@@ -66,6 +77,8 @@ Chokotto Memo is structured with a simple layered architecture.
 - Flip animation interaction
 - Expiration based memo management
 - Simple and lightweight experience
+- Offline support (PWA)
+- Local storage with IndexedDB
 
 ---
 
@@ -80,4 +93,10 @@ just like placing a sticky note on your refrigerator.
 
 ## Demo
 
-[Chokotto Memo Demo](https://my-note-wst1.onrender.com?utm_source=chatgpt.com)
+Try Chokotto Memo here:
+
+🌐 [Live Demo](https://my-note-wst1.onrender.com)
+
+## License
+
+See the [LICENSE](LICENSE) file for details.
