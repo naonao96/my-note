@@ -4,7 +4,7 @@ import { assert } from "../common/eventUtil.js"
 import { messages } from "../common/messages.js";
 
 export async function fetchUpsertApi(requestData){
-    assert(requestData, messages.CONDITIONS_UNDIFINED_ERROR);
+    assert(requestData, messages.CONDITIONS_UNDEFINED_ERROR);
     const mode = requestData.form.dataset.fusenMode;
     const fusenId = Number(requestData.form.dataset.fusenId);
     assert(Number.isInteger(fusenId) && fusenId > 0, messages.FUSEN_ID_EXIST_ERROR);
@@ -36,7 +36,7 @@ export async function fetchReadDataApi(fusenId){
 }
 
 export async function fetchDeleteApi(fusenId){
-    assert(Number.isInteger(fusenId), messages.FUSEN_ID_EXIST_ERROR);
+    assert(Number.isInteger(fusenId) && fusenId > 0, messages.FUSEN_ID_EXIST_ERROR);
     const response = await fetch(`/note_list/api/notes/${fusenId}`, { method: "DELETE" });
     assert(response.ok, `${messages.DATA_DELETE_ERROR} status=${response.status}`);
 }

@@ -10,7 +10,6 @@ import { assert } from "../common/eventUtil.js";
 
 export function init(){
     const elems = getElements();
-
     setupFlatpickr();
     setupColorSelectedButtons(elems.color);
     realtimePreview(elems.preview);
@@ -83,6 +82,7 @@ function setupFlatpickr() {
     flatpickr("#datepicker", {
         enableTime: false,
         dateFormat: "Y-m-d",
+        disableMobile: true
     });
 }
 

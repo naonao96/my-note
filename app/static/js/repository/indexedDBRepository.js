@@ -27,53 +27,80 @@ function openDB(){
 }
 
 function initDB(db){
-    assert(db, messages.CONDITIONS_UNDIFINED_ERROR);
+    assert(db, messages.CONDITIONS_UNDEFINED_ERROR);
     if (!db.objectStoreNames.contains(STORE_NAME)){
         db.createObjectStore(STORE_NAME, { keyPath: "id", autoIncrement: true });
     }
 }
 
 export async function upsertLocalFusenData(requestData){
-    assert(requestData, messages.CONDITIONS_UNDIFINED_ERROR);
-    const db = await openDB();
-    const mode = requestData.form.dataset.fusenMode;
-    const fusenData = { ...requestData.fusenData };
-    if (mode === EDIT_MODE){
-        const fusenId = Number(requestData.form.dataset.fusenId);
-        assert(Number.isInteger(fusenId) && fusenId > 0, messages.FUSEN_ID_EXIST_ERROR);
-        fusenData.id = fusenId;
+    let db;
+    try{
+        assert(requestData, messages.CONDITIONS_UNDEFINED_ERROR);
+        const db = await openDB();
+        const mode = requestData.form.dataset.fusenMode;
+        const fusenData = { ...requestData.fusenData };
+        if (mode === EDIT_MODE){
+            const fusenId = Number(requestData.form.dataset.fusenId);
+            assert(Number.isInteger(fusenId) && fusenId > 0, messages.FUSEN_ID_EXIST_ERROR);
+            fusenData.id = fusenId;
+        }
+        const request = setStore(db, READ_WRITE).put(fusenData);
+        const id = await requestToPromise(request);
+        return { id };
     }
-    const request = setStore(db, READ_WRITE).put(fusenData);
-    const id = await requestToPromise(request);
-    return { id };
+    finally{
+        db?.close();
+    }
+
 }
 
 export async function readLocalFusenData(fusenId){
-    assert(Number.isInteger(fusenId), messages.FUSEN_ID_EXIST_ERROR);
-    const db = await openDB();
-    const request = setStore(db, READ_ONLY).get(fusenId);
-    const fusenData = await requestToPromise(request);
-    return { fusenData };
+    let db;
+    try{
+        assert(Number.isInteger(fusenId) && fusenId > 0, messages.FUSEN_ID_EXIST_ERROR);
+        const db = await openDB();
+        const request = setStore(db, READ_ONLY).get(fusenId);
+        const fusenData = await requestToPromise(request);
+        return { fusenData };
+    }
+    finally {
+        db?.close();
+    }
+
 }
 
 export async function readAllLocalFusenData(){
-    const db = await openDB();
-    const request = setStore(db, READ_ONLY).getAll();
-    const fusenList = await requestToPromise(request);
-    return { fusenList };
+    let db;
+    try{
+        const db = await openDB();
+        const request = setStore(db, READ_ONLY).getAll();
+        const fusenList = await requestToPromise(request);
+        return { fusenList };
+    }
+    finally{
+        db?.close();
+    }
+
 }
 
 export async function deleteLocalFusenData(fusenId){
-    assert(Number.isInteger(fusenId), messages.FUSEN_ID_EXIST_ERROR);
-    const db = await openDB();
-    const request = setStore(db, READ_WRITE).delete(fusenId);
-    await requestToPromise(request);
+    let db;
+    try{
+        assert(Number.isInteger(fusenId) && fusenId > 0, messages.FUSEN_ID_EXIST_ERROR);
+        const db = await openDB();
+        const request = setStore(db, READ_WRITE).delete(fusenId);
+        await requestToPromise(request);
+    }
+    finally{
+        db?.close();
+    }
 }
 
 //---共通関数---
 function setStore(db, transactionMode){
-    assert(db, messages.CONDITIONS_UNDIFINED_ERROR);
-    assert(transactionMode, messages.CONDITIONS_UNDIFINED_ERROR);
+    assert(db, messages.CONDITIONS_UNDEFINED_ERROR);
+    assert(transactionMode, messages.CONDITIONS_UNDEFINED_ERROR);
     const transaction = db.transaction(STORE_NAME, transactionMode);
     const store = transaction.objectStore(STORE_NAME);
     return store;

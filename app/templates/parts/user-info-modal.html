@@ -1,0 +1,40 @@
+<div id="user-modal-overlay" class="modal-overlay hidden"></div>
+<section id="user-modal" class="user-modal hidden" role="dialog" aria-modal="true" aria-labelledby="user-modal-title">
+    <div class="user-profile">
+        <img class="user-profile-icon" src="{{ url_for('static', filename='images/user-button.svg') }}" alt="">
+        <div class="user-profile-text">
+            <h2 id="user-modal-title" class="user-name">
+                {{ user.name }}
+            </h2>
+            <p class="user-email">
+                {{ user.email }}
+            </p>
+        </div>
+    </div>
+    <div class="account-actions">
+        <h3 class="account-actions-title">アカウント操作</h3>
+        <div class="account-action">
+            <p class="account-action-title">ログアウトする</p>
+            <p class="account-action-description">
+                このデバイスからログアウトします
+            </p>
+            <form action="{{ url_for('auth.logout') }}" method="post">
+                <button
+                    type="submit"
+                    class="button logout-button"
+                >
+                    ログアウト
+                </button>
+            </form>
+        </div>
+        <div class="account-action danger-zone">
+            <p class="account-action-title">アカウントを削除する</p>
+            <p class="account-action-description">
+                この操作は取り消すことができません
+            </p>
+            <button id="account-delete-button" type="button" class="button account-delete-button">
+                アカウント削除
+            </button>
+        </div>
+    </div>
+</section>
