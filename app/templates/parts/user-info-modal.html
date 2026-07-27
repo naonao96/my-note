@@ -4,10 +4,8 @@
         <img class="user-profile-icon" src="{{ url_for('static', filename='images/user-button.svg') }}" alt="">
         <div class="user-profile-text">
             <h2 id="user-modal-title" class="user-name">
-                {{ user.name }}
             </h2>
             <p class="user-email">
-                {{ user.email }}
             </p>
         </div>
     </div>
@@ -19,10 +17,8 @@
                 このデバイスからログアウトします
             </p>
             <form action="{{ url_for('auth.logout') }}" method="post">
-                <button
-                    type="submit"
-                    class="button logout-button"
-                >
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="button logout-button">
                     ログアウト
                 </button>
             </form>

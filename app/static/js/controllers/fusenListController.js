@@ -1,37 +1,39 @@
 "use strict"
-import { stopPropagation, assert } from "../common/eventUtil.js"
+import { stopPropagation, assert, isLoggedIn } from "../common/eventUtil.js"
 import { renderFusenList } from "../ui/fusenList.js";
 import { removeFusen } from "../ui/fusenList.js"
 import { setupFusenFlip } from "../ui/fusenFlip.js"
 import { messages } from "../common/messages.js";
 import { deleteFusen, readFusenList } from "../service/fusenService.js";
+import { getElements } from "../element/fusenListElements.js";
+import { setupModal } from "./modalController.js";
 
-
+/**
+ * 付箋リスト画面の初期化を行います。
+ * 
+ * @returns {Promise<void>}
+ */
 export async function init(){
     const elems = getElements();
+
+    setupFusenListEvents();
+    setupAccountModal(elems);
+
     try{
         const result = await readFusenList();
         assert(result, messages.CONDITIONS_UNDIFINED_ERROR);
         if (result.fusenList){
             renderFusenList(result.fusenList);
+            setupFusenFlip(elems.fusenListWindow);
         }
-        setupFusenFlip(elems.fusenListWindow);
-        setupFusenListEvents(elems);
     }
     catch(error){
         console.error(messages.DATA_READ_ERROR, error);
     }
 }
 
-function getElements(){
-    return {
-        fusenListWindow: document.getElementById("fusen-list")
-    }
-}
-
 function setupFusenListEvents(){
     document.addEventListener("click", async (e) => {
-        //　ログイン・作成・編集ボタンに関してはモーダル起動のためModalController.jsにて管理
         const menuButton = e.target.closest(".fusen-menu-button");
         const deleteButton = e.target.closest(".delete-button");
         
@@ -71,4 +73,17 @@ function closeAllMenus(){
     document.querySelectorAll(".fusen-menu.is-open").forEach(menu => {
         menu.classList.remove("is-open");
     });
+}
+
+/**
+ * ログイン状態に応じたアカウント用モーダルを設定します。
+ * @param {import("../element/fusenListElements.js").FusenListElements} elems 
+ */
+function setupAccountModal(elems){
+    if (isLoggedIn()){
+        setupModal(elems.userInfoModal)
+    }
+    else {
+        setupModal(elems.loginModal)
+    }
 }

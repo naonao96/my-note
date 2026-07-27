@@ -1,4 +1,9 @@
 'use strict'
+
+/**
+ * スプラッシュ画面を起動します。
+ * @returns {void}
+ */
 export function start(){
     const timer = Number(document.body.dataset.timer);
     const nextUrl = document.body.dataset.nextUrl;

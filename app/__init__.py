@@ -1,8 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
+from flask_wtf.csrf import CSRFProtect
 
 db = SQLAlchemy()
+csrf = CSRFProtect()
 
 def create_app():
     app = Flask(__name__)
@@ -12,5 +14,6 @@ def create_app():
     app.config["SESSION_COOKIE_SECURE"]= Config.SESSION_COOKIE_SECURE
     
     db.init_app(app)
+    csrf.init_app(app)
 
     return app

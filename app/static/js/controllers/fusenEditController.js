@@ -7,6 +7,7 @@ import { setCreateModal, setEditModal } from "../view/modalView.js";
 import { openModal, setupModal } from "./modalController.js";
 import { messages } from "../common/messages.js";
 import { assert } from "../common/eventUtil.js";
+import { getElements } from "../element/fusenEditElements.js";
 
 export function init(){
     const elems = getElements();
@@ -14,40 +15,19 @@ export function init(){
     setupColorSelectedButtons(elems.color);
     realtimePreview(elems.preview);
     handleFusenSubmit(elems);
-    setupFusenFlip(elems.modal.modal);
+    setupFusenFlip(elems.editModal.modal);
     setupCreateModalOpen(elems);
     setupEditModalOpen(elems);
 }
 
-function getElements() {
-    return {
-        form: document.getElementById("fusen-form"),
-
-        modal: {
-            overlay: document.getElementById("edit-modal-overlay"),
-            modal: document.getElementById("edit-modal")
-        },
-
-        color: {
-            colorButtons: document.querySelectorAll(".color-option"),
-            selectedColor: document.getElementById("selected-color"),
-            editModal: document.getElementById("edit-modal")
-        },
-
-        preview: {
-            contentData: document.getElementById("content"),
-            fusenContent: document.getElementById("fusen-content"),
-            expiresAtData: document.getElementById("datepicker"),
-            fusenExpiresAt: document.getElementById("fusen-expires-at")
-        }
-    };
-}
-
+/**
+ * 新規登録用モーダルの設定を行います。
+ * @param {import("../element/fusenEditElements.js").FusenEditElements} elems 
+ * @returns {void}
+ */
 function setupCreateModalOpen(elems) {
     setupModal(
-        "#create-open-button",
-        "edit-modal-overlay",
-        "edit-modal",
+        elems.editModal,
         () => {
             setCreateModal(elems.form);
             syncSelectedColor(elems.color);
@@ -56,6 +36,11 @@ function setupCreateModalOpen(elems) {
     );
 }
 
+/**
+ * 更新登録用モーダルの設定を行います。
+ * @param {import("../element/fusenEditElements.js").FusenEditElements} elems 
+ * @returns {void}
+ */
 function setupEditModalOpen(elems) {
     document.addEventListener("click", async (e) => {
         const editButton = e.target.closest(".edit-button");
@@ -69,7 +54,7 @@ function setupEditModalOpen(elems) {
             setEditModal(elems.form, result.fusenData);
             syncSelectedColor(elems.color);
             updatePreview(elems.preview);
-            openModal(elems.modal);
+            openModal(elems.editModal);
         }
         catch(error){
             console.error(messages.DATA_READ_ERROR, error);
@@ -77,7 +62,9 @@ function setupEditModalOpen(elems) {
     });
 }
 
-// 期限日の設定
+/**
+ * 期限日の設定
+ */
 function setupFlatpickr() {
     flatpickr("#datepicker", {
         enableTime: false,
@@ -86,7 +73,11 @@ function setupFlatpickr() {
     });
 }
 
-// 付箋カラー選択（自動・手動）
+/**
+ * 付箋カラー選択（自動・手動）
+ * @param {import("../element/fusenEditElements.js").ColorElements} colorElems
+ * @returns {void}
+ *  */ 
 function setupColorSelectedButtons(colorElems){
     syncSelectedColor(colorElems);
     colorElems.colorButtons.forEach(button => {
@@ -96,16 +87,25 @@ function setupColorSelectedButtons(colorElems){
     });
 }
 
-// 内容・期限をリアルタイムに変更する
-function realtimePreview(elems) {
-    elems.contentData.addEventListener("input", () => {
-        updatePreview(elems);
+/**
+ * 内容・期限をリアルタイムに変更する。
+ * @param {import("../element/fusenEditElements.js").PreviewElements} previewElems 
+ * @returns {void}
+ *  */ 
+function realtimePreview(previewElems) {
+    previewElems.contentData.addEventListener("input", () => {
+        updatePreview(previewElems);
     });
-    elems.expiresAtData.addEventListener("input", () => {
-        updatePreview(elems);
+    previewElems.expiresAtData.addEventListener("input", () => {
+        updatePreview(previewElems);
     });
 };
 
+/**
+ * 内容・期限をリアルタイムに変更する。
+ * @param {import("../element/fusenEditElements.js").FusenEditElements} elems 
+ * @returns {void}
+ *  */ 
 function handleFusenSubmit(elems){
     elems.form.addEventListener("submit", async (e) => {
         e.preventDefault(); // 通常のform送信は停止する

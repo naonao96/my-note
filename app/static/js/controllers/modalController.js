@@ -2,32 +2,46 @@
 import { assert } from "../common/eventUtil.js"
 import { messages } from "../common/messages.js";
 
-export function setupModal(openButtonSelector, overlayId, modalId, beforeOpen) {
-    const elems = {
-        openButton: document.querySelector(openButtonSelector),
-        overlay: document.getElementById(overlayId),
-        modal: document.getElementById(modalId)
-    };
-    assert(elems.openButton, messages.CONDITIONS_UNDIFINED_ERROR);
-    assert(elems.overlay, messages.CONDITIONS_UNDIFINED_ERROR);
-    assert(elems.modal, messages.CONDITIONS_UNDIFINED_ERROR);
+/**
+ * モーダルのイベントを設定します。
+ *
+ * @param {import("../element/modalElements.js").ModalElements} modalElems モーダル専用DOM
+ * @param {() => void} [beforeOpen] モーダルを開く前に実行する処理
+ * @returns {void}
+ */
+export function setupModal(modalElems, beforeOpen) {
+    assert(modalElems.openButton, messages.CONDITIONS_UNDIFINED_ERROR);
+    assert(modalElems.overlay, messages.CONDITIONS_UNDIFINED_ERROR);
+    assert(modalElems.modal, messages.CONDITIONS_UNDIFINED_ERROR);
 
-    elems.openButton.addEventListener("click", () => {
+    modalElems.openButton.addEventListener("click", () => {
         beforeOpen?.();
-        openModal(elems);
+        openModal(modalElems);
     });
 
-    elems.overlay.addEventListener("click", () => {
-        closeModal(elems);
+    modalElems.overlay.addEventListener("click", () => {
+        closeModal(modalElems);
     });
 }
 
-export function openModal(elems) {
-    elems.overlay.classList.remove("hidden");
-    elems.modal.classList.remove("hidden");
+/**
+ * モーダル画面を表示します。
+ * ※基本はsetupModalより呼び出しを行う。
+ * @param {import("../element/modalElements.js").ModalElements} modalElems モーダル専用DOM
+ * @returns {void}
+ */
+export function openModal(modalElems) {
+    modalElems.overlay.classList.remove("hidden");
+    modalElems.modal.classList.remove("hidden");
 }
 
-export function closeModal(elems) {
-    elems.overlay.classList.add("hidden");
-    elems.modal.classList.add("hidden");
+/**
+ * モーダル画面を終了します。
+ * ※基本はsetupModalより呼び出しを行う。
+ * @param {import("../element/modalElements.js").ModalElements} modalElems モーダル専用DOM
+ * @returns {void}
+ */
+export function closeModal(modalElems) {
+    modalElems.overlay.classList.add("hidden");
+    modalElems.modal.classList.add("hidden");
 }

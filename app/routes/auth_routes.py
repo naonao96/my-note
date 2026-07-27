@@ -51,6 +51,11 @@ def login_callback():
     
     return redirect(url_for("notes.startup"))
 
+@auth_bp.route("/google/logout", methods=["POST"])
+def logout():
+    session_clean("user_id")
+    return redirect(url_for("notes.startup"))
+
 '''Param・dto設定関数'''
 def google_first_req_param(state:str) -> dict:
     return {

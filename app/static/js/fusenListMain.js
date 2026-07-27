@@ -6,12 +6,6 @@ import { updateAuthButton } from "./controllers/authController.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     updateAuthButton();
-
-    setupModal(
-        "#login-open-button",
-        "login-modal-overlay",
-        "login-modal"
-    );
     initListWindow();
     initEditModal();
 });
