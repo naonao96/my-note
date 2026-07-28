@@ -1,6 +1,7 @@
 "use strict";
 
-const CACHE_NAME = "chocotto-memo-v1";
+const CACHE_PREFIX = "chocotto-memo-"
+const CACHE_NAME = `${CACHE_PREFIX}v1`
 const CACHE_FILES = [
     "/static/css/style.css",
     "/static/manifest.json"
@@ -23,7 +24,10 @@ self.addEventListener("activate", (event) => {
             .then((cacheNames) => {
                 return Promise.all(
                     cacheNames
-                    .filter((cacheName) => cacheName !== CACHE_NAME )
+                    .filter((cacheName) => 
+                        cacheName.startsWith(CACHE_PREFIX) && 
+                        cacheName !== CACHE_NAME
+                    )
                     .map((cacheName) => caches.delete(cacheName))
                 )
             })
@@ -35,29 +39,29 @@ self.addEventListener("fetch", (event) => {
     const url = new URL(event.request.url)
 
     if (request.method !== "GET" || 
-        url.origin !== self.location.origin || 
-        !url.pathname.startsWith("/static/")
+        url.origin !== self.location.origin
     ){
         return;
     }
-    console.log("ServiceWorker: fetch", url);
+    
+    // HTML（画面遷移）
+    if (event.request.mode === "navigate"){
+        event.respondWith(networkFirst(request))
+    }
 
-    // staticファイルはCache Firstで返し、未キャッシュ時のみネットワークから取得する
-    event.respondWith(
-        caches.match(request).then(async (cachedRespond) => {
-                if (cachedRespond){
-                    return cachedRespond;
-                }
+    // Javascript・CSS
+    if (event.request.destination === "script" ||
+        event.request.destination === "style"
+    ){
+        event.respondWith(networkFirst(request));
+    }
 
-                const networkResponse = await fetch(request);
-                if (networkResponse.ok){
-                    const cache = await caches.open(CACHE_NAME);
-                    await cache.put(request, networkResponse.clone());
-                }
-                return networkResponse;
-            }
-        )
-    )
+    if (event.request.destination === "font" ||
+        event.request.destination === "image" ||
+        event.request.destination === "manifest"
+    ){
+        event.respondWith(cacheFirst(request));
+    }
 });
 
 self.addEventListener("push", (event) => {
@@ -69,3 +73,47 @@ self.addEventListener("push", (event) => {
         })
     );
 });
+
+
+//---共通関数---
+/**
+ * キャッシュから取得したデータを優先的に返します。優先度：キャッシュ ＞ ネットワーク
+ * @param {Request} request 
+ * @return {Promise<Response>}
+ */
+async function cacheFirst(request){
+    const cachedRespond = await caches.match(request);
+    if (cachedRespond){
+        return cachedRespond;
+    }
+
+    const networkResponse = await fetch(request);
+    if (networkResponse.ok){
+        const cache = await caches.open(CACHE_NAME);
+        await cache.put(request, networkResponse.clone());
+    }
+    return networkResponse;
+}
+
+/**
+ * ネットワークから取得したデータを優先的に返します。優先度：キャッシュ ＜ ネットワーク
+ * @param {Request} request 
+ * @return {Promise<Response>}
+ */
+async function networkFirst(request){
+    try{
+        const networkResponse = await fetch(request);
+        if (networkResponse.ok){
+            const cache = await caches.open(CACHE_NAME);
+            await cache.put(request, networkResponse.clone());
+        }
+        return networkResponse;
+    }
+    catch(error){
+        const cachedRespond = await caches.match(request);
+        if (cachedRespond){
+            return cachedRespond;
+        }
+        throw error;
+    }    
+}

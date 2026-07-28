@@ -21,3 +21,6 @@
 
 /*モーダル*/
 @import url(./modal.css);
+
+/*トースト*/
+@import url(./toast.css);

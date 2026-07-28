@@ -7,6 +7,8 @@ import { messages } from "../common/messages.js";
 import { deleteFusen, readFusenList } from "../service/fusenService.js";
 import { getElements } from "../element/fusenListElements.js";
 import { setupModal } from "./modalController.js";
+import { showToast } from "../common/toste.js";
+import { MESSAGE_TYPE } from "../common/consts.js";
 
 /**
  * 付箋リスト画面の初期化を行います。
@@ -47,6 +49,7 @@ function setupFusenListEvents(){
             try{
                 if(await deleteFusen(deleteButton)) {
                     removeFusen(deleteButton);
+                    showToast(messages.DATA_DELETE_SUCCESS, MESSAGE_TYPE.SUCCESS);
                 }
                 return;
             }

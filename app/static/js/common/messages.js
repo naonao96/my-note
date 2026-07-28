@@ -4,5 +4,6 @@ export const messages = {
     DATA_SAVE_ERROR: "付箋情報の保存に失敗しました。",
     DATA_READ_ERROR: "付箋情報の読み込みに失敗しました。",
     DATA_DELETE_ERROR: "付箋情報の削除に失敗しました。",
-    CONDITIONS_UNDEFINED_ERROR: "データが定義されていません"
+    CONDITIONS_UNDEFINED_ERROR: "データが定義されていません",
+    DATA_DELETE_SUCCESS: "付箋情報を削除しました。"
 }
