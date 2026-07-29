@@ -3,8 +3,11 @@
 const CACHE_PREFIX = "chocotto-memo-"
 const CACHE_NAME = `${CACHE_PREFIX}v1`
 const CACHE_FILES = [
+    "/note_list/offline",
     "/static/css/style.css",
-    "/static/manifest.json"
+    "/static/manifest.json",
+    "/static/images/wifi-off.svg",
+    "/static/js/controllers/offlineController.js"
 ]
 
 self.addEventListener("install", (event) => {
@@ -20,8 +23,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
     console.log("ServiceWorker: activate");
     event.waitUntil(
-        caches.keys()
-            .then((cacheNames) => {
+        caches.keys().then((cacheNames) => {
                 return Promise.all(
                     cacheNames
                     .filter((cacheName) => 
@@ -43,10 +45,16 @@ self.addEventListener("fetch", (event) => {
     ){
         return;
     }
+
+    // APIは自動的にネットワークより取得
+    if (url.pathname.startsWith("/note_list/api/notes")){
+        return;
+    }
     
     // HTML（画面遷移）
     if (event.request.mode === "navigate"){
         event.respondWith(networkFirst(request))
+        return;
     }
 
     // Javascript・CSS
@@ -54,6 +62,7 @@ self.addEventListener("fetch", (event) => {
         event.request.destination === "style"
     ){
         event.respondWith(networkFirst(request));
+        return;
     }
 
     if (event.request.destination === "font" ||
@@ -61,6 +70,7 @@ self.addEventListener("fetch", (event) => {
         event.request.destination === "manifest"
     ){
         event.respondWith(cacheFirst(request));
+        return;
     }
 });
 
@@ -82,9 +92,9 @@ self.addEventListener("push", (event) => {
  * @return {Promise<Response>}
  */
 async function cacheFirst(request){
-    const cachedRespond = await caches.match(request);
-    if (cachedRespond){
-        return cachedRespond;
+    const cachedResponse = await caches.match(request);
+    if (cachedResponse){
+        return cachedResponse;
     }
 
     const networkResponse = await fetch(request);
@@ -110,10 +120,19 @@ async function networkFirst(request){
         return networkResponse;
     }
     catch(error){
-        const cachedRespond = await caches.match(request);
-        if (cachedRespond){
-            return cachedRespond;
+        const cachedResponse = await caches.match(request);
+        if (cachedResponse){
+            return cachedResponse;
         }
+
+        //ネットワークにもキャッシュにも存在しない場合オフライン専用画面へ遷移
+        if (request.mode === "navigate"){
+            const offlineResponse = await caches.match("/offline");
+            if (offlineResponse){
+                return offlineResponse;
+            }
+        }
+
         throw error;
-    }    
+    }
 }

@@ -16,6 +16,10 @@ def startup():
     else:
         return render_template_pack(consts.LIST_HTML_NAME, storage_mode=consts.LOCAL_MODE, dto_list=[])
 
+@note_bp.route("/offline")
+def offline():
+    return render_template_pack(consts.OFFLINE_HTML_NAME)
+
 # -----API Routes-----
 @note_bp.route("/api/notes", methods=["POST"])
 @login_required

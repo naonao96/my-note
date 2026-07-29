@@ -42,7 +42,7 @@ function setupCreateModalOpen(elems) {
  * @returns {void}
  */
 function setupEditModalOpen(elems) {
-    document.addEventListener("click", async (e) => {
+    document.addEventListener("pointerdown", async (e) => {
         const editButton = e.target.closest(".edit-button");
 
         if (!editButton) return;
@@ -50,7 +50,7 @@ function setupEditModalOpen(elems) {
         e.preventDefault();
         try{
             const result = await readFusen(editButton);
-            assert(result?.fusenData, messages.CONDITIONS_UNDIFINED_ERROR);
+            assert(result?.fusenData, messages.CONDITIONS_UNDEFINED_ERROR);
             setEditModal(elems.form, result.fusenData);
             syncSelectedColor(elems.color);
             updatePreview(elems.preview);
@@ -81,7 +81,7 @@ function setupFlatpickr() {
 function setupColorSelectedButtons(colorElems){
     syncSelectedColor(colorElems);
     colorElems.colorButtons.forEach(button => {
-        button.addEventListener("click", () => {
+        button.addEventListener("pointerdown", () => {
             handleColorSelect(button, colorElems)
         });
     });

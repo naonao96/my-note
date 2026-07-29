@@ -10,9 +10,9 @@ import { messages } from "../common/messages.js";
  * @returns {void}
  */
 export function setupModal(modalElems, beforeOpen) {
-    assert(modalElems.openButton, messages.CONDITIONS_UNDIFINED_ERROR);
-    assert(modalElems.overlay, messages.CONDITIONS_UNDIFINED_ERROR);
-    assert(modalElems.modal, messages.CONDITIONS_UNDIFINED_ERROR);
+    assert(modalElems.openButton, messages.CONDITIONS_UNDEFINED_ERROR);
+    assert(modalElems.overlay, messages.CONDITIONS_UNDEFINED_ERROR);
+    assert(modalElems.modal, messages.CONDITIONS_UNDEFINED_ERROR);
 
     modalElems.openButton.addEventListener("click", () => {
         beforeOpen?.();

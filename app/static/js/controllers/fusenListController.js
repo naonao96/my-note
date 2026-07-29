@@ -7,7 +7,7 @@ import { messages } from "../common/messages.js";
 import { deleteFusen, readFusenList } from "../service/fusenService.js";
 import { getElements } from "../element/fusenListElements.js";
 import { setupModal } from "./modalController.js";
-import { showToast } from "../common/toste.js";
+import { showToast } from "../common/toast.js";
 import { MESSAGE_TYPE } from "../common/consts.js";
 
 /**
@@ -23,7 +23,7 @@ export async function init(){
 
     try{
         const result = await readFusenList();
-        assert(result, messages.CONDITIONS_UNDIFINED_ERROR);
+        assert(result, messages.CONDITIONS_UNDEFINED_ERROR);
         if (result.fusenList){
             renderFusenList(result.fusenList);
             setupFusenFlip(elems.fusenListWindow);
@@ -35,7 +35,7 @@ export async function init(){
 }
 
 function setupFusenListEvents(){
-    document.addEventListener("click", async (e) => {
+    document.addEventListener("pointerdown", async (e) => {
         const menuButton = e.target.closest(".fusen-menu-button");
         const deleteButton = e.target.closest(".delete-button");
         

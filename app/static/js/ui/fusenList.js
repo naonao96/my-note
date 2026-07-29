@@ -4,7 +4,7 @@ import { assert } from "../common/eventUtil.js";
 import { messages } from "../common/messages.js";
 
 export function renderFusenList(fusenList){
-    assert(fusenList, messages.CONDITIONS_UNDIFINED_ERROR)
+    assert(fusenList, messages.CONDITIONS_UNDEFINED_ERROR)
     const container = document.querySelector(".fusen-container");
     const template = document.querySelector("#fusen-template");
 

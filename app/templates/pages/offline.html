@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block head %}
+    <script type="module" src="{{ url_for('static', filename='js/controllers/offlineController.js')}}"></script>
+{% endblock %}
+{% block body_class %}layout-container{% endblock %}
+{% block body_attribute %}data-storage-mode="{{ storageMode }}"{% endblock %}
+{% block body %}
+<main>
+    <div class="offline">
+        <img src="{{ url_for('static', filename='images/wifi-off.svg') }}" alt="" aria-hidden="true">
+        <h1 class="offline-title">オフラインです</h1>
+        <p class="offline-subtitle">
+            インターネットに接続できません。<br>
+            お手元の接続を確認してください。<br><br>
+
+            接続が戻ると自動で再読み込みします。
+        </p>
+        <button type="button" class="button retry-button button-text button-text-brown-retry">
+            もう一度試す
+        </button>
+    </div>
+</main>
+{% endblock %}

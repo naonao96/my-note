@@ -59,6 +59,12 @@
     align-self: center;
     height: var(--height-40);
 }
+.retry-button {
+    text-align: center;
+    background-color: color-mix(in srgb, var(--creame) 80%, transparent);
+    height: var(--height-40);
+    border: var(--border-w-solid) var(--brown);
+}
 .button-text {
     display: block;
     font-family: yomogi;
@@ -78,6 +84,11 @@
     color: var(--brown);
     -webkit-text-stroke: var(--text-stroke-m) var(--brown);
     font-size: 24px;
+}
+.button-text-brown-retry {
+    color: var(--brown);
+    -webkit-text-stroke: var(--text-stroke-m) var(--brown);
+    font-size: 12px;
 }
 .icon {
     width: min(40vw, 27px);

@@ -4,8 +4,8 @@ import { assert } from "../common/eventUtil.js";
 import { messages } from "../common/messages.js";
 
 export function setupFusenFlip(elem) {
-  assert(elem, messages.CONDITIONS_UNDIFINED_ERROR);
-  elem.addEventListener("click", (e) => {
+  assert(elem, messages.CONDITIONS_UNDEFINED_ERROR);
+  elem.addEventListener("pointerdown", (e) => {
     if (e.target.closest(".fusen-menu"))
       return;
 
