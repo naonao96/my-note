@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block head %}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script type="module" src="{{ url_for('static', filename='js/fusenListMain.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/vendor/flatpickr/flatpickr.min.css') }}">
+    <script src="{{ url_for('static', filename='js/vendor/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vendor/flatpickr/ja.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/fusenListMain.js') }}"></script>
 {% endblock %}
 {% block body_class %}layout-container{% endblock %}
 {% block body_attribute %}data-storage-mode="{{ storageMode }}"{% endblock %}

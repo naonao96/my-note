@@ -66,7 +66,13 @@ function setupEditModalOpen(elems) {
  * 期限日の設定
  */
 function setupFlatpickr() {
+    if (typeof flatpickr === "undefined") {
+        console.warn("flatpickrが読み込まれていないため、標準の日付入力を使用します。");
+        return;
+    }
+
     flatpickr("#datepicker", {
+        locale: "ja",
         enableTime: false,
         dateFormat: "Y-m-d",
         disableMobile: true

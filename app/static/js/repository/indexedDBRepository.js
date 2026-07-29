@@ -37,7 +37,7 @@ export async function upsertLocalFusenData(requestData){
     let db;
     try{
         assert(requestData, messages.CONDITIONS_UNDEFINED_ERROR);
-        const db = await openDB();
+        db = await openDB();
         const mode = requestData.form.dataset.fusenMode;
         const fusenData = { ...requestData.fusenData };
         if (mode === EDIT_MODE){
@@ -59,7 +59,7 @@ export async function readLocalFusenData(fusenId){
     let db;
     try{
         assert(Number.isInteger(fusenId) && fusenId > 0, messages.FUSEN_ID_EXIST_ERROR);
-        const db = await openDB();
+        db = await openDB();
         const request = setStore(db, READ_ONLY).get(fusenId);
         const fusenData = await requestToPromise(request);
         return { fusenData };
@@ -73,7 +73,7 @@ export async function readLocalFusenData(fusenId){
 export async function readAllLocalFusenData(){
     let db;
     try{
-        const db = await openDB();
+        db = await openDB();
         const request = setStore(db, READ_ONLY).getAll();
         const fusenList = await requestToPromise(request);
         return { fusenList };
@@ -88,7 +88,7 @@ export async function deleteLocalFusenData(fusenId){
     let db;
     try{
         assert(Number.isInteger(fusenId) && fusenId > 0, messages.FUSEN_ID_EXIST_ERROR);
-        const db = await openDB();
+        db = await openDB();
         const request = setStore(db, READ_WRITE).delete(fusenId);
         await requestToPromise(request);
     }

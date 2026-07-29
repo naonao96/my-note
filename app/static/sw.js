@@ -1,10 +1,28 @@
 "use strict";
 
+const OFFLINE_FILE = "/note_list/offline";
+const CSS_BASE_PATH = "/static/css";
+const CSS_FILES = [
+    "style.css",
+    "variable.css",
+    "base.css",
+    "common.css",
+    "button.css",
+    "fusen/fusen.css",
+    "fusen/fusen_menu.css",
+    "splash.css",
+    "fusen_list.css",
+    "fusen_edit.css",
+    "offline.css",
+    "modal.css",
+    "toast.css"
+].map(filename => `${CSS_BASE_PATH}/${filename}`);
+
 const CACHE_PREFIX = "chocotto-memo-"
 const CACHE_NAME = `${CACHE_PREFIX}v1`
 const CACHE_FILES = [
-    "/note_list/offline",
-    "/static/css/style.css",
+    OFFLINE_FILE,
+    ...CSS_FILES,
     "/static/manifest.json",
     "/static/images/wifi-off.svg",
     "/static/js/controllers/offlineController.js"
@@ -127,7 +145,7 @@ async function networkFirst(request){
 
         //ネットワークにもキャッシュにも存在しない場合オフライン専用画面へ遷移
         if (request.mode === "navigate"){
-            const offlineResponse = await caches.match("/offline");
+            const offlineResponse = await caches.match(OFFLINE_FILE);
             if (offlineResponse){
                 return offlineResponse;
             }
