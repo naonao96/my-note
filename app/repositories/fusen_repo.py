@@ -6,34 +6,34 @@ class FusenRepository:
 
     def __init__(self):
         self.db = db
-
-    '''付箋情報作成'''
+    
     def create(self, fusen_data : Fusen):
+        '''付箋情報作成'''
         try:
             self.db.session.add(fusen_data)
             self.db.session.commit()
         except:
             self.db.session.rollback()
             raise
-
-    '''付箋情報全件検索'''
+    
     def read_all_fusen(self, user_id : int):
+        '''付箋情報全件検索'''
         try:
             return Fusen.query.filter_by(user_id=user_id).order_by(Fusen.created_at.desc()).all()
         except:
             raise
     
-    '''付箋情報検索（指定）'''
     def read_fusen(self, fusen_id: int, user_id : int):
+        '''付箋情報検索（指定）'''
         try:
             fusen_data : Fusen = Fusen.query.filter_by(id=fusen_id, user_id=user_id).first()
             fusen_valid.fusen_data_exist_check(fusen_data)
             return fusen_data
         except:
             raise
-
-    '''付箋情報更新'''
+    
     def update(self, req_fusen_data : Fusen) -> Fusen:
+        '''付箋情報更新'''
         try:
             # Updateを行うデータが存在することを確認
             res_fusen_data = self.read_fusen(req_fusen_data.id, req_fusen_data.user_id)
@@ -47,9 +47,9 @@ class FusenRepository:
         except:
             self.db.session.rollback()
             raise
-
-    '''付箋情報削除'''
+    
     def delete(self, fusen_id : int, user_id : int):
+        '''対象ユーザの付箋情報削除（１件）'''
         try:
             fusen_data = Fusen.query.filter_by(id=fusen_id, user_id=user_id).first()
             fusen_valid.fusen_data_exist_check(fusen_data)

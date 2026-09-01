@@ -56,8 +56,22 @@ def logout():
     session_clean("user_id")
     return redirect(url_for("notes.startup"))
 
-'''Param・dto設定関数'''
+@auth_bp.route("/google/account/delete", methods=["POST"])
+def delete_account():
+    service : UserService = UserService()
+    user_id: int | None = session.get["user_id"]
+    if user_id is None:
+        return redirect(url_for("notes.startup"))
+    try:
+        service.user_delete(user_id)
+        session_clean("user_id")
+    except Exception as e:
+        logging.exception(e)
+        
+    return redirect(url_for("notes.startup"))
+    
 def google_first_req_param(state:str) -> dict:
+    '''Param・dto設定関数'''
     return {
         "client_id" : Config.CLIENT_ID,  # アプリID
         "redirect_uri" : Config.REDIRECT_URI, # コールバック関数URL
@@ -83,8 +97,14 @@ def set_user_data(google_user:dict) -> UserData:
         picture=google_user.get("picture"),
     )
 
-'''ユーザの存在チェック（存在しない場合はユーザー登録）'''
 def user_check(service : UserService, google_user : dict):
+        '''
+        ユーザの存在チェック（存在しない場合はユーザー登録）
+
+        Args:
+            service(UserService):ユーザ用のサービス
+            google_user(dict):Googleユーザ情報
+        '''
         user_data : UserData | None = service.user_read(google_user.get("id"))
         if user_data is None:
             create_user:UserData = set_user_data(google_user)
@@ -92,6 +112,10 @@ def user_check(service : UserService, google_user : dict):
             user_data = service.user_read(google_user.get("id"))
         return user_data
 
-'''後始末（セキュリティのため不要なセッションは削除）'''
 def session_clean(session_name : str):
+      '''
+      後始末（セキュリティのため不要なセッションは削除）
+        Args:
+            session_name(str):削除対象となるセッション名
+      '''
       session.pop(session_name, None)

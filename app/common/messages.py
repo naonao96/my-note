@@ -7,6 +7,7 @@ FUSEN_CONTENTS_LENGTH_ERROR = "付箋に登録できる文字数は100文字ま�
 FUSEN_CONTENTS_NULL_ERROR = "付箋に文字を入力してください。"
 USER_DATA_READ_ERROR="ユーザー情報の取得に失敗しました。"
 USER_DATA_CREATE_ERROR="ユーザー情報の登録に失敗しました。"
+USER_DATA_DELETE_ERROR="ユーザー情報の削除に失敗しました。"
 GOOGLE_USER_DATA_READ_ERROR="Googleユーザー情報の取得に失敗しました。"
 GET_ACCESS_TOKEN_CODE_EXIST_ERROR="アクセストークン引き換えコードの取得に失敗しました。"
 ACCESS_TOKEN_READ_ERROR="アクセストークンの取得に失敗しました。"
