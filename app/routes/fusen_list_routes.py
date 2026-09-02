@@ -1,7 +1,7 @@
 from flask import request, jsonify, render_template, Blueprint, session
 from app.dto.fusen_data import FusenData
 from app.services.fusen_service import FusenService
-from app.common.decorators import login_required
+from app.common.decorators import api_login_required
 import app.common.consts as consts
 import app.common.messages as msg
 import logging
@@ -22,7 +22,7 @@ def offline():
 
 # -----API Routes-----
 @note_bp.route("/api/notes", methods=["POST"])
-@login_required
+@api_login_required
 def create_fusen():
     try:
         service : FusenService = FusenService()
@@ -34,7 +34,7 @@ def create_fusen():
         return jsonify({"success" : False}), 500 
 
 @note_bp.route("/api/notes", methods=["GET"])
-@login_required
+@api_login_required
 def read_fusen_list():
     '''付箋一覧を取得（全件取得）'''
     try:
@@ -51,7 +51,7 @@ def read_fusen_list():
         return jsonify({"success" : False, "fusenList" : dict_list, "message" : msg.FUSEN_DATA_READ_ERROR}), 500
 
 @note_bp.route("/api/notes/<int:fusenId>", methods=["GET"])
-@login_required
+@api_login_required
 def read_fusen(fusenId : int):
     '''付箋を編集する際に使用するために作成したAPI（その他単独で付箋データを取得したい場合使用可能）'''
     try:
@@ -63,19 +63,19 @@ def read_fusen(fusenId : int):
         return jsonify({"success" : False, "fusenData" : None}), 500
     
 @note_bp.route("/api/notes/<int:fusenId>", methods=["PUT"])
-@login_required
+@api_login_required
 def update_fusen(fusenId : int):
     try:
         service : FusenService = FusenService()
-        dto : FusenData =set_fusen_data(fusenId)
+        dto : FusenData = set_fusen_data(fusenId)
         service.fusen_update(dto)
         return jsonify({"success" : True}), 200
     except Exception as e:
         logging.exception(e)
-        return jsonify({"success" : False, "fusenMode" : consts.EDIT_MODE, "fusenData" : jsonify_data_pack(dto)}), 500
+        return jsonify({"success" : False, "fusenMode" : consts.EDIT_MODE, "fusenData" : None}), 500
 
 @note_bp.route("/api/notes/<int:fusenId>", methods=["DELETE"])
-@login_required
+@api_login_required
 def delete_fusen(fusenId : int):
     try: 
         service : FusenService = FusenService()

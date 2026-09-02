@@ -23,19 +23,19 @@ export async function fetchUpsertApi(requestData){
         },
         body: JSON.stringify(requestData.fusenData) 
     });
-    assert(response.ok, `${messages.DATA_SAVE_ERROR} status=${response.status}`);
+    checkResponse(response, messages.DATA_SAVE_ERROR);
 }
 
 export async function fetchReadDataListApi(){
     const response = await fetch("/note_list/api/notes");
-    assert(response.ok, `${messages.DATA_READ_ERROR} status=${response.status}`);
+    checkResponse(response, messages.DATA_READ_ERROR);
     return await response.json()
 }
 
 export async function fetchReadDataApi(fusenId){
     assert(Number.isInteger(fusenId) && fusenId > 0, messages.FUSEN_ID_EXIST_ERROR);
     const response = await fetch(`/note_list/api/notes/${fusenId}`);
-    assert(response.ok, `${messages.DATA_READ_ERROR} status=${response.status}`);
+    checkResponse(response, messages.DATA_READ_ERROR);
     return await response.json();
 }
 
@@ -45,7 +45,7 @@ export async function fetchDeleteApi(fusenId){
         method: "DELETE",
         headers: getCsrfHeaders()
      });
-    assert(response.ok, `${messages.DATA_DELETE_ERROR} status=${response.status}`);
+    checkResponse(response, messages.DATA_DELETE_ERROR);
 }
 
 //---共通関数---
@@ -60,4 +60,17 @@ function getCsrfHeaders(){
     return {
         "X-CSRFToken": csrfToken
     }
+}
+
+/**
+ * レスポンス結果の確認を行います。
+ * 
+ */
+function checkResponse(response, errorMessage) {
+    if (response.status === 401) {
+        window.location.href = "/auth/google/login";
+        throw new Error("Session expired");
+    }
+
+    assert(response.ok, `${errorMessage} status=${response.status}`);
 }

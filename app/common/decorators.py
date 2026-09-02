@@ -1,10 +1,28 @@
 from functools import wraps
-from flask import session, redirect, url_for
+
+from flask import session, redirect, url_for, jsonify
+
 
 def login_required(func):
     @wraps(func)
-    def wrapper(*args, **keywargs):
+    def wrapper(*args, **kwargs):
         if session.get("user_id") is None:
             return redirect(url_for("auth.google_login"))
-        return func(*args, **keywargs)
+
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
+def api_login_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if session.get("user_id") is None:
+            return jsonify({
+                "success": False,
+                "message": "Session expired"
+            }), 401
+
+        return func(*args, **kwargs)
+
     return wrapper

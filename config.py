@@ -11,4 +11,6 @@ class Config:
     REDIRECT_URI = os.getenv('REDIRECT_URI')
     CLIENT_SECRET = os.getenv('CLIENT_SECRET')
     FLASK_SECRET_KEY= os.getenv('FLASK_SECRET_KEY')
-    SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE')
+    SESSION_COOKIE_SECURE = (
+        os.getenv('SESSION_COOKIE_SECURE', 'true').lower() == 'true'
+    )
