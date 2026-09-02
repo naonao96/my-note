@@ -2,15 +2,29 @@
 
 import { isLoggedIn } from "../common/eventUtil.js";
 
-/*
- TODO:ログイン機能は完成後リリース
-*/
 export function updateAuthButton(){
-    /*const loginButton = document.getElementById("login-open-button");
+    const loginButton = document.getElementById("login-open-button");
     const userButton = document.getElementById("user-info-button");
 
     const loggedIn = isLoggedIn();
 
     loginButton.classList.toggle("hidden", loggedIn);
-    userButton.classList.toggle("hidden", !loggedIn);*/
+    userButton.classList.toggle("hidden", !loggedIn);
+}
+
+export function setupAccountDelete(){
+    const accountDeleteButton = document.getElementById("account-delete-button");
+    const accountDeleteForm = document.getElementById("account-delete-form");
+
+    accountDeleteButton.addEventListener("click", () => {
+        const confirmed = window.confirm(
+            "アカウントを削除しますか？\nこの操作は取り消せません。"
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        accountDeleteForm.requestSubmit();
+    });
 }

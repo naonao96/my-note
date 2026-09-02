@@ -11,18 +11,31 @@ import logging
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
+# ----- Page Routes -----
 @auth_bp.route("/google/login", methods=["GET"])
 def google_login():
-    state:str = secrets.token_urlsafe(32)
+    """
+    Google OAuth認証を開始する。
+
+    認証用stateを生成してセッションに保存し、
+    Googleの認証画面へリダイレクトする。
+    """
+    state: str = secrets.token_urlsafe(32)
     session["oauth_state"] = state
-    google_url : str = consts.GOOGLE_LOGIN_WINDOW_URL + urlencode(google_first_req_param(state))
+    google_url: str = consts.GOOGLE_LOGIN_WINDOW_URL + urlencode(google_first_req_param(state))
 
     return redirect(google_url)
 
 @auth_bp.route("/google/login/callback")
 def login_callback():
-    response:requests.Response
-    service : UserService = UserService()
+    """
+    Google OAuth認証後のコールバックを処理する。
+
+    認証コードからアクセストークンを取得し、
+    Googleユーザー情報をもとにログイン処理を行う。
+    """
+    response: requests.Response
+    service: UserService = UserService()
     try:
         user_valid.unauthorized_check(request.args.get("state"), session.get("oauth_state"))
         
@@ -32,13 +45,13 @@ def login_callback():
         response = requests.post(consts.ACCESS_TOKEN_REQ_URL, data=callback_param(code), timeout=10)
         user_valid.login_check(response)
         
-        access_token:str | None = response.json().get("access_token")
+        access_token: str | None = response.json().get("access_token")
         user_valid.access_token_check(access_token)
         
         response = requests.get(consts.USER_INFO_RES_URL, headers={"Authorization":f"Bearer {access_token}"}, timeout=10)
         user_valid.google_user_read_check(response)
 
-        user_data : UserData = user_check(service, response.json())
+        user_data: UserData = get_or_create_user(service, response.json())
         user_valid.user_data_exist_check(user_data)
 
         session["user_id"] = user_data.id
@@ -58,8 +71,8 @@ def logout():
 
 @auth_bp.route("/google/account/delete", methods=["POST"])
 def delete_account():
-    service : UserService = UserService()
-    user_id: int | None = session.get["user_id"]
+    service: UserService = UserService()
+    user_id: int | None = session.get("user_id")
     if user_id is None:
         return redirect(url_for("notes.startup"))
     try:
@@ -69,27 +82,36 @@ def delete_account():
         logging.exception(e)
         
     return redirect(url_for("notes.startup"))
-    
-def google_first_req_param(state:str) -> dict:
-    '''Param・dto設定関数'''
+
+# ----- Helper Functions -----
+def google_first_req_param(state: str) -> dict:
+    """
+    Google OAuth認証リクエスト用のパラメータを生成する。
+    """
     return {
-        "client_id" : Config.CLIENT_ID,  # アプリID
-        "redirect_uri" : Config.REDIRECT_URI, # コールバック関数URL
-        "response_type" : "code", # アクセストークン引換券
-        "scope" : "openid email profile", # 取得情報の指定
-        "state" : state # callback redirect url
+        "client_id": Config.CLIENT_ID,
+        "redirect_uri": Config.REDIRECT_URI,
+        "response_type": "code",
+        "scope": "openid email profile",
+        "state": state
     }
 
-def callback_param(code : str) -> dict:
+def callback_param(code: str) -> dict:
+    """
+    アクセストークン取得リクエスト用のパラメータを生成する。
+    """
     return {
-        "client_id":Config.CLIENT_ID, # アプリID
-        "client_secret":Config.CLIENT_SECRET, # アプリシークレット
-        "code": code, # アクセストークン引換券
-        "grant_type":"authorization_code", # oauth通信形式
-        "redirect_uri":Config.REDIRECT_URI # callback redirect url
+        "client_id": Config.CLIENT_ID,
+        "client_secret": Config.CLIENT_SECRET, 
+        "code": code,
+        "grant_type": "authorization_code",
+        "redirect_uri": Config.REDIRECT_URI
     }
 
-def set_user_data(google_user:dict) -> UserData:
+def set_user_data(google_user: dict) -> UserData:
+    """
+    Googleユーザー情報からUserDataを生成する。
+    """
     return UserData(
         google_id=google_user.get("id"),
         email=google_user.get("email"),
@@ -97,25 +119,19 @@ def set_user_data(google_user:dict) -> UserData:
         picture=google_user.get("picture"),
     )
 
-def user_check(service : UserService, google_user : dict):
-        '''
-        ユーザの存在チェック（存在しない場合はユーザー登録）
+def get_or_create_user(service: UserService, google_user: dict) -> UserData | None:
+    '''
+    ユーザの存在チェック（存在しない場合はユーザー登録）
+    '''
+    user_data: UserData | None = service.user_read(google_user.get("id"))
+    if user_data is None:
+        create_user: UserData = set_user_data(google_user)
+        service.user_create(create_user)
+        user_data = service.user_read(google_user.get("id"))
+    return user_data
 
-        Args:
-            service(UserService):ユーザ用のサービス
-            google_user(dict):Googleユーザ情報
-        '''
-        user_data : UserData | None = service.user_read(google_user.get("id"))
-        if user_data is None:
-            create_user:UserData = set_user_data(google_user)
-            service.user_create(create_user)
-            user_data = service.user_read(google_user.get("id"))
-        return user_data
-
-def session_clean(session_name : str):
-      '''
-      後始末（セキュリティのため不要なセッションは削除）
-        Args:
-            session_name(str):削除対象となるセッション名
-      '''
-      session.pop(session_name, None)
+def session_clean(session_name: str) -> None:
+    """
+    指定したキーをセッションから削除する。
+    """
+    session.pop(session_name, None)

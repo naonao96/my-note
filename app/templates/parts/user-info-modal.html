@@ -28,9 +28,9 @@
             <p class="account-action-description">
                 この操作は取り消すことができません
             </p>
-            <form action="{{ url_for('auth.delete_account') }}" method="post">
+            <form id="account-delete-form" action="{{ url_for('auth.delete_account') }}" method="post">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <button type="submit" class="button account-delete-button">
+                <button type="button" class="button account-delete-button" id="account-delete-button">
                     アカウント削除
                 </button>
             </form>
