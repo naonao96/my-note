@@ -95,7 +95,7 @@ just like placing a sticky note on your refrigerator.
 
 Try Chokotto Memo here:
 
-🌐 [Live Demo](https://my-note-wst1.onrender.com)
+🌐 [Live Demo](https://chocottomemo.app)
 
 ## License
 
