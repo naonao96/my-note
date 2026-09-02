@@ -33,10 +33,10 @@ def create_fusen():
         logging.exception(e)
         return jsonify({"success" : False}), 500 
 
-# 付箋一覧を取得（全件取得）
 @note_bp.route("/api/notes", methods=["GET"])
 @login_required
 def read_fusen_list():
+    '''付箋一覧を取得（全件取得）'''
     try:
         service : FusenService = FusenService()
         dict_list : list = []
@@ -50,10 +50,10 @@ def read_fusen_list():
         logging.exception(e)
         return jsonify({"success" : False, "fusenList" : dict_list, "message" : msg.FUSEN_DATA_READ_ERROR}), 500
 
-# 付箋を編集する際に使用するために作成したAPI（その他単独で付箋データを取得したい場合使用可能）
 @note_bp.route("/api/notes/<int:fusenId>", methods=["GET"])
 @login_required
 def read_fusen(fusenId : int):
+    '''付箋を編集する際に使用するために作成したAPI（その他単独で付箋データを取得したい場合使用可能）'''
     try:
         service : FusenService = FusenService()
         dto_dict : dict = jsonify_data_pack(service.fusen_read(fusenId, session.get("user_id")))
@@ -85,9 +85,9 @@ def delete_fusen(fusenId : int):
         logging.exception(e)
         return jsonify({"success" : False}), 500
 
-# -----モジュール共通関数-----
-# フロントからの入力を受けDTOへデータをPack
+# ----- Helper Functions -----
 def set_fusen_data(fusen_id : int | None = None) -> FusenData:
+    '''フロントからの入力を受けDTOへデータをPack'''
     data = request.get_json(silent=True)
 
     if not isinstance(data, dict):
@@ -101,7 +101,6 @@ def set_fusen_data(fusen_id : int | None = None) -> FusenData:
         color= data.get("color")
     )
 
-# render_templateへデータをPack（冗長なため関数化）
 def render_template_pack(
         html_name : str, 
         storage_mode : str = consts.LOCAL_MODE, 
@@ -109,6 +108,7 @@ def render_template_pack(
         dto : FusenData | None = None, 
         dto_list : list | None = None
         ):
+    '''render_templateへデータをPack（冗長なため関数化）'''
     return render_template(
             html_name,
             storageMode=storage_mode,
@@ -117,8 +117,8 @@ def render_template_pack(
             fusenList=dto_list
         )
 
-# jsonifyでレスポンス時に使用するFusenData(DICT)を作成（冗長なため関数化）
 def jsonify_data_pack(dto : FusenData) -> dict:
+    '''jsonifyでレスポンス時に使用するFusenData(DICT)を作成（冗長なため関数化）'''
     return {
         "id" : dto.id,
         "user_id" : dto.user_id,

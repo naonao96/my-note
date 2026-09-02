@@ -19,8 +19,7 @@ export async function init(){
     const elems = getElements();
 
     setupFusenListEvents();
-    /* TODO:ログイン機能は完成後リリース */
-    //setupAccountModal(elems);
+    setupAccountModal(elems);
 
     try{
         const result = await readFusenList();
