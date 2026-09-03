@@ -12,7 +12,45 @@
         <div class="splash-fusen top-y-fusen" style="background: #FFE57B;"></div>
     </header>
     <main class="splash-main">
-        <img class="splash-title" src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}" alt="ちょこっとメモ"><br>
+        <section class="splash-brand" aria-labelledby="splash-app-name">
+            <img class="splash-title" src="{{ url_for('static', filename='images/Title_chocottoMemo.svg')}}" alt="ちょこっとメモ"><br>
+        </section>
+        <section class="splash-board" aria-labelledby="splash-about-title">
+            <div class="splash-board__inner">
+                <h2 id="splash-about-title">「ちょこっとメモ」とは</h2>
+
+                <p class="splash-board__description">
+                    「ちょっとだけ覚えておきたい」ことを<br>
+                    冷蔵庫に貼る付箋のような感覚で<br>
+                    気軽に残せるメモアプリです。
+                </p>
+
+                <h3>◆できること</h3>
+                <ul class="splash-board__features">
+                    <li>内容・期限・色をつけてメモ！</li>
+                    <li>ログインなしですぐ使える！</li>
+                    <li>ログイン後はどこからでも使える！</li>
+                </ul>
+
+                <h3>毎日を、ちょこっと整理。</h3>
+
+                <div class="splash-board__footer">
+                    <p class="splash-board__timer">
+                        {{ (timer / 1000)|int }}秒後にアプリへ移動します
+                    </p>
+
+                    <div class="splash-board__links">
+                        <a class="splash-board__privacy" href="{{ url_for('notes.startup') }}">
+                            付箋一覧へ移動する
+                        </a>
+
+                        <a class="splash-board__privacy" href="{{ url_for('main.privacy') }}">
+                            プライバシーポリシー
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
     <footer class="splash-footer">
         <div class="footer-fusen-group">

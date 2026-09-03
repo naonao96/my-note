@@ -57,3 +57,110 @@
 .under-y-fusen {
     transform: translateY(calc(var(--fusen-size)* 0.4));
 }
+.splash-board {
+    position: absolute;
+    right: clamp(14px, 1.9vw, 27px);
+    bottom: clamp(18px, 1.85vw, 27px);
+    width: min(44.17vw, 500px);
+    box-sizing: border-box;
+    padding: clamp(7px, 0.76vw, 11px);
+    background: #71553f;
+    box-shadow: 4px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.splash-board__inner {
+    box-sizing: border-box;
+    min-height: clamp(250px, 24.3vw, 350px);
+    padding: clamp(12px, 1.35vw, 20px);
+    background: #1d543f;
+    color: #fff;
+    letter-spacing: 0.02em;
+}
+
+.splash-board h2,
+.splash-board h3,
+.splash-board p {
+    margin: 0;
+}
+
+.splash-board h2 {
+    margin-bottom: clamp(12px, 1.25vw, 18px);
+    font-size: clamp(var(--font-size-m), 2.08vw, var(--font-size-m));
+    font-weight: 400;
+    line-height: 1.15;
+}
+.splash-board__description,
+.splash-board h3,
+.splash-board__features,
+.splash-board__timer,
+.splash-board__privacy {
+    font-size: clamp(var(--font-size-s), 1.74vw, var(--font-size-m));
+    line-height: 1.22;
+}
+
+.splash-board h3 {
+    margin-top: clamp(12px, 1.25vw, 18px);
+    font-weight: 400;
+}
+
+.splash-board__features {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.splash-board__features li::before {
+    content: "・";
+}
+
+.splash-board__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: clamp(12px, 1.25vw, 18px);
+}
+
+.splash-board__timer {
+    white-space: nowrap;
+}
+
+.splash-board__links {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center; /* ←追加 */
+    gap: 20px;           /* ←28pxから変更 */
+    width: 100%;
+}
+.splash-board__privacy {
+    color: #fff;
+    font-size: clamp(12px, 1.1vw, 16px);
+    white-space: nowrap;
+    text-underline-offset: 0.18em;
+}
+/* スマホだけ縦レイアウト */
+@media (max-width: 600px) {
+    .splash-main {
+        justify-content: center;
+        gap: 32px;
+    }
+    .splash-title {
+        width: clamp(180px, 65vw, 260px);
+    }
+    .splash-board {
+        position: relative;
+
+        right: auto;
+        bottom: auto;
+
+        width: min(88vw, 360px);
+
+        transform: none;
+    }
+    .splash-board__inner {
+        min-height: auto;
+        padding: 14px;
+    }
+    .splash-board__footer {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}

@@ -8,7 +8,7 @@ def splash_window():
     is_logged_in : bool = session.get("user_id") is not None
     return render_template(
         consts.SPLASH_HTML_NAME,
-        timer= 4000,
+        timer= 2000000,
         nextUrl=url_for("notes.startup"),
         isLoggedIn=is_logged_in
         )
