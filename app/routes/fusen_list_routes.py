@@ -1,6 +1,8 @@
 from flask import request, jsonify, render_template, Blueprint, session
 from app.dto.fusen_data import FusenData
+from app.dto.user_data import UserData
 from app.services.fusen_service import FusenService
+from app.services.users_service import UserService
 from app.common.decorators import api_login_required
 import app.common.consts as consts
 import app.common.messages as msg
@@ -11,10 +13,14 @@ note_bp = Blueprint('notes', __name__, url_prefix='/note_list')
 # -----Page Routes-----
 @note_bp.route("/")
 def startup():
-    if session.get("user_id") is not None:
-        return render_template_pack(consts.LIST_HTML_NAME, storage_mode=consts.LOGIN_MODE, dto_list=[])
+    # ログイン済み：LOGIN_MODE｜ゲストモード：LOCAL_MODE
+    user_id: int | None = session.get("user_id")
+    if user_id is not None:
+        service: UserService = UserService()
+        user_data: UserData | None = service.user_read_by_user_id(user_id)
+        return render_template_pack(consts.LIST_HTML_NAME, storage_mode=consts.LOGIN_MODE, dto_list=[], user_data=user_data)
     else:
-        return render_template_pack(consts.LIST_HTML_NAME, storage_mode=consts.LOCAL_MODE, dto_list=[])
+        return render_template_pack(consts.LIST_HTML_NAME, storage_mode=consts.LOCAL_MODE, dto_list=[], user_data=None)
 
 @note_bp.route("/offline")
 def offline():
@@ -102,11 +108,12 @@ def set_fusen_data(fusen_id : int | None = None) -> FusenData:
     )
 
 def render_template_pack(
-        html_name : str, 
-        storage_mode : str = consts.LOCAL_MODE, 
-        fusen_mode : str = consts.CREATE_MODE, 
-        dto : FusenData | None = None, 
-        dto_list : list | None = None
+        html_name: str, 
+        storage_mode: str = consts.LOCAL_MODE, 
+        fusen_mode: str = consts.CREATE_MODE, 
+        dto: FusenData | None = None, 
+        dto_list: list | None = None,
+        user_data: UserData  | None = None
         ):
     '''render_templateへデータをPack（冗長なため関数化）'''
     return render_template(
@@ -114,7 +121,8 @@ def render_template_pack(
             storageMode=storage_mode,
             fusenMode=fusen_mode,
             fusenData=dto,
-            fusenList=dto_list
+            fusenList=dto_list,
+            userData=user_data
         )
 
 def jsonify_data_pack(dto : FusenData) -> dict:

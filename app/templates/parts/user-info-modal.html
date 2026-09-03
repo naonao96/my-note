@@ -1,37 +1,63 @@
 <div id="user-modal-overlay" class="modal-overlay hidden"></div>
-<section id="user-modal" class="user-modal hidden" role="dialog" aria-modal="true" aria-labelledby="user-modal-title">
+
+<section
+    id="user-modal"
+    class="user-modal hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="user-modal-title"
+>
     <div class="user-profile">
-        <img class="user-profile-icon" src="{{ url_for('static', filename='images/user-button.svg') }}" alt="">
+        <img
+            class="user-profile-icon"
+            src="{{ url_for('static', filename='images/user-button.svg') }}"
+            alt=""
+        >
         <div class="user-profile-text">
             <h2 id="user-modal-title" class="user-name">
+                {{ userData.name }}
             </h2>
             <p class="user-email">
+                {{ userData.email }}
             </p>
         </div>
     </div>
     <div class="account-actions">
-        <h3 class="account-actions-title">アカウント操作</h3>
+        <h2 class="account-actions-title">
+            アカウント操作
+        </h2>
         <div class="account-action">
-            <p class="account-action-title">ログアウトする</p>
+            <h3 class="account-action-title">
+                ログアウトする
+            </h3>
             <p class="account-action-description">
                 このデバイスからログアウトします
             </p>
             <form action="{{ url_for('auth.logout') }}" method="post">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <button type="submit" class="button logout-button">
-                    ログアウト
+                <button type="submit" class="button logout-button" value="ログアウト">
+                    <img class="icon" src="{{ url_for('static', filename='images/logout.svg') }}">
+                    <span class="button-text button-text-brown">ログアウト</span>
                 </button>
             </form>
         </div>
+
         <div class="account-action danger-zone">
-            <p class="account-action-title">アカウントを削除する</p>
+            <h3 class="account-action-title">
+                アカウントを削除する
+            </h3>
             <p class="account-action-description">
                 この操作は取り消すことができません
             </p>
-            <form id="account-delete-form" action="{{ url_for('auth.delete_account') }}" method="post">
+            <form
+                id="account-delete-form"
+                action="{{ url_for('auth.delete_account') }}"
+                method="post"
+            >
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <button type="button" class="button account-delete-button" id="account-delete-button">
-                    アカウント削除
+                <button type="submit" class="button account-delete-button" value="アカウント削除" id="account-delete-button">
+                    <img class="icon" src="{{ url_for('static', filename='images/delete-button.svg') }}">
+                    <span class="button-text button-text-brown">アカウント削除</span>
                 </button>
             </form>
         </div>

@@ -123,11 +123,11 @@ def get_or_create_user(service: UserService, google_user: dict) -> UserData | No
     '''
     ユーザの存在チェック（存在しない場合はユーザー登録）
     '''
-    user_data: UserData | None = service.user_read(google_user.get("id"))
+    user_data: UserData | None = service.user_read_by_google_id(google_user.get("id"))
     if user_data is None:
         create_user: UserData = set_user_data(google_user)
         service.user_create(create_user)
-        user_data = service.user_read(google_user.get("id"))
+        user_data = service.user_read_by_google_id(google_user.get("id"))
     return user_data
 
 def session_clean(session_name: str) -> None:

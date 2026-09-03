@@ -1,0 +1,66 @@
+/* 上部：ユーザー情報 */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background-color: var(--white);
+    border: 1px solid color-mix(in srgb, var(--brown) 50%, transparent);
+    border-radius: 10px;
+}
+
+.user-profile-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.user-profile-text {
+    min-width: 0;
+}
+
+.user-name,
+.user-email {
+    margin: 0;
+}
+
+.user-name {
+    font-size: var(--font-size-m);
+    font-weight: 400;
+}
+
+.user-email {
+    margin-top: 2px;
+    font-size: var(--font-size-s);
+    overflow-wrap: anywhere;
+}
+
+/* 下部：アカウント操作 */
+.account-actions {
+    padding: 14px;
+    background-color: var(--white);
+    border: 1px solid color-mix(in srgb, var(--brown) 50%, transparent);
+    border-radius: 10px;
+}
+
+.account-actions-title {
+    margin: 0 0 18px;
+    font-size: var(--font-size-m);
+    font-weight: 400;
+}
+
+.account-action-title {
+    margin: 0;
+    font-size: var(--font-size-s);
+    font-weight: 400;
+}
+
+.account-action-description {
+    margin: 4px 0 10px;
+    font-size: var(--font-size-s);
+    color: var(--black-060);
+}
+
+.account-action + .account-action {
+    margin-top: 20px;
+}

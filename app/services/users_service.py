@@ -10,16 +10,27 @@ from app.dto.user_data import UserData
 
 class UserService:
     def __init__(self):
-        self.user_repo : UsersRepository = UsersRepository()
+        self.user_repo: UsersRepository = UsersRepository()
     
-    def user_read(self, google_id: str) -> UserData | None:
+    def user_read_by_google_id(self, google_id: str) -> UserData | None:
         '''
-        ユーザ情報を取得する
+        ユーザ情報を取得する(GoogleID)
         Args:
-            google_id（str）:ユーザ情報
+            google_id（str）:GoogleユーザID
         '''
-        model: User | None = self.user_repo.read(google_id)
+        model: User | None = self.user_repo.read_by_google_id(google_id)
         if model is None: 
+            return None
+        return UserData.from_model(model)
+
+    def user_read_by_user_id(self, user_id: int) -> UserData | None:
+        '''
+        ユーザ情報を取得する(UserID)
+        Args:
+            user_id (int) :ユーザID
+        '''
+        model: User | None = self.user_repo.read_by_user_id(user_id)
+        if model is None:
             return None
         return UserData.from_model(model)
     

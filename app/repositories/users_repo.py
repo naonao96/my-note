@@ -5,9 +5,11 @@ class UsersRepository:
     def __init__(self):
         self.db = db
 
-    def read(self, google_id : str):
-        # getは主キー検索専用のためfilter_byを使用
+    def read_by_google_id(self, google_id: str) -> User | None:
         return User.query.filter_by(google_id=google_id).first()
+
+    def read_by_user_id(self, user_id: int) -> User | None:
+        return self.db.session.get(User, user_id)
     
     def create(self, user_data : User) -> None:
         try:

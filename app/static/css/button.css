@@ -18,7 +18,9 @@
 .edit-button,
 .delete-button,
 .save-button,
-.user-button {
+.user-button,
+.account-delete-button,
+.logout-button {
     background-color: color-mix(in srgb, var(--creame) 80%, transparent);
     height: var(--height-60);
     border: var(--border-w-solid) var(--brown);
@@ -36,7 +38,9 @@
 .delete-button {
     aspect-ratio: 1/1;
 }
-.save-button {
+.save-button,
+.account-delete-button,
+.logout-button {
     width: 100%;
     margin-top: var(--margin-m);
 }
