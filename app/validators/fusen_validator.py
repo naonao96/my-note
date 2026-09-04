@@ -32,7 +32,7 @@ def vld_expires_at(expires_at: str | None) -> None:
     フォーマット：YYYY-MM-DD
     エラーメッセージを渡す
     '''
-    if expires_at is None:
+    if expires_at is None or expires_at == "":
         return
     if not isinstance(expires_at, str):
         raise ValidationError(msg.FUSEN_EXPIRES_AT_ERROR)
