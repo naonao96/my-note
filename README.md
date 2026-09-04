@@ -1,10 +1,14 @@
-![Chokotto Memo](app/static/images/Title_chocottoMemo.svg)![Chokotto Memo](app/static/images/icon-80.svg)
+![Chokotto Memo](app/static/images/Title_chocottoMemo.svg)
+![Chokotto Memo](app/static/images/icon-80.svg)
 
 ## About Chokotto Memo
-**「冷蔵庫へ貼り付ける付箋の感覚を、デジタルへ。」**  
+
+**「冷蔵庫へ貼り付ける付箋の感覚を、デジタルへ。」**
+
 **"Bringing the feeling of sticky notes on your refrigerator into the digital world."**
 
-「あとでやること」  
+「あとでやること」
+
 「ちょっとだけ覚えておきたいこと」
 
 そんな小さなメモを、あなたは付箋へ書き残していませんか？
@@ -35,11 +39,13 @@ and make your everyday life a little more organized and enjoyable.
 ## Tech Stack
 
 ### Backend
+
 - Python
 - Flask
 - SQLAlchemy
 
 ### Frontend
+
 - HTML
 - CSS
 - JavaScript
@@ -47,7 +53,10 @@ and make your everyday life a little more organized and enjoyable.
 - Service Worker (PWA)
 
 ### Database
+
 - PostgreSQL
+- Flask-Migrate
+- Alembic
 
 ---
 
@@ -66,10 +75,39 @@ flowchart TD
     Route --> Service
     Service --> Repository
     Repository --> Database[(PostgreSQL)]
-
     Service <--> DTO
     Repository <--> Model
 ```
+
+---
+
+## Database Migration
+
+Database schema changes are managed with Flask-Migrate and Alembic.
+
+After modifying a SQLAlchemy model, create and apply a migration as follows:
+
+1. Generate a migration.
+
+```bash
+python -m flask --app run.py db migrate -m "migration description"
+```
+
+2. Review the generated migration file in `migrations/versions/`.
+
+3. Apply the migration.
+
+```bash
+python -m flask --app run.py db upgrade
+```
+
+To check the current migration revision:
+
+```bash
+python -m flask --app run.py db current
+```
+
+---
 
 ## Features
 
@@ -90,12 +128,15 @@ not heavy task management systems.
 It is designed to feel simple, lightweight, and casual —  
 just like placing a sticky note on your refrigerator.
 
+---
 
 ## Demo
 
 Try Chokotto Memo here:
 
 🌐 [Live Demo](https://chocottomemo.app)
+
+---
 
 ## License
 
