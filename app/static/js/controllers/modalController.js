@@ -7,9 +7,9 @@ import { messages } from "../common/messages.js";
  *
  * @param {import("../element/modalElements.js").ModalElements} modalElems モーダル専用DOM
  * @param {() => void} [beforeOpen] モーダルを開く前に実行する処理
- * @returns {void}
+ * @param {() => void | Promise<void>} [beforeClose] モーダルを閉じる前に実行する処理
  */
-export function setupModal(modalElems, beforeOpen) {
+export function setupModal(modalElems, beforeOpen, beforeClose) {
     assert(modalElems.openButton, messages.CONDITIONS_UNDEFINED_ERROR);
     assert(modalElems.overlay, messages.CONDITIONS_UNDEFINED_ERROR);
     assert(modalElems.modal, messages.CONDITIONS_UNDEFINED_ERROR);
@@ -19,7 +19,8 @@ export function setupModal(modalElems, beforeOpen) {
         openModal(modalElems);
     });
 
-    modalElems.overlay.addEventListener("click", () => {
+    modalElems.overlay.addEventListener("click", async () => {
+        await beforeClose?.();
         closeModal(modalElems);
     });
 }

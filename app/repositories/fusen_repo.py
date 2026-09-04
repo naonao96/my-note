@@ -12,6 +12,7 @@ class FusenRepository:
         try:
             self.db.session.add(fusen_data)
             self.db.session.commit()
+            return fusen_data
         except:
             self.db.session.rollback()
             raise

@@ -3,7 +3,13 @@
     <div class="fusen fusen-edit-position">
         <div class="fusen-inner">
             <div class="fusen-front">
-                <span id="fusen-content"></span>
+                <textarea
+                    id="fusen-content"
+                    class="fusen-content-input"
+                    maxlength="100"
+                    placeholder="内容を入力してください・・・"
+                    aria-label="付箋内容"
+                ></textarea>
                 <img class="fusen-logo" src="{{ url_for('static', filename='images/chocottoMemo_fusen.svg')}}">
             </div>
             <div class="fusen-back">
@@ -12,7 +18,6 @@
         </div>
     </div>
     <form id="fusen-form" class="form-container">
-        <textarea class="content-box" id="content" rows="20" cols="50" required maxlength="100" placeholder="内容を入力してください・・・"></textarea>
         <input class="expires-date-box" type="text" id="datepicker" name="expires_at" placeholder="期限を選択してください・・・">
         <div class="color-pallet-background">
             <button type="button" class="color-option" data-color="#A9CEEC" style="background: #A9CEEC;"></button>
@@ -23,9 +28,5 @@
             <button type="button" class="color-option" data-color="#B3ADFF" style="background: #B3ADFF;"></button>
         </div>
         <input type="hidden" id="selected-color" name="color">
-        <button type="submit" class="button save-button" value="保存" name="create-data">
-            <img class="icon" src="{{ url_for('static', filename='images/save-button.svg') }}">
-            <span class="button-text button-text-brown">保存</span>
-        </button>
     </form>
 </div>

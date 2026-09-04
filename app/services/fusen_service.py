@@ -19,7 +19,10 @@ class FusenService:
         vld_color(fusen_data.color)
         vld_expires_at(fusen_data.expires_at)
 
-        self.fusen_repo.create(FusenData.to_model(fusen_data))
+        created_fusen: FusenData = self.fusen_repo.create(
+            FusenData.to_model(fusen_data)
+        )
+        return FusenData.from_model(created_fusen)
     
     def fusen_all_read(self, user_id : int) -> list:
         fusen_list_model : list[Fusen] = self.fusen_repo.read_all_fusen(user_id)

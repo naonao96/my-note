@@ -9,11 +9,9 @@ import { getModalElements } from "./modalElements.js";
  */
 
 /**
- * @typedef {Object} PreviewElements
- * @property {HTMLTextAreaElement} contentInput
- * @property {HTMLElement} content
- * @property {HTMLInputElement} expiresAtInput
- * @property {HTMLElement} expiresAt
+ * @typedef {Object} FusenElements
+ * @property {HTMLElement} fusenContent
+ * @property {HTMLInputElement} expiresAtData
  */
 
 /**
@@ -23,7 +21,7 @@ import { getModalElements } from "./modalElements.js";
  * @property {HTMLFormElement} form
  * @property {import("./modalElements").ModalElements} editModal
  * @property {ColorElements} color
- * @property {PreviewElements} preview
+ * @property {FusenElements} fusen
  */
 
 /**
@@ -44,11 +42,9 @@ export function getElements() {
             editModal: document.getElementById("edit-modal")
         },
 
-        preview: {
-            contentData: document.getElementById("content"),
+        fusen: {
             fusenContent: document.getElementById("fusen-content"),
             expiresAtData: document.getElementById("datepicker"),
-            fusenExpiresAt: document.getElementById("fusen-expires-at")
         }
     };
 }

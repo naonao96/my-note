@@ -34,13 +34,13 @@ def create_fusen():
     try:
         service : FusenService = FusenService()
         dto : FusenData =set_fusen_data()
-        service.fusen_create(dto)
-        return jsonify({"success" : True}), 201
+        created_fusen: FusenData = service.fusen_create(dto)
+        return jsonify({"success": True, "id": created_fusen.id}), 201
     except ValidationError:
-        return jsonify({"success" : False}), 400 
+        return jsonify({"success": False, "id": None}), 400 
     except Exception as e:
         logging.exception(e)
-        return jsonify({"success" : False}), 500 
+        return jsonify({"success": False, "id": None}), 500 
 
 @note_bp.route("/api/notes", methods=["GET"])
 @api_login_required
