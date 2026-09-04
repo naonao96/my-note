@@ -1,6 +1,7 @@
 '''application configuration'''
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
 
 load_dotenv()
 
@@ -14,3 +15,4 @@ class Config:
     SESSION_COOKIE_SECURE = (
         os.getenv('SESSION_COOKIE_SECURE', 'true').lower() == 'true'
     )
+    PERMANENT_SESSION_LIFETIME = timedelta(days=7)

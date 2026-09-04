@@ -8,3 +8,11 @@ CREATE_MODE : str = "create"
 EDIT_MODE : str = "edit"
 LOGIN_MODE : str = "login"
 LOCAL_MODE : str = "local"
+ALLOWED_FUSEN_COLORS: set[str] = {
+    "#A9CEEC",
+    "#F8C394",
+    "#FF9699",
+    "#96F8AF",
+    "#FFE57B",
+    "#B3ADFF",
+}

@@ -4,6 +4,7 @@ from app.dto.user_data import UserData
 from app.services.fusen_service import FusenService
 from app.services.users_service import UserService
 from app.common.decorators import api_login_required
+from app.common.exceptions import FusenNotFoundError, ValidationError
 import app.common.consts as consts
 import app.common.messages as msg
 import logging
@@ -35,6 +36,8 @@ def create_fusen():
         dto : FusenData =set_fusen_data()
         service.fusen_create(dto)
         return jsonify({"success" : True}), 201
+    except ValidationError:
+        return jsonify({"success" : False}), 400 
     except Exception as e:
         logging.exception(e)
         return jsonify({"success" : False}), 500 
@@ -64,6 +67,8 @@ def read_fusen(fusenId : int):
         service : FusenService = FusenService()
         dto_dict : dict = jsonify_data_pack(service.fusen_read(fusenId, session.get("user_id")))
         return jsonify({"success" : True, "fusenMode": consts.EDIT_MODE, "fusenData" : dto_dict}), 200
+    except FusenNotFoundError:
+        return jsonify({"success": False, "fusenData": None}), 404
     except Exception as e:
         logging.exception(e)
         return jsonify({"success" : False, "fusenData" : None}), 500
@@ -75,10 +80,14 @@ def update_fusen(fusenId : int):
         service : FusenService = FusenService()
         dto : FusenData = set_fusen_data(fusenId)
         service.fusen_update(dto)
-        return jsonify({"success" : True}), 200
+        return jsonify({"success": True}), 200
+    except ValidationError:
+        return jsonify({"success": False, "fusenData": None}), 400
+    except FusenNotFoundError:
+        return jsonify({"success": False, "fusenMode": consts.EDIT_MODE, "fusenData": None}), 404 
     except Exception as e:
         logging.exception(e)
-        return jsonify({"success" : False, "fusenMode" : consts.EDIT_MODE, "fusenData" : None}), 500
+        return jsonify({"success": False, "fusenMode": consts.EDIT_MODE, "fusenData": None}), 500
 
 @note_bp.route("/api/notes/<int:fusenId>", methods=["DELETE"])
 @api_login_required
@@ -87,6 +96,8 @@ def delete_fusen(fusenId : int):
         service : FusenService = FusenService()
         service.fusen_delete(fusenId, session.get("user_id"))
         return jsonify({"success" : True}), 200
+    except FusenNotFoundError:
+        return jsonify({"success" : False}), 404 
     except Exception as e:
         logging.exception(e)
         return jsonify({"success" : False}), 500
@@ -97,7 +108,7 @@ def set_fusen_data(fusen_id : int | None = None) -> FusenData:
     data = request.get_json(silent=True)
 
     if not isinstance(data, dict):
-        raise ValueError("JSON形式のリクエストデータが必要です")
+        raise ValidationError("JSON形式のリクエストデータが必要です")
     
     return FusenData(
         id= fusen_id,

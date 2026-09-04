@@ -7,14 +7,18 @@ ModelとDTOの変換も担当します。
 from app.repositories.fusen_repo  import FusenRepository
 from app.dto.fusen_data import FusenData
 from app.models.fusen_model import Fusen
-from app.validators.fusen_validator import vld_content
+from app.validators.fusen_validator import vld_content, vld_color, vld_expires_at
 
 class FusenService:
     def __init__(self) -> None:
         self.fusen_repo : FusenRepository = FusenRepository()
 
     def fusen_create(self, fusen_data : FusenData) -> None:
+        # validationチェック
         vld_content(fusen_data.content)
+        vld_color(fusen_data.color)
+        vld_expires_at(fusen_data.expires_at)
+
         self.fusen_repo.create(FusenData.to_model(fusen_data))
     
     def fusen_all_read(self, user_id : int) -> list:
@@ -32,7 +36,11 @@ class FusenService:
         return FusenData.from_model(self.fusen_repo.read_fusen(fusen_id, user_id))
     
     def fusen_update(self, fusen_data : FusenData) -> None:
+        # validationチェック
         vld_content(fusen_data.content)
+        vld_color(fusen_data.color)
+        vld_expires_at(fusen_data.expires_at)
+
         self.fusen_repo.update(FusenData.to_model(fusen_data))
     
     def fusen_delete(self, fusen_id : int, user_id : int) -> None:

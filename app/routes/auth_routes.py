@@ -55,6 +55,7 @@ def login_callback():
         user_valid.user_data_exist_check(user_data)
 
         session["user_id"] = user_data.id
+        session.permanent = True
         
     except Exception as e:
         logging.exception(e)

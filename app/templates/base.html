@@ -6,11 +6,17 @@
     <meta name="theme-color" content="#fffaf0">
     <meta name="csrf_token" content="{{ csrf_token() }}">
     <meta name="description" content="ちょっとだけ覚えておきたいことを、冷蔵庫に貼る付箋のような感覚で気軽に残せるシンプルなメモアプリです。">
+    <!-- OGP -->
     <meta property="og:title" content="ちょこっとメモ">
-    <meta property="og:description" content="ちょっとだけ覚えておきたいことを、気軽に残せるシンプルなメモアプリです。">
+    <meta property="og:description" content="冷蔵庫に付箋を貼るような感覚で使える、シンプルなメモアプリ">
     <meta property="og:url" content="https://chocottomemo.app/">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://chocottomemo.app/static/images/ogp.png">
+    <!-- X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ちょこっとメモ">
+    <meta name="twitter:description" content="冷蔵庫に付箋を貼るような感覚で使える、シンプルなメモアプリ">
+    <meta name="twitter:image" content="https://chocottomemo.app/static/images/ogp.png">
     <title>ちょこっとメモ</title>
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
