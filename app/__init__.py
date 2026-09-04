@@ -28,7 +28,7 @@ def create_app():
             response.headers["Strict-Transport-Security"] = (
                 "max-age=31536000; includeSubDomains"
             )
-        response.headers["Content-Security-Policy-Report-Only"] = (
+        response.headers["Content-Security-Policy"] = (
             "default-src 'self'; "
             "script-src 'self'; "
             "style-src 'self' 'unsafe-inline'; "

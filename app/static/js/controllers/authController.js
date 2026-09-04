@@ -28,3 +28,11 @@ export function setupAccountDelete(){
         accountDeleteForm.requestSubmit();
     });
 }
+
+export function setupGoogleLogin() {
+    const googleLoginButton = document.getElementById("google-login-button");
+
+    googleLoginButton.addEventListener("click", () => {
+        window.location.href = googleLoginButton.dataset.loginUrl;
+    });
+}

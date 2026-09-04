@@ -1,6 +1,6 @@
 <div id="login-modal-overlay" class="modal-overlay hidden"></div>
 <section id="login-modal" class="login-modal hidden" role="dialog" aria-modal="true" aria-labelledby="user-modal-title">
-    <button class="button google-login-button" onclick="location.href='{{url_for("auth.google_login")}}'">
+    <button id="google-login-button" class="button google-login-button" data-login-url="{{ url_for('auth.google_login') }}">
         <img class="icon" src="{{url_for('static', filename='images/google-logo.svg')}}">
         <span class="button-text button-text-white">Googleでログイン</span>
     </button>
