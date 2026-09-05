@@ -1,6 +1,11 @@
 # __pycache__ファイル
 __pycache__
+
 # .vscodeファイル
 .vscode
+
 # .envファイル
 .env
+
+# node_modulesファイル
+node_modules/

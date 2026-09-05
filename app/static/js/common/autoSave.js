@@ -16,6 +16,8 @@
  *        現在の入力状態からスナップショットを生成する処理
  * @param {(snapshot: *) => boolean} options.canSave
  *        スナップショットが保存可能か判定する処理
+ * @param {(error: Error) => void} options.onError
+ *        保存失敗時の処理
  * @returns {{
  *   requestAutoSave: () => void,
  *   flushAutoSave: () => Promise<void>
@@ -24,7 +26,8 @@
 export function createAutoSave({
     save,
     createSnapshot,
-    canSave
+    canSave,
+    onError
  }) {
     let saveTimer;
     let saveQueue = Promise.resolve();
@@ -90,6 +93,7 @@ export function createAutoSave({
         saveTimer = setTimeout(() => {
             executePendingSave().catch(error => {
                 console.error(error);
+                onError?.(error);
             });
         }, 700);
     };

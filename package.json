@@ -1,0 +1,24 @@
+{
+  "name": "my-note",
+  "version": "1.0.0",
+  "description": "![Chokotto Memo](app/static/images/Title_chocottoMemo.svg)\r ![Chokotto Memo](app/static/images/icon-80.svg)",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naonao96/my-note.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/naonao96/my-note/issues"
+  },
+  "homepage": "https://github.com/naonao96/my-note#readme",
+  "devDependencies": {
+    "jsdom": "^29.1.1",
+    "vitest": "^5.0.0"
+  }
+}

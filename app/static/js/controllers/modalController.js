@@ -20,8 +20,13 @@ export function setupModal(modalElems, beforeOpen, beforeClose) {
     });
 
     modalElems.overlay.addEventListener("click", async () => {
-        await beforeClose?.();
-        closeModal(modalElems);
+        try {
+            await beforeClose?.();
+            closeModal(modalElems);
+        }
+        catch (error) {
+            console.error(error);
+        }
     });
 }
 

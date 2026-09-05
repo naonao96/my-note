@@ -7,7 +7,8 @@ import { openModal, setupModal } from "./modalController.js";
 import { messages } from "../common/messages.js";
 import { assert } from "../common/eventUtil.js";
 import { getElements } from "../element/fusenEditElements.js";
-import { EDIT_MODE } from "../common/consts.js";
+import { showToast } from "../common/toast.js";
+import { EDIT_MODE, MESSAGE_TYPE } from "../common/consts.js";
 import { reflectFusen } from "../ui/fusenList.js";
 import { createAutoSave } from "../common/autoSave.js";
 import { setupContentInput } from "../ui/fusenContentInput.js";
@@ -29,7 +30,13 @@ export function init(){
     const { requestAutoSave, flushAutoSave } = createAutoSave({
         save: (snapshot) => saveFusen(elems, snapshot),
         createSnapshot: () => (getFusenData(elems)),
-        canSave: (snapshot) => (snapshot.content.trim() !== "")
+        canSave: (snapshot) => (snapshot.content.trim() !== ""),
+        onError: () => {
+            showToast(
+                messages.DATA_SAVE_ERROR,
+                MESSAGE_TYPE.ERROR
+            );
+        }
     });
 
     setupColorSelectedButtons(
