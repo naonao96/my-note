@@ -19,19 +19,13 @@ class FusenRepository:
     
     def read_all_fusen(self, user_id : int):
         '''付箋情報全件検索'''
-        try:
-            return Fusen.query.filter_by(user_id=user_id).order_by(Fusen.created_at.desc()).all()
-        except:
-            raise
+        return Fusen.query.filter_by(user_id=user_id).order_by(Fusen.created_at.desc()).all()
     
     def read_fusen(self, fusen_id: int, user_id : int):
         '''付箋情報検索（指定）'''
-        try:
-            fusen_data : Fusen = Fusen.query.filter_by(id=fusen_id, user_id=user_id).first()
-            fusen_valid.fusen_data_exist_check(fusen_data)
-            return fusen_data
-        except:
-            raise
+        fusen_data : Fusen = Fusen.query.filter_by(id=fusen_id, user_id=user_id).first()
+        fusen_valid.fusen_data_exist_check(fusen_data)
+        return fusen_data
     
     def update(self, req_fusen_data : Fusen) -> Fusen:
         '''付箋情報更新'''

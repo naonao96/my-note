@@ -1,5 +1,7 @@
 "use strict";
 
+const MAX_CONTENT_LENGTH = 100;
+
 /**
  * 付箋本文入力欄の入力制御を設定する。
  *
@@ -44,7 +46,8 @@ export function setupContentInput(contentInput, requestAutoSave) {
     });
     contentInput.addEventListener("compositionend", () => {
         isComposing = false;
-        if (isContentOverflowing(contentInput)) {
+
+        if (isInvalidContent(contentInput)){
             restorePreviousState();
             return;
         }
@@ -57,11 +60,10 @@ export function setupContentInput(contentInput, requestAutoSave) {
             return;
         }
 
-        if (isContentOverflowing(contentInput)) {
+        if (isInvalidContent(contentInput)){
             restorePreviousState();
             return;
         }
-
         saveCurrentState();
         requestAutoSave();
     });
@@ -79,4 +81,35 @@ export function setupContentInput(contentInput, requestAutoSave) {
  */
 function isContentOverflowing(contentInput) {
     return contentInput.scrollHeight > contentInput.clientHeight;
+}
+
+/**
+ * 付箋本文が最大文字数を超えているか判定する。
+ *
+ * @param {HTMLTextAreaElement} contentInput
+ *        付箋本文入力欄
+ * @returns {boolean}
+ *          最大文字数を超えている場合true
+ */
+function isContentLengthExceeded(contentInput) {
+    return contentInput.value.length > MAX_CONTENT_LENGTH;
+}
+
+/**
+ * 付箋本文が入力可能な状態か判定する。
+ *
+ * 以下のいずれかに該当する場合、無効な入力とする。
+ * 1. 最大文字数を超えている
+ * 2. textareaの縦方向の表示領域を超えている
+ *
+ * @param {HTMLTextAreaElement} contentInput
+ *        付箋本文入力欄
+ * @returns {boolean}
+ *          無効な入力の場合true
+ */
+function isInvalidContent(contentInput) {
+    return (
+        isContentLengthExceeded(contentInput) ||
+        isContentOverflowing(contentInput)
+    );
 }

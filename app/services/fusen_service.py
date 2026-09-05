@@ -13,13 +13,13 @@ class FusenService:
     def __init__(self) -> None:
         self.fusen_repo : FusenRepository = FusenRepository()
 
-    def fusen_create(self, fusen_data : FusenData) -> None:
+    def fusen_create(self, fusen_data : FusenData) -> FusenData:
         # validationチェック
         vld_content(fusen_data.content)
         vld_color(fusen_data.color)
         vld_expires_at(fusen_data.expires_at)
 
-        created_fusen: FusenData = self.fusen_repo.create(
+        created_fusen: Fusen = self.fusen_repo.create(
             FusenData.to_model(fusen_data)
         )
         return FusenData.from_model(created_fusen)

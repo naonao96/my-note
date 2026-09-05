@@ -26,14 +26,10 @@ export function init(){
 
     setupFlatpickr();
 
-    const {
-        requestAutoSave,
-        flushAutoSave
-    } = createAutoSave({
-        save: () => saveFusen(elems),
-        canSave: () => (
-            elems.fusen.fusenContent.value.trim() !== ""
-        )
+    const { requestAutoSave, flushAutoSave } = createAutoSave({
+        save: (snapshot) => saveFusen(elems, snapshot),
+        createSnapshot: () => (getFusenData(elems)),
+        canSave: (snapshot) => (snapshot.content.trim() !== "")
     });
 
     setupColorSelectedButtons(
@@ -197,10 +193,10 @@ function setupExpiresAtAutoSave(expiresAtData, requestAutoSave) {
  *        付箋編集画面で使用するDOM要素
  * @returns {Promise<*>} 保存処理の結果
  */
-async function saveFusen(elems) {
+async function saveFusen(elems, fusenData) {
     const result = await upsertFusen({
         form: elems.form,
-        fusenData: getFusenData(elems)
+        fusenData
     });
 
     if (result?.id) {
